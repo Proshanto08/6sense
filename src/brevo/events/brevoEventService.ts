@@ -2,7 +2,7 @@ import { initializeBrevoClient } from '../../config/brevoConfig';
 import { IApiResponse } from '../../types';
 import { handleSuccess, handleError } from '../../utils/responseHandlers';
 
-interface Identifiers {
+interface IIdentifiers {
   email_id?: string;
   ext_id?: string;
 }
@@ -18,7 +18,7 @@ interface IEventProperties {
 interface ICreateEventOptions {
   event_name: string;
   event_date?: string;
-  identifiers: Identifiers;
+  identifiers: IIdentifiers;
   contact_properties?: IContactProperties;
   event_properties?: IEventProperties;
 }
