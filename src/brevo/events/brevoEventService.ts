@@ -1,11 +1,8 @@
+import handleApiRequest from '../../utils/apiUtils';
+import { IApiResponse } from '../../types';
 import { initializeBrevoClient } from '../../config/brevoConfig';
 
-interface IApiResponse {
-  status: number;
-  errorCode?: string;
-  message?: string;
-  data: any;
-}
+const apiInstance = initializeBrevoClient();
 
 interface IIdentifiers {
   email_id?: string;
@@ -29,22 +26,7 @@ interface ICreateEventOptions {
 }
 
 export const createEvent = async (eventOptions: ICreateEventOptions): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.post('/events', eventOptions);
-    return {
-      status: response.status,
-      data: response.data,
-      message: 'Event created successfully',
-    };
-  } catch (error: any) {
-    const errorResponse = error.response?.data || {};
-    return {
-      status: error.response?.status || 500,
-      errorCode: errorResponse.errorCode,
-      message: errorResponse.message || 'An error occurred',
-      data: {},
-    };
-  }
+  return handleApiRequest(() =>
+    apiInstance.post('/events', eventOptions)
+  );
 };
