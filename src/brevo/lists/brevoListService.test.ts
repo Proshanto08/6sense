@@ -24,12 +24,32 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe('Brevo Service', () => {
+const mockBrevoClientResponse = (method: 'get' | 'post' | 'put' | 'delete', status: number, data: any) => {
+  mockedBrevoClient[method].mockResolvedValue({ status, data });
+};
+
+const mockBrevoClientError = (method: 'get' | 'post' | 'put' | 'delete', errorMessage: string) => {
+  mockedBrevoClient[method].mockRejectedValue(new Error(errorMessage));
+};
+
+const mockSuccessResponse = (message: string) => {
+  return (response: any) => ({
+    status: response.status,
+    message,
+  });
+};
+
+const mockErrorResponse = (status: number, errorMessage: string) => {
+  return (err: Error) => ({
+    status,
+    message: errorMessage || err.message,
+  });
+};
+
+describe('Brevo List Service', () => {
   describe('getAllLists', () => {
     it('should retrieve all lists successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedBrevoClient.get.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('get', 200, {});
       const result: IApiResponse = await getAllLists();
 
       expect(result.status).toBe(200);
@@ -40,8 +60,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when retrieving lists', async () => {
-      mockedBrevoClient.get.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('get', 'Error');
       const result: IApiResponse = await getAllLists();
 
       expect(result.status).toBe(500);
@@ -51,9 +70,7 @@ describe('Brevo Service', () => {
 
   describe('createList', () => {
     it('should create a list successfully', async () => {
-      const mockResponse = { status: 201, data: {} };
-      mockedBrevoClient.post.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('post', 201, {});
       const result: IApiResponse = await createList('Test List', 1);
 
       expect(result.status).toBe(201);
@@ -65,8 +82,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when creating a list', async () => {
-      mockedBrevoClient.post.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('post', 'Error');
       const result: IApiResponse = await createList('Test List', 1);
 
       expect(result.status).toBe(500);
@@ -76,9 +92,7 @@ describe('Brevo Service', () => {
 
   describe('getList', () => {
     it('should retrieve a list successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedBrevoClient.get.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('get', 200, {});
       const result: IApiResponse = await getList(1);
 
       expect(result.status).toBe(200);
@@ -87,8 +101,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when retrieving a list', async () => {
-      mockedBrevoClient.get.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('get', 'Error');
       const result: IApiResponse = await getList(1);
 
       expect(result.status).toBe(500);
@@ -98,9 +111,7 @@ describe('Brevo Service', () => {
 
   describe('updateList', () => {
     it('should update a list successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedBrevoClient.put.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('put', 200, {});
       const result: IApiResponse = await updateList(1, 'Updated List', 2);
 
       expect(result.status).toBe(200);
@@ -112,8 +123,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when updating a list', async () => {
-      mockedBrevoClient.put.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('put', 'Error');
       const result: IApiResponse = await updateList(1, 'Updated List', 2);
 
       expect(result.status).toBe(500);
@@ -123,9 +133,7 @@ describe('Brevo Service', () => {
 
   describe('deleteList', () => {
     it('should delete a list successfully', async () => {
-      const mockResponse = { status: 204, data: {} };
-      mockedBrevoClient.delete.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('delete', 204, {});
       const result: IApiResponse = await deleteList(1);
 
       expect(result.status).toBe(204);
@@ -134,8 +142,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when deleting a list', async () => {
-      mockedBrevoClient.delete.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('delete', 'Error');
       const result: IApiResponse = await deleteList(1);
 
       expect(result.status).toBe(500);
@@ -145,9 +152,7 @@ describe('Brevo Service', () => {
 
   describe('getContactsFromList', () => {
     it('should retrieve contacts from a list successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedBrevoClient.get.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('get', 200, {});
       const result: IApiResponse = await getContactsFromList(1);
 
       expect(result.status).toBe(200);
@@ -166,8 +171,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when retrieving contacts from a list', async () => {
-      mockedBrevoClient.get.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('get', 'Error');
       const result: IApiResponse = await getContactsFromList(1);
 
       expect(result.status).toBe(500);
@@ -177,9 +181,7 @@ describe('Brevo Service', () => {
 
   describe('addContactsToList', () => {
     it('should add contacts to a list successfully', async () => {
-      const mockResponse = { status: 201, data: {} };
-      mockedBrevoClient.post.mockResolvedValue(mockResponse);
-
+      mockBrevoClientResponse('post', 201, {});
       const result: IApiResponse = await addContactsToList(1, ['test@example.com']);
 
       expect(result.status).toBe(201);
@@ -193,8 +195,7 @@ describe('Brevo Service', () => {
     });
 
     it('should handle errors when adding contacts to a list', async () => {
-      mockedBrevoClient.post.mockRejectedValue({ message: 'Error' });
-
+      mockBrevoClientError('post', 'Error');
       const result: IApiResponse = await addContactsToList(1, ['test@example.com']);
 
       expect(result.status).toBe(500);

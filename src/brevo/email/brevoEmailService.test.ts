@@ -12,16 +12,31 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const mockSuccessResponse = (method: 'post' | 'get', status: number, data: any) => {
+  mockedAxios[method].mockResolvedValue({ status, data });
+};
+
+const mockErrorResponse = (method: 'post' | 'get', errorMessage: string) => {
+  mockedAxios[method].mockRejectedValue(new Error(errorMessage));
+};
+
+const mockHandleSuccess = (status: number, message: string) => {
+  (handleSuccess as jest.Mock).mockImplementation((response, msg) => ({
+    status: response.status,
+    message: msg || message,
+  }));
+};
+
+const mockHandleError = (status: number, errorMessage: string) => {
+  (handleError as jest.Mock).mockImplementation((err) => ({
+    status,
+    message: errorMessage || err.message,
+  }));
+};
+
 describe('Email Service', () => {
   describe('sendBrevoEmail', () => {
     it('should send an email successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedAxios.post.mockResolvedValue(mockResponse);
-      (handleSuccess as jest.Mock).mockImplementation((response, message) => ({
-        status: response.status,
-        message,
-      }));
-
       const emailOptions = {
         subject: 'Test Subject',
         htmlContent: '<p>Test Content</p>',
@@ -32,6 +47,9 @@ describe('Email Service', () => {
         params: { param1: 'value1' },
         attachments: [{ name: 'attachment.txt', content: 'file content' }],
       };
+
+      mockSuccessResponse('post', 200, {});
+      mockHandleSuccess(200, 'Email successfully sent');
 
       const result: IApiResponse = await sendBrevoEmail(emailOptions);
 
@@ -50,19 +68,15 @@ describe('Email Service', () => {
     });
 
     it('should handle errors when sending an email', async () => {
-      const error = new Error('Error');
-      mockedAxios.post.mockRejectedValue(error);
-      (handleError as jest.Mock).mockImplementation((err) => ({
-        status: 500,
-        message: err.message,
-      }));
-
       const emailOptions = {
         subject: 'Test Subject',
         htmlContent: '<p>Test Content</p>',
         sender: { name: 'Sender Name', email: 'sender@example.com' },
         to: [{ email: 'recipient@example.com', name: 'Recipient Name' }],
       };
+
+      mockErrorResponse('post', 'Error');
+      mockHandleError(500, 'Error');
 
       const result: IApiResponse = await sendBrevoEmail(emailOptions);
 
@@ -73,13 +87,6 @@ describe('Email Service', () => {
 
   describe('getTransactionalEmails', () => {
     it('should retrieve transactional emails successfully', async () => {
-      const mockResponse = { status: 200, data: {} };
-      mockedAxios.get.mockResolvedValue(mockResponse);
-      (handleSuccess as jest.Mock).mockImplementation((response, message) => ({
-        status: response.status,
-        message,
-      }));
-
       const filters = {
         email: 'test@example.com',
         templateId: 1,
@@ -90,6 +97,9 @@ describe('Email Service', () => {
         limit: 10,
         offset: 0,
       };
+
+      mockSuccessResponse('get', 200, {});
+      mockHandleSuccess(200, 'Transactional emails retrieved successfully');
 
       const result: IApiResponse = await getTransactionalEmails(filters);
 
@@ -108,16 +118,12 @@ describe('Email Service', () => {
     });
 
     it('should handle errors when retrieving transactional emails', async () => {
-      const error = new Error('Error');
-      mockedAxios.get.mockRejectedValue(error);
-      (handleError as jest.Mock).mockImplementation((err) => ({
-        status: 500,
-        message: err.message,
-      }));
-
       const filters = {
         email: 'test@example.com',
       };
+
+      mockErrorResponse('get', 'Error');
+      mockHandleError(500, 'Error');
 
       const result: IApiResponse = await getTransactionalEmails(filters);
 

@@ -15,16 +15,31 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const mockBrevoClientResponse = (status: number, data: any) => {
+  mockedBrevoClient.post.mockResolvedValue({ status, data });
+};
+
+const mockBrevoClientError = (errorMessage: string) => {
+  mockedBrevoClient.post.mockRejectedValue(new Error(errorMessage));
+};
+
+const mockHandleSuccess = (status: number, message: string) => {
+  (handleSuccess as jest.Mock).mockImplementation((response, msg) => ({
+    status: response.status,
+    message: msg || message,
+  }));
+};
+
+const mockHandleError = (status: number, errorMessage: string) => {
+  (handleError as jest.Mock).mockImplementation((err) => ({
+    status,
+    message: errorMessage || err.message,
+  }));
+};
+
 describe('Event Service', () => {
   describe('createEvent', () => {
     it('should create an event successfully', async () => {
-      const mockResponse = { status: 201, data: {} };
-      mockedBrevoClient.post.mockResolvedValue(mockResponse);
-      (handleSuccess as jest.Mock).mockImplementation((response, message) => ({
-        status: response.status,
-        message,
-      }));
-
       const eventOptions = {
         event_name: 'UserSignup',
         event_date: '2024-08-27',
@@ -32,6 +47,9 @@ describe('Event Service', () => {
         contact_properties: { name: 'John Doe' },
         event_properties: { source: 'website' },
       };
+
+      mockBrevoClientResponse(201, {});
+      mockHandleSuccess(201, 'Event created successfully');
 
       const result: IApiResponse = await createEvent(eventOptions);
 
@@ -41,18 +59,14 @@ describe('Event Service', () => {
     });
 
     it('should handle errors when creating an event', async () => {
-      const error = new Error('Error');
-      mockedBrevoClient.post.mockRejectedValue(error);
-      (handleError as jest.Mock).mockImplementation((err) => ({
-        status: 500,
-        message: err.message,
-      }));
-
       const eventOptions = {
         event_name: 'UserSignup',
         event_date: '2024-08-27',
         identifiers: { email_id: 'test@example.com' },
       };
+
+      mockBrevoClientError('Error');
+      mockHandleError(500, 'Error');
 
       const result: IApiResponse = await createEvent(eventOptions);
 
