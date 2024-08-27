@@ -8,7 +8,6 @@ const handleApiRequest = async (
     return {
       status: response.status,
       data: response.data,
-      message: 'Request successful',
     };
   } catch (error: any) {
     const errorResponse = error.response?.data || {};

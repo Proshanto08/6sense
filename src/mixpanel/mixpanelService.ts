@@ -8,11 +8,11 @@ interface IApiResponse {
   data: any;
 }
 
-interface IEventProperties {
+interface EventProperties {
   [key: string]: any;
 }
 
-export const updateUserProfile = async (distinctId: string, properties: IEventProperties): Promise<IApiResponse> => {
+export const updateUserProfile = async (distinctId: string, properties: EventProperties): Promise<IApiResponse> => {
   const { peopleApiUrl, projectToken } = mixpanelConfig;
 
   try {
@@ -75,7 +75,7 @@ export const identifyUser = async (userId: string, anonId: string): Promise<IApi
   }
 };
 
-export const trackUserEvent = async (distinctId: string, eventName: string, properties: IEventProperties): Promise<IApiResponse> => {
+export const trackUserEvent = async (distinctId: string, eventName: string, properties: EventProperties): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
 
   try {

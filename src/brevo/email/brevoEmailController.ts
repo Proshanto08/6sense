@@ -5,12 +5,6 @@ import sanitizeHtml from 'sanitize-html';
 export const handleContactFormSubmission = async (req: Request, res: Response): Promise<void> => {
   const { name, email, companyWebsite, message, getNda, consent } = req.body;
 
-  if (!name || !email || !message) {
-    res.status(400).json({ status: 400, message: 'Required fields are missing' });
-    return;
-  }
-
-  // Sanitize user inputs
   const sanitizedHtmlContent = sanitizeHtml(`
     <html>
       <body>
