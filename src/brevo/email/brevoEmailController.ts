@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { sendBrevoEmail,getTransactionalEmails } from './brevoEmailService';
+import { sendBrevoEmail, getTransactionalEmails } from './brevoEmailService';
+import sanitizeHtml from 'sanitize-html';
 
 export const handleContactFormSubmission = async (req: Request, res: Response): Promise<void> => {
   const { name, email, companyWebsite, message, getNda, consent } = req.body;
@@ -9,30 +10,32 @@ export const handleContactFormSubmission = async (req: Request, res: Response): 
     return;
   }
 
+  // Sanitize user inputs
+  const sanitizedHtmlContent = sanitizeHtml(`
+    <html>
+      <body>
+        <h1>Contact Form Submission</h1>
+        <p><strong>Name:</strong> ${sanitizeHtml(name)}</p>
+        <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
+        <p><strong>Company Website:</strong> ${sanitizeHtml(companyWebsite || 'N/A')}</p>
+        <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(message)}</p>
+        <p><strong>Get an NDA:</strong> ${getNda ? 'Yes' : 'No'}</p>
+        <p><strong>Consent to Data Processing:</strong> ${consent ? 'Yes' : 'No'}</p>
+      </body>
+    </html>
+  `);
+
   const brevoOptions = {
-    subject: `New Contact Form Submission from ${name}`,
-    htmlContent: `
-      <html>
-        <body>
-          <h1>Contact Form Submission</h1>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Business Email:</strong> ${email}</p>
-          <p><strong>Company Website:</strong> ${companyWebsite || 'N/A'}</p>
-          <p><strong>Message/Project Brief:</strong> ${message}</p>
-          <p><strong>Get an NDA:</strong> ${getNda ? 'Yes' : 'No'}</p>
-          <p><strong>Consent to Data Processing:</strong> ${consent ? 'Yes' : 'No'}</p>
-        </body>
-      </html>
-    `,
+    subject: `New Contact Form Submission from ${sanitizeHtml(name)}`,
+    htmlContent: sanitizedHtmlContent,
     sender: { name: 'Contact Form', email: process.env.PERSONAL_EMAIL || '' },
-    to: [{ email: process.env.PERSONAL_EMAIL || '', name }],
-    replyTo: { email, name },
+    to: [{ email: process.env.PERSONAL_EMAIL || '', name: sanitizeHtml(name) }],
+    replyTo: { email: sanitizeHtml(email), name: sanitizeHtml(name) },
   };
 
-    const result = await sendBrevoEmail(brevoOptions);
-    res.status(result.status).json(result);
+  const result = await sendBrevoEmail(brevoOptions);
+  res.status(result.status).json(result);
 };
-
 
 export const handleGetTransactionalEmails = async (req: Request, res: Response): Promise<void> => {
   const filters = {

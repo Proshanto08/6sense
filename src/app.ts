@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import corsMiddleware from './middleware/corsMiddleware';
 import rateLimiter from './middleware/rateLimitMiddleware';
 import helloWorldRoutes from './routes/helloWorldRoutes';
@@ -9,15 +10,16 @@ import brevoContactRoutes from './brevo/contact/brevoContactRoutes';
 import brevoListRoutes from './brevo/lists/brevoListRoutes';
 import brevoEventRoutes from './brevo/events/brevoEventRoutes';
 import emailRoutes from './brevo/email/brevoEmailRoutes';
-import mixpanelEventRoutes from './mixpanel/mixpanelEventRoutes';
 import caseStudyRoutes from './routes/caseStudyRoutes'
 import { generateToken } from './services/authService';
+import mixpanelRoutes from './mixpanel/mixpanelRoutes';
 
 const app = express();
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 app.use(rateLimiter);
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(cookieParser());
 
 
 app.get('/', async (req: Request, res: Response) => {
@@ -37,7 +39,7 @@ app.use('/brevo', brevoContactRoutes);
 app.use('/brevo', brevoListRoutes);
 app.use('/brevo', brevoEventRoutes);
 app.use('/brevo', emailRoutes);
-app.use('/mixpanel', mixpanelEventRoutes);
 app.use('/case-study', caseStudyRoutes);
+app.use('/mixpanel', mixpanelRoutes);
 
 export default app;

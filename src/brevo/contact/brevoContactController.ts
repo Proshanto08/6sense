@@ -16,22 +16,21 @@ export const createContactController = async (req: Request, res: Response): Prom
   res.status(result.status).json(result);
 };
 
-export const getContactByIdController = async (req: Request, res: Response) => {
+export const getContactByIdController = async (req: Request, res: Response): Promise<void> => {
   const { identifier } = req.params;
   const result = await getContactById(identifier);
   res.status(result.status).json(result);
 };
 
-export const updateContactController = async (req: Request, res: Response) => {
+export const updateContactController = async (req: Request, res: Response): Promise<void> => {
   const { identifier } = req.params;
   const { email, attributes, listIds, updateEnabled } = req.body;
   const result = await updateContact(identifier, email, attributes, listIds, updateEnabled);
   res.status(result.status).json(result);
 };
 
-export const deleteContactController = async (req: Request, res: Response) => {
+export const deleteContactController = async (req: Request, res: Response): Promise<void> => {
   const { identifier } = req.params;
   const result = await deleteContact(identifier);
   res.status(result.status).json(result);
 };
-

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-interface BrevoEmailOptions {
+interface IBrevoEmailOptions {
   subject: string;
   htmlContent: string;
   sender: { name: string; email: string };
@@ -11,7 +11,14 @@ interface BrevoEmailOptions {
   attachments?: Array<{ url?: string; content?: string; name: string }>;
 }
 
-interface TransactionalEmailFilter {
+interface ITransactionalEmailResponse {
+  status: number;
+  data: any;
+  message?: string;
+  errorCode?: string;
+}
+
+interface ITransactionalEmailFilter {
   email?: string;
   templateId?: number;
   messageId?: string;
@@ -22,15 +29,7 @@ interface TransactionalEmailFilter {
   offset?: number;
 }
 
-interface TransactionalEmailResponse {
-  status: number;
-  data: any;
-  message?: string;
-  errorCode?: string;
-}
-
-
-export const sendBrevoEmail = async (options: BrevoEmailOptions) => {
+export const sendBrevoEmail = async (options: IBrevoEmailOptions): Promise<ITransactionalEmailResponse> => {
   const { subject, htmlContent, sender, to, replyTo, headers, params, attachments } = options;
 
   try {
@@ -70,11 +69,9 @@ export const sendBrevoEmail = async (options: BrevoEmailOptions) => {
   }
 };
 
-
-
 export const getTransactionalEmails = async (
-  filters: TransactionalEmailFilter
-): Promise<TransactionalEmailResponse> => {
+  filters: ITransactionalEmailFilter
+): Promise<ITransactionalEmailResponse> => {
   const {
     email,
     templateId,
