@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/authService';
 import { IApiResponse } from '../types';
-import { handleSuccess, handleError } from '../utils/responseHandlers';
+import { handleError } from '../utils/responseHandlers';
 
 export const authToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;

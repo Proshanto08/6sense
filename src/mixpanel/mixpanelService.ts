@@ -3,13 +3,13 @@ import { mixpanelConfig } from '../config/mixpanelConfig';
 import { IApiResponse } from '../types';
 import { handleSuccess, handleError } from '../utils/responseHandlers';
 
-interface EventProperties {
+interface IEventProperties {
   [key: string]: any;
 }
 
 export const updateUserProfile = async (
   distinctId: string,
-  properties: EventProperties
+  properties: IEventProperties
 ): Promise<IApiResponse> => {
   const { peopleApiUrl, projectToken } = mixpanelConfig;
 
@@ -59,7 +59,7 @@ export const identifyUser = async (
 export const trackUserEvent = async (
   distinctId: string,
   eventName: string,
-  properties: EventProperties
+  properties: IEventProperties
 ): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
 

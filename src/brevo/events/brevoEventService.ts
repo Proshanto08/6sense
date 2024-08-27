@@ -7,24 +7,24 @@ interface Identifiers {
   ext_id?: string;
 }
 
-interface ContactProperties {
+interface IContactProperties {
   [key: string]: any;
 }
 
-interface EventProperties {
+interface IEventProperties {
   [key: string]: any;
 }
 
-interface CreateEventOptions {
+interface ICreateEventOptions {
   event_name: string;
   event_date?: string;
   identifiers: Identifiers;
-  contact_properties?: ContactProperties;
-  event_properties?: EventProperties;
+  contact_properties?: IContactProperties;
+  event_properties?: IEventProperties;
 }
 
 export const createEvent = async (
-  eventOptions: CreateEventOptions
+  eventOptions: ICreateEventOptions
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
