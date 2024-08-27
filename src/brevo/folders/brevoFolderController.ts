@@ -10,7 +10,6 @@ export const createFolderController = async (req: Request, res: Response): Promi
 
 export const getFoldersController = async (req: Request, res: Response): Promise<void> => {
     const { limit, offset, sort } = req.query;
-
     const parsedLimit = limit ? Number(limit) : undefined;
     const parsedOffset = offset ? Number(offset) : undefined;
     const parsedSort = sort ? String(sort) : 'desc';
@@ -47,7 +46,6 @@ export const getFolderListsController = async (req: Request, res: Response): Pro
     const parsedLimit = limit ? Number(limit) : undefined;
     const parsedOffset = offset ? Number(offset) : undefined;
     const parsedSort = sort ? String(sort) : 'desc';
-
     const result = await getFolderLists(Number(folderId), parsedLimit, parsedOffset, parsedSort);
     res.status(result.status).json(result);
 };
