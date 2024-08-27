@@ -90,7 +90,7 @@ const sampleProjects = [
   },
 ];
 
-const seedDatabase = async () => {
+const seedDatabase = async (): Promise<void> => {
   try {
 
     await mongoose.connect('mongodb+srv://proshantosaha1999:W0ZsFvmK5dmk5ayU@cluster0.hwzdkym.mongodb.net/express-app?retryWrites=true&w=majority');
