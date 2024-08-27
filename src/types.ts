@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 export interface IApiResponse {
   status: number;
   message: string;
@@ -5,7 +7,7 @@ export interface IApiResponse {
   errorCode?: string;
 }
 
-export interface IProject {
+export interface IProject extends Document {
   appName: string;
   logo: string;
   slug: string;
