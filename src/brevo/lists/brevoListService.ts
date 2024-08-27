@@ -1,34 +1,50 @@
-import handleApiRequest from '../../utils/apiUtils';
-import { IApiResponse } from '../../types';
 import { initializeBrevoClient } from '../../config/brevoConfig';
-
-const apiInstance = initializeBrevoClient();
+import { IApiResponse } from '../../types';
+import { handleSuccess, handleError } from '../../utils/responseHandlers';
 
 export const getAllLists = async (
   limit?: number,
   offset?: number,
   sort?: string
 ): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.get('/contacts/lists', {
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.get('/contacts/lists', {
       params: { limit, offset, sort },
-    })
-  );
+    });
+    return handleSuccess(response, 'Lists retrieved successfully');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
-export const createList = async (name: string, folderId: number): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.post('/contacts/lists', {
+export const createList = async (
+  name: string,
+  folderId: number
+): Promise<IApiResponse> => {
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.post('/contacts/lists', {
       name,
       folderId,
-    })
-  );
+    });
+    return handleSuccess(response, 'List successfully created');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const getList = async (listId: number): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.get(`/contacts/lists/${listId}`)
-  );
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.get(`/contacts/lists/${listId}`);
+    return handleSuccess(response, 'List details retrieved successfully');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const updateList = async (
@@ -36,18 +52,28 @@ export const updateList = async (
   name: string,
   folderId: number
 ): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.put(`/contacts/lists/${listId}`, {
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.put(`/contacts/lists/${listId}`, {
       name,
       folderId,
-    })
-  );
+    });
+    return handleSuccess(response, 'List successfully updated');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const deleteList = async (listId: number): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.delete(`/contacts/lists/${listId}`)
-  );
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.delete(`/contacts/lists/${listId}`);
+    return handleSuccess(response, 'List successfully deleted');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const getContactsFromList = async (
@@ -57,20 +83,30 @@ export const getContactsFromList = async (
   offset?: number,
   sort?: string
 ): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.get(`/contacts/lists/${listId}/contacts`, {
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.get(`/contacts/lists/${listId}/contacts`, {
       params: { modifiedSince, limit, offset, sort },
-    })
-  );
+    });
+    return handleSuccess(response, 'Contacts retrieved successfully');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const addContactsToList = async (
   listId: number,
   emails: string[]
 ): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    apiInstance.post(`/contacts/lists/${listId}/contacts/add`, {
+  const apiInstance = initializeBrevoClient();
+
+  try {
+    const response = await apiInstance.post(`/contacts/lists/${listId}/contacts/add`, {
       emails,
-    })
-  );
+    });
+    return handleSuccess(response, 'Contacts added to the list successfully');
+  } catch (error) {
+    return handleError(error);
+  }
 };

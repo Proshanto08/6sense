@@ -49,7 +49,3 @@ export const getFolderListsController = async (req: Request, res: Response): Pro
     const result = await getFolderLists(Number(folderId), parsedLimit, parsedOffset, parsedSort);
     res.status(result.status).json(result);
 };
-
-
-
-

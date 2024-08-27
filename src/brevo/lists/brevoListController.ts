@@ -3,11 +3,9 @@ import { getAllLists, createList, getList, updateList, deleteList, getContactsFr
 
 export const getAllListsController = async (req: Request, res: Response): Promise<void> => {
   const { limit, offset, sort } = req.query;
-
   const parsedLimit = limit ? Number(limit) : undefined;
   const parsedOffset = offset ? Number(offset) : undefined;
   const parsedSort = sort ? String(sort) : 'desc';
-
   const result = await getAllLists(parsedLimit, parsedOffset, parsedSort);
   res.status(result.status).json(result);
 };
@@ -41,7 +39,6 @@ export const deleteListController = async (req: Request, res: Response): Promise
 export const getContactsFromListController = async (req: Request, res: Response): Promise<void> => {
   const { listId } = req.params;
   const { modifiedSince, limit, offset, sort } = req.query;
-
   const parsedLimit = limit ? Number(limit) : 50;
   const parsedOffset = offset ? Number(offset) : 0;
   const parsedSort = sort ? String(sort) : 'desc';
@@ -54,7 +51,6 @@ export const getContactsFromListController = async (req: Request, res: Response)
     parsedOffset,
     parsedSort
   );
-
   res.status(result.status).json(result);
 };
 
@@ -63,7 +59,6 @@ export const getContactsFromListController = async (req: Request, res: Response)
 export const addContactsToListController = async (req: Request, res: Response): Promise<void> => {
   const { listId } = req.params;
   const { emails } = req.body;
-
   const result = await addContactsToList(Number(listId), emails);
   res.status(result.status).json(result);
 };

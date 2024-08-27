@@ -1,18 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../services/authService';
 import { IApiResponse } from '../types';
+import { handleSuccess, handleError } from '../utils/responseHandlers';
 
 export const authToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const authHeader = req.headers.authorization;
   const token = authHeader?.split(' ')[1];
 
   if (!token) {
-    const response: IApiResponse = {
-      status: 401,
-      errorCode: 'NO_TOKEN_PROVIDED',
-      message: 'No token provided',
-      data: {},
-    };
+    const response: IApiResponse = handleError(null, 'NO_TOKEN_PROVIDED', 'No token provided', 401);
     res.status(response.status).json(response);
     return;
   }
@@ -27,12 +23,7 @@ export const authToken = async (req: Request, res: Response, next: NextFunction)
 
     next();
   } catch (err) {
-    const response: IApiResponse = {
-      status: 401,
-      errorCode: 'TOKEN_VERIFICATION_FAILED',
-      message: 'Token verification failed',
-      data: {},
-    };
+    const response: IApiResponse = handleError(err, 'TOKEN_VERIFICATION_FAILED', 'Token verification failed', 401);
     res.status(response.status).json(response);
   }
 };

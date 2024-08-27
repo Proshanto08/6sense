@@ -1,8 +1,8 @@
 import axios from 'axios';
-import handleApiRequest from '../../utils/apiUtils';
+import { handleSuccess, handleError } from '../../utils/responseHandlers';
 import { IApiResponse } from '../../types';
 
-interface IBrevoEmailOptions {
+interface BrevoEmailOptions {
   subject: string;
   htmlContent: string;
   sender: { name: string; email: string };
@@ -13,8 +13,7 @@ interface IBrevoEmailOptions {
   attachments?: Array<{ url?: string; content?: string; name: string }>;
 }
 
-
-interface ITransactionalEmailFilter {
+interface TransactionalEmailFilter {
   email?: string;
   templateId?: number;
   messageId?: string;
@@ -25,38 +24,66 @@ interface ITransactionalEmailFilter {
   offset?: number;
 }
 
-const apiKey = process.env.BREVO_API_KEY || '';
+export const sendBrevoEmail = async (
+  options: BrevoEmailOptions
+): Promise<IApiResponse> => {
+  const { subject, htmlContent, sender, to, replyTo, headers, params, attachments } = options;
 
-export const sendBrevoEmail = async (options: IBrevoEmailOptions): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    axios.post(
+  try {
+    const response = await axios.post(
       'https://api.brevo.com/v3/smtp/email',
-      options,
+      {
+        subject,
+        htmlContent,
+        sender,
+        to,
+        replyTo,
+        headers,
+        params,
+        attachments,
+      },
       {
         headers: {
           'Content-Type': 'application/json',
-          'api-key': apiKey,
+          'api-key': process.env.BREVO_API_KEY || '',
         },
       }
-    )
-  );
+    );
+
+    return handleSuccess(response, 'Email successfully sent');
+  } catch (error) {
+    return handleError(error);
+  }
 };
 
 export const getTransactionalEmails = async (
-  filters: ITransactionalEmailFilter
+  filters: TransactionalEmailFilter
 ): Promise<IApiResponse> => {
-  return handleApiRequest(() =>
-    axios.get(
+  const { email, templateId, messageId, startDate, endDate, sort = 'desc', limit = 500, offset = 0 } = filters;
+
+  try {
+    const response = await axios.get(
       'https://api.brevo.com/v3/smtp/emails',
       {
         params: {
-          ...filters,
+          email,
+          templateId,
+          messageId,
+          startDate,
+          endDate,
+          sort,
+          limit,
+          offset,
         },
         headers: {
           'Content-Type': 'application/json',
-          'api-key': apiKey,
+          'api-key': process.env.BREVO_API_KEY || '',
         },
       }
-    )
-  );
+    );
+
+    return handleSuccess(response, 'Transactional emails retrieved successfully');
+  } catch (error) {
+    return handleError(error);
+  }
 };
