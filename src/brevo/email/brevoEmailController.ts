@@ -6,15 +6,15 @@ export const handleContactFormSubmission = async (req: Request, res: Response): 
   const { name, email, companyWebsite, message, getNda, consent } = req.body;
 
   const sanitizedHtmlContent = sanitizeHtml(`
-    <html>
+   <html>
       <body>
         <h1>Contact Form Submission</h1>
         <p><strong>Name:</strong> ${sanitizeHtml(name)}</p>
         <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
         <p><strong>Company Website:</strong> ${sanitizeHtml(companyWebsite || 'N/A')}</p>
         <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(message)}</p>
-        <p><strong>Get an NDA:</strong> ${getNda ? 'Yes' : 'No'}</p>
-        <p><strong>Consent to Data Processing:</strong> ${consent ? 'Yes' : 'No'}</p>
+        <p><strong>Get an NDA:</strong> ${getNda ? 'true' : 'false'}</p>
+        <p><strong>Consent to Data Processing:</strong> ${consent ? 'true' : 'false'}</p>
       </body>
     </html>
   `);

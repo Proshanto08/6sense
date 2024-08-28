@@ -38,7 +38,7 @@ app.use('/brevo', brevoFolderRoutes);
 app.use('/brevo', brevoContactRoutes);
 app.use('/brevo', brevoListRoutes);
 app.use('/brevo', brevoEventRoutes);
-app.use('/brevo', emailRoutes);
+app.use('/', emailRoutes);
 app.use('/', caseStudyRoutes);
 app.use('/mixpanel', mixpanelRoutes);
 
