@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { sendBrevoEmail, getTransactionalEmails } from './brevoEmailService';
+import { sendBrevoEmail } from './brevoEmailService';
 import { IApiResponse } from '../../types';
 import { handleSuccess, handleError } from '../../utils/responseHandlers';
 
@@ -79,53 +79,6 @@ describe('Email Service', () => {
       mockHandleError(500, 'Error');
 
       const result: IApiResponse = await sendBrevoEmail(emailOptions);
-
-      expect(result.status).toBe(500);
-      expect(result.message).toBe('Error');
-    });
-  });
-
-  describe('getTransactionalEmails', () => {
-    it('should retrieve transactional emails successfully', async () => {
-      const filters = {
-        email: 'test@example.com',
-        templateId: 1,
-        messageId: 'msg123',
-        startDate: '2024-08-01',
-        endDate: '2024-08-31',
-        sort: 'desc' as 'asc' | 'desc', // Explicitly cast to the allowed type
-        limit: 10,
-        offset: 0,
-      };
-
-      mockSuccessResponse('get', 200, {});
-      mockHandleSuccess(200, 'Transactional emails retrieved successfully');
-
-      const result: IApiResponse = await getTransactionalEmails(filters);
-
-      expect(result.status).toBe(200);
-      expect(result.message).toBe('Transactional emails retrieved successfully');
-      expect(mockedAxios.get).toHaveBeenCalledWith(
-        'https://api.brevo.com/v3/smtp/emails',
-        {
-          params: filters,
-          headers: {
-            'Content-Type': 'application/json',
-            'api-key': process.env.BREVO_API_KEY || '',
-          },
-        }
-      );
-    });
-
-    it('should handle errors when retrieving transactional emails', async () => {
-      const filters = {
-        email: 'test@example.com',
-      };
-
-      mockErrorResponse('get', 'Error');
-      mockHandleError(500, 'Error');
-
-      const result: IApiResponse = await getTransactionalEmails(filters);
 
       expect(result.status).toBe(500);
       expect(result.message).toBe('Error');

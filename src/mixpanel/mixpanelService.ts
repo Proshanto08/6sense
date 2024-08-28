@@ -13,13 +13,20 @@ export const updateUserProfile = async (
 ): Promise<IApiResponse> => {
   const { peopleApiUrl, projectToken } = mixpanelConfig;
 
+  const { FIRSTNAME, LASTNAME, email_id } = properties;
+  const name = `${FIRSTNAME || ''} ${LASTNAME || ''}`.trim(); 
+
   try {
     const response = await axios.post(peopleApiUrl, null, {
       params: {
         data: JSON.stringify({
           $token: projectToken,
           $distinct_id: distinctId,
-          $set: properties,
+          $set: {
+            $name: name,       
+            $email: email_id, 
+            ...properties     
+          },
         }),
       },
     });
@@ -58,7 +65,7 @@ export const identifyUser = async (
 
 export const trackUserEvent = async (
   distinctId: string,
-  eventName: string,
+  event_name: string,
   properties: IEventProperties
 ): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
@@ -67,7 +74,7 @@ export const trackUserEvent = async (
     const response = await axios.post(apiUrl, null, {
       params: {
         data: JSON.stringify({
-          event: eventName,
+          event: event_name,
           properties: {
             distinct_id: distinctId,
             token: projectToken,

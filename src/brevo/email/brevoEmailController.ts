@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { sendBrevoEmail, getTransactionalEmails } from './brevoEmailService';
+import { sendBrevoEmail } from './brevoEmailService';
 import sanitizeHtml from 'sanitize-html';
 
 export const handleContactFormSubmission = async (req: Request, res: Response): Promise<void> => {
@@ -47,18 +47,18 @@ export const handleContactFormSubmission = async (req: Request, res: Response): 
     res.status(result.status).json(result);
 };
 
-export const handleGetTransactionalEmails = async (req: Request, res: Response): Promise<void> => {
-  const filters = {
-    email: req.query.email as string,
-    templateId: req.query.templateId ? parseInt(req.query.templateId as string, 10) : undefined,
-    messageId: req.query.messageId as string,
-    startDate: req.query.startDate as string,
-    endDate: req.query.endDate as string,
-    sort: req.query.sort as 'asc' | 'desc' || 'desc',
-    limit: req.query.limit ? parseInt(req.query.limit as string, 10) : 500,
-    offset: req.query.offset ? parseInt(req.query.offset as string, 10) : 0,
-  };
+// export const handleGetTransactionalEmails = async (req: Request, res: Response): Promise<void> => {
+//   const filters = {
+//     email: req.query.email as string,
+//     templateId: req.query.templateId ? parseInt(req.query.templateId as string, 10) : undefined,
+//     messageId: req.query.messageId as string,
+//     startDate: req.query.startDate as string,
+//     endDate: req.query.endDate as string,
+//     sort: req.query.sort as 'asc' | 'desc' || 'desc',
+//     limit: req.query.limit ? parseInt(req.query.limit as string, 10) : 500,
+//     offset: req.query.offset ? parseInt(req.query.offset as string, 10) : 0,
+//   };
 
-    const result = await getTransactionalEmails(filters);
-    res.status(result.status).json(result);
-};
+//     const result = await getTransactionalEmails(filters);
+//     res.status(result.status).json(result);
+// };
