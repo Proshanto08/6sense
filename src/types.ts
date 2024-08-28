@@ -11,16 +11,17 @@ export interface IProject extends Document {
   appName: string;
   logo: string;
   slug: string;
-  thumbImage: string;
-  title: string;
+  imageSrc: string;
+  coloredPartTitle: string;
+  regularTitle: string,
   team: ITeam;
   sprints: ISprints;
   time: ITime;
-  projectOverview: string;
-  coverImage?: string;
-  about: string;
-  technologies: string[];
-  industry: string;
+  overviewParagraphs: string;
+  overviewImage?: string;
+  aboutParagraph: string;
+  technologies: ITechnologies;
+  industry: IIndusry;
   clientFeedback?: IClientFeedback;
   solution?: ISolution;
   keyFeature: IKeyFeature;
@@ -36,31 +37,58 @@ interface IClientFeedback {
 
 interface ISolution {
   description: string;
-  solutions: string[]; 
+  solutionsPoints1: string[]; 
+  solutionsPoints2: string[];
+  solutionImage?: string; 
 }
 
 interface IResult {
   description: string;
-  results: string[];
+  resultsPoints1: string[];
+  resultsPoints2: string[];
   resultImage?: string; 
 }
 
 interface IKeyFeature {
   description: string;
-  features: string[];
+  keyFeaturesPoints1: string[];
+  keyFeaturesPoints2: string[];
+  keyImage?: string; 
 }
 
 interface ITeam {
+  icon:string,
+  alt:string,
   numberOfMembers: number;
-  text: string;
+  title: string;
+  subtitle: string;
 }
 
 interface ISprints {
+  icon:string,
+  alt:string,
   numberOfSprints: number;
-  text: string;
+  title: string;
+  subtitle: string;
 }
 
 interface ITime {
+  icon:string,
+  alt:string,
   numberOfMonths: number;
-  text: string;
+  title: string;
+  subtitle: string;
+}
+
+interface ITechnologies {
+  icon:string,
+  alt:string,
+  title: string;
+  technologies: string[];
+}
+interface IIndusry {
+  icon:string,
+  alt:string,
+  title: string;
+  industryName: string;
 }

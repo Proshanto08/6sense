@@ -1,48 +1,72 @@
 import mongoose, { Schema } from 'mongoose';
 import { IProject } from '../types';
 
+
 const ProjectSchema = new Schema<IProject>({
-  title: { type: String, required: true },
+  id: { type: Number, required: true, unique: true  },
   appName: { type: String, required: true },
   logo: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
-  thumbImage: { type: String, required: true },
-  projectOverview: { type: String, required: true },
-  about: { type: String, required: true },
-  coverImage: { type: String },
-  clientFeedback: {
-    clientName: { type: String, required: true },
-    clientImage: { type: String },
-    clientDesignation: { type: String, required: true },
-    feedback: { type: String, required: true },
+  imageSrc: { type: String, required: true },
+  coloredPartTitle: { type: String, required: true },
+  regularTitle: { type: String, required: true },
+  team: {
+    icon:{ type: String, required: true },
+    alt:{ type: String, required: true },
+    numberOfMembers: { type: Number, required: true },
+    description: { type: String, required: true },
+  },
+  sprints: {
+    icon:{ type: String, required: true },
+    alt:{ type: String, required: true },
+    numberOfSprints: { type: Number, required: true },
+    description: { type: String, required: true },
+  },
+  time: {
+    icon:{ type: String, required: true },
+    alt:{ type: String, required: true },
+    numberOfMonths: { type: Number, required: true },
+    description: { type: String, required: true },
+  },
+  overviewParagraphs: { type: String, required: true },
+  overviewImage: { type: String },
+  aboutParagraph: { type: String, required: true },
+  technologies: { 
+    icon:{ type: String, required: true },
+    alt:{ type: String, required: true },
+    title: { type: String, required: true },
+    technologies: { type: String, required: true },
+  },
+  industry: {
+    icon:{ type: String, required: true },
+    alt:{ type: String, required: true },
+    title: { type: String, required: true },
+    industryName: { type: String, required: true }, 
   },
   solution: {
     description: { type: String },
-    solutions: { type: [String], required: true },
-  },
-  result: {
-    description: { type: String },
-    results: { type: [String], required: true },
-    resultImage: { type: String },
+    solutionsPoints1: { type: [String] },
+    solutionsPoints2: { type: [String] },
+    solutionImage: { type: String },
   },
   keyFeature: {
     description: { type: String, required: true },
-    features: { type: [String], required: true },
+    keyFeaturesPoints1: { type: [String] },
+    keyFeaturesPoints2: { type: [String] },
+    keyImage: { type: String },
   },
-  team: {
-    numberOfMembers: { type: Number, required: true },
-    text: { type: String, required: true },
+  result: {
+    description: { type: String },
+    resultsPoints1: { type: [String]},
+    resultsPoints2: { type: [String]},
+    resultImage: { type: String },
   },
-  sprints: {
-    numberOfSprints: { type: Number, required: true },
-    text: { type: String, required: true },
+  clientFeedback: {
+    clientName: { type: String},
+    clientImage: { type: String },
+    clientDesignation: { type: String},
+    feedback: { type: String },
   },
-  time: {
-    numberOfMonths: { type: Number, required: true },
-    text: { type: String, required: true },
-  },
-  technologies: { type: [String], required: true },
-  industry: { type: String, required: true },
 }, { timestamps: true });
 
 export default mongoose.model<IProject>('Project', ProjectSchema);
