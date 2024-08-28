@@ -5,7 +5,7 @@ export const handleProjectUploads = upload.fields([
   { name: 'imageSrc', maxCount: 1 },
   { name: 'overviewImage', maxCount: 1 },
   { name: 'solutionImage', maxCount: 1 },
-  { name: 'keyImage', maxCount: 1 },
+  { name: 'keyFeaturesImage', maxCount: 1 },
   { name: 'resultImage', maxCount: 1 },
   { name: 'clientImage', maxCount: 1 },
   { name: 'teamIcon', maxCount: 1 },

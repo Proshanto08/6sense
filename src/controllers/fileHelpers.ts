@@ -19,7 +19,7 @@ export const processFiles = (req: Request, baseData: any): IProject => {
    
     details: {
       ...baseData.details,
-      icon: files['teamIcon'] ? getRelativePath(files['teamIcon'][0].path) : baseData.details?.icon,
+      overviewImage: files['overviewImage'] ? getRelativePath(files['overviewImage'][0].path) : baseData.details?.overviewImage,
       sprints: {
         ...baseData.details?.sprints,
         icon: files['sprintIcon'] ? getRelativePath(files['sprintIcon'][0].path) : baseData.details?.sprints?.icon,
