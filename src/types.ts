@@ -12,6 +12,7 @@ export interface IProject extends Document {
   logo: string;
   slug: string;
   imageSrc: string;
+  details:{
   coloredPartTitle: string;
   regularTitle: string,
   team: ITeam;
@@ -26,6 +27,7 @@ export interface IProject extends Document {
   solution?: ISolution;
   keyFeature: IKeyFeature;
   result: IResult;
+  }
 }
 
 interface IClientFeedback {

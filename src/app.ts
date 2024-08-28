@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 app.use(rateLimiter);
-app.use(express.static(path.join(__dirname, '../public')));
+app.use('/uploads', express.static('uploads'));
 app.use(cookieParser());
 
 
@@ -39,7 +39,7 @@ app.use('/brevo', brevoContactRoutes);
 app.use('/brevo', brevoListRoutes);
 app.use('/brevo', brevoEventRoutes);
 app.use('/brevo', emailRoutes);
-app.use('/case-study', caseStudyRoutes);
+app.use('/', caseStudyRoutes);
 app.use('/mixpanel', mixpanelRoutes);
 
 export default app;

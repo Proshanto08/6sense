@@ -4,15 +4,17 @@ import {
   getAllProjectsController,
   getProjectBySlugController,
   updateProjectController,
-  deleteProjectBySlugController
+  deleteProjectBySlugController,
+  getBasicProjectsController
 } from '../controllers/caseStudyController';
 
 const router = express.Router();
 
-router.get('/projects', getAllProjectsController);
+router.get('/case-study', getBasicProjectsController);
+router.get('/case-study/projects', getAllProjectsController);
 router.post('/projects', createProjectController);
-router.get('/projects/:slug', getProjectBySlugController); 
-router.put('/projects/:slug', updateProjectController); 
-router.delete('/projects/:slug', deleteProjectBySlugController); 
+router.get('/:slug', getProjectBySlugController); 
+router.put('/:slug', updateProjectController); 
+router.delete('/:slug', deleteProjectBySlugController); 
 
 export default router;
