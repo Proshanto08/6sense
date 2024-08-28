@@ -1,17 +1,19 @@
 import multer from 'multer';
 import path from 'path';
 
+// Configure storage options
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, '../uploads')); // Save files in the "uploads" directory
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname); // Get the file extension
-    const filename = `${file.fieldname}${ext}`; // Use the field name as the file name with its extension
+    const filename = `${file.fieldname}-${Date.now()}${ext}`; // Use the field name and timestamp to create a unique filename
     cb(null, filename); 
   }
 });
 
+// Configure multer
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {

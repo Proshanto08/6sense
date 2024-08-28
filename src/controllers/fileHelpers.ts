@@ -2,10 +2,9 @@ import { Request } from 'express';
 import { IProject } from '../types';
 import path from 'path';
 
-// Helper function to convert an absolute path to a relative URL
 const getRelativePath = (filePath: string | undefined) => {
     if (!filePath) return undefined;
-    return `/uploads/${path.basename(filePath)}`; // Extract the file name and prepend with '/uploads/'
+    return `/uploads/${path.basename(filePath)}`;
   };
 
 export const processFiles = (req: Request, baseData: any): IProject => {
@@ -17,11 +16,7 @@ export const processFiles = (req: Request, baseData: any): IProject => {
     ...baseData,
     logo: files['logo'] ? getRelativePath(files['logo'][0].path) : baseData.logo,
     imageSrc: files['imageSrc'] ? getRelativePath(files['imageSrc'][0].path) : baseData.imageSrc,
-    overviewImage: files['overviewImage'] ? getRelativePath(files['overviewImage'][0].path) : baseData.overviewImage,
-    solutionImage: files['solutionImage'] ? getRelativePath(files['solutionImage'][0].path) : baseData.solutionImage,
-    keyImage: files['keyImage'] ? getRelativePath(files['keyImage'][0].path) : baseData.keyImage,
-    resultImage: files['resultImage'] ? getRelativePath(files['resultImage'][0].path) : baseData.resultImage,
-    clientImage: files['clientImage'] ? getRelativePath(files['clientImage'][0].path) : baseData.clientImage,
+   
     details: {
       ...baseData.details,
       icon: files['teamIcon'] ? getRelativePath(files['teamIcon'][0].path) : baseData.details?.icon,

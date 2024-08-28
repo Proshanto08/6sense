@@ -14,7 +14,7 @@ router.get('/case-studies', getBasicProjectsController);
 router.get('/case-study/projects', getAllProjectsController);
 router.post('/projects', createProjectController);
 router.get('/:slug', getProjectBySlugController); 
-router.put('/:slug', updateProjectController); 
-router.delete('/:slug', deleteProjectBySlugController); 
+router.put('/projects/:slug', updateProjectController); 
+router.delete('/projects/:slug', deleteProjectBySlugController); 
 
 export default router;

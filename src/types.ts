@@ -55,7 +55,7 @@ interface IKeyFeature {
   description: string;
   keyFeaturesPoints1: string[];
   keyFeaturesPoints2: string[];
-  keyImage?: string; 
+  keyFeaturesImage?: string; 
 }
 
 interface ITeam {

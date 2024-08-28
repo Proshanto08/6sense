@@ -52,7 +52,7 @@ const ProjectSchema = new Schema<IProject>({
     description: { type: String,  },
     keyFeaturesPoints1: { type: [String] },
     keyFeaturesPoints2: { type: [String] },
-    keyImage: { type: String },
+    keyFeaturesImage: { type: String },
   },
   result: {
     description: { type: String },
