@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get('/case-study', getBasicProjectsController);
+router.get('/case-studies', getBasicProjectsController);
 router.get('/case-study/projects', getAllProjectsController);
 router.post('/projects', createProjectController);
 router.get('/:slug', getProjectBySlugController); 

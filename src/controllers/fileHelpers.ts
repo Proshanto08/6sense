@@ -1,5 +1,12 @@
 import { Request } from 'express';
 import { IProject } from '../types';
+import path from 'path';
+
+// Helper function to convert an absolute path to a relative URL
+const getRelativePath = (filePath: string | undefined) => {
+    if (!filePath) return undefined;
+    return `/uploads/${path.basename(filePath)}`; // Extract the file name and prepend with '/uploads/'
+  };
 
 export const processFiles = (req: Request, baseData: any): IProject => {
   const files = req.files as {
@@ -8,48 +15,48 @@ export const processFiles = (req: Request, baseData: any): IProject => {
 
   return {
     ...baseData,
-    logo: files['logo'] ? (files['logo'][0] as Express.Multer.File).path : baseData.logo,
-    imageSrc: files['imageSrc'] ? (files['imageSrc'][0] as Express.Multer.File).path : baseData.imageSrc,
-    overviewImage: files['overviewImage'] ? (files['overviewImage'][0] as Express.Multer.File).path : baseData.overviewImage,
-    solutionImage: files['solutionImage'] ? (files['solutionImage'][0] as Express.Multer.File).path : baseData.solutionImage,
-    keyImage: files['keyImage'] ? (files['keyImage'][0] as Express.Multer.File).path : baseData.keyImage,
-    resultImage: files['resultImage'] ? (files['resultImage'][0] as Express.Multer.File).path : baseData.resultImage,
-    clientImage: files['clientImage'] ? (files['clientImage'][0] as Express.Multer.File).path : baseData.clientImage,
+    logo: files['logo'] ? getRelativePath(files['logo'][0].path) : baseData.logo,
+    imageSrc: files['imageSrc'] ? getRelativePath(files['imageSrc'][0].path) : baseData.imageSrc,
+    overviewImage: files['overviewImage'] ? getRelativePath(files['overviewImage'][0].path) : baseData.overviewImage,
+    solutionImage: files['solutionImage'] ? getRelativePath(files['solutionImage'][0].path) : baseData.solutionImage,
+    keyImage: files['keyImage'] ? getRelativePath(files['keyImage'][0].path) : baseData.keyImage,
+    resultImage: files['resultImage'] ? getRelativePath(files['resultImage'][0].path) : baseData.resultImage,
+    clientImage: files['clientImage'] ? getRelativePath(files['clientImage'][0].path) : baseData.clientImage,
     details: {
       ...baseData.details,
-      icon: files['teamIcon'] ? (files['teamIcon'][0] as Express.Multer.File).path : baseData.details?.icon,
+      icon: files['teamIcon'] ? getRelativePath(files['teamIcon'][0].path) : baseData.details?.icon,
       sprints: {
         ...baseData.details?.sprints,
-        icon: files['sprintIcon'] ? (files['sprintIcon'][0] as Express.Multer.File).path : baseData.details?.sprints?.icon
+        icon: files['sprintIcon'] ? getRelativePath(files['sprintIcon'][0].path) : baseData.details?.sprints?.icon,
       },
       time: {
         ...baseData.details?.time,
-        icon: files['timeIcon'] ? (files['timeIcon'][0] as Express.Multer.File).path : baseData.details?.time?.icon
+        icon: files['timeIcon'] ? getRelativePath(files['timeIcon'][0].path) : baseData.details?.time?.icon,
       },
       technologies: {
         ...baseData.details?.technologies,
-        icon: files['technologiesIcon'] ? (files['technologiesIcon'][0] as Express.Multer.File).path : baseData.details?.technologies?.icon
+        icon: files['technologiesIcon'] ? getRelativePath(files['technologiesIcon'][0].path) : baseData.details?.technologies?.icon,
       },
       industry: {
         ...baseData.details?.industry,
-        icon: files['industryIcon'] ? (files['industryIcon'][0] as Express.Multer.File).path : baseData.details?.industry?.icon
+        icon: files['industryIcon'] ? getRelativePath(files['industryIcon'][0].path) : baseData.details?.industry?.icon,
       }
     },
     solution: {
       ...baseData.solution,
-      solutionImage: files['solutionImage'] ? (files['solutionImage'][0] as Express.Multer.File).path : baseData.solution?.solutionImage
+      solutionImage: files['solutionImage'] ? getRelativePath(files['solutionImage'][0].path) : baseData.solution?.solutionImage,
     },
     keyFeature: {
       ...baseData.keyFeature,
-      keyImage: files['keyImage'] ? (files['keyImage'][0] as Express.Multer.File).path : baseData.keyFeature?.keyImage
+      keyImage: files['keyImage'] ? getRelativePath(files['keyImage'][0].path) : baseData.keyFeature?.keyImage,
     },
     result: {
       ...baseData.result,
-      resultImage: files['resultImage'] ? (files['resultImage'][0] as Express.Multer.File).path : baseData.result?.resultImage
+      resultImage: files['resultImage'] ? getRelativePath(files['resultImage'][0].path) : baseData.result?.resultImage,
     },
     clientFeedback: {
       ...baseData.clientFeedback,
-      clientImage: files['clientImage'] ? (files['clientImage'][0] as Express.Multer.File).path : baseData.clientFeedback?.clientImage
+      clientImage: files['clientImage'] ? getRelativePath(files['clientImage'][0].path) : baseData.clientFeedback?.clientImage,
     }
   };
 };

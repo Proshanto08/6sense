@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 app.use(rateLimiter);
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use(cookieParser());
 
 
