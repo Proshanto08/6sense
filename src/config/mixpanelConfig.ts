@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -7,14 +7,26 @@ interface IMixpanelConfig {
   apiUrl: string;
   peopleApiUrl: string;
   importApiUrl: string;
-  apiSecretToken:string;
+  apiSecretToken: string;
 }
 
 const getMixpanelConfig = (): IMixpanelConfig => {
-  const { MIXPANEL_PROJECT_TOKEN, MIXPANEL_API_URL, MIXPANEL_PEOPLE_API_URL, MIXPANEL_IMPORT_API_URL,MIXPANEL_API_SECRET } = process.env;
+  const {
+    MIXPANEL_PROJECT_TOKEN,
+    MIXPANEL_API_URL,
+    MIXPANEL_PEOPLE_API_URL,
+    MIXPANEL_IMPORT_API_URL,
+    MIXPANEL_API_SECRET,
+  } = process.env;
 
-  if (!MIXPANEL_PROJECT_TOKEN || !MIXPANEL_API_URL || !MIXPANEL_PEOPLE_API_URL || !MIXPANEL_IMPORT_API_URL || !MIXPANEL_API_SECRET) {
-    throw new Error('Missing required environment variables for Mixpanel');
+  if (
+    !MIXPANEL_PROJECT_TOKEN ||
+    !MIXPANEL_API_URL ||
+    !MIXPANEL_PEOPLE_API_URL ||
+    !MIXPANEL_IMPORT_API_URL ||
+    !MIXPANEL_API_SECRET
+  ) {
+    throw new Error("Missing required environment variables for Mixpanel");
   }
 
   return {
@@ -22,7 +34,7 @@ const getMixpanelConfig = (): IMixpanelConfig => {
     apiUrl: MIXPANEL_API_URL,
     peopleApiUrl: MIXPANEL_PEOPLE_API_URL,
     importApiUrl: MIXPANEL_IMPORT_API_URL,
-    apiSecretToken: MIXPANEL_API_SECRET
+    apiSecretToken: MIXPANEL_API_SECRET,
   };
 };
 

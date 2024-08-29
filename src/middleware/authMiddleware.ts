@@ -1,14 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../services/authService';
-import { IApiResponse } from '../types';
-import { handleError } from '../utils/responseHandlers';
+import { Request, Response, NextFunction } from "express";
+import { verifyToken } from "../services/authService";
+import { IApiResponse } from "../types";
+import { handleError } from "../utils/responseHandlers";
 
-export const authToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const authToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const authHeader = req.headers.authorization;
-  const token = authHeader?.split(' ')[1];
+  const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    const response: IApiResponse = handleError(null, 'NO_TOKEN_PROVIDED', 'No token provided', 401);
+    const response: IApiResponse = handleError(
+      null,
+      "NO_TOKEN_PROVIDED",
+      "No token provided",
+      401
+    );
     res.status(response.status).json(response);
     return;
   }
@@ -23,7 +32,12 @@ export const authToken = async (req: Request, res: Response, next: NextFunction)
 
     next();
   } catch (err) {
-    const response: IApiResponse = handleError(err, 'TOKEN_VERIFICATION_FAILED', 'Token verification failed', 401);
+    const response: IApiResponse = handleError(
+      err,
+      "TOKEN_VERIFICATION_FAILED",
+      "Token verification failed",
+      401
+    );
     res.status(response.status).json(response);
   }
 };

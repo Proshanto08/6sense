@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { mixpanelConfig } from '../config/mixpanelConfig';
-import { IApiResponse } from '../types';
-import { handleSuccess, handleError } from '../utils/responseHandlers';
+import axios from "axios";
+import { mixpanelConfig } from "../config/mixpanelConfig";
+import { IApiResponse } from "../types";
+import { handleSuccess, handleError } from "../utils/responseHandlers";
 
 interface IEventProperties {
   [key: string]: any;
@@ -14,7 +14,7 @@ export const updateUserProfile = async (
   const { peopleApiUrl, projectToken } = mixpanelConfig;
 
   const { FIRSTNAME, LASTNAME, email_id } = properties;
-  const name = `${FIRSTNAME || ''} ${LASTNAME || ''}`.trim(); 
+  const name = `${FIRSTNAME || ""} ${LASTNAME || ""}`.trim();
 
   try {
     const response = await axios.post(peopleApiUrl, null, {
@@ -23,15 +23,15 @@ export const updateUserProfile = async (
           $token: projectToken,
           $distinct_id: distinctId,
           $set: {
-            $name: name,       
-            $email: email_id, 
-            ...properties     
+            $name: name,
+            $email: email_id,
+            ...properties,
           },
         }),
       },
     });
 
-    return handleSuccess(response, 'User profile updated successfully');
+    return handleSuccess(response, "User profile updated successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -47,7 +47,7 @@ export const identifyUser = async (
     const response = await axios.post(apiUrl, null, {
       params: {
         data: JSON.stringify({
-          event: '$identify',
+          event: "$identify",
           properties: {
             $distinct_id: userId,
             $anon_id: anonId,
@@ -57,7 +57,7 @@ export const identifyUser = async (
       },
     });
 
-    return handleSuccess(response, 'User identified successfully');
+    return handleSuccess(response, "User identified successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -84,7 +84,7 @@ export const trackUserEvent = async (
       },
     });
 
-    return handleSuccess(response, 'Event tracked successfully');
+    return handleSuccess(response, "Event tracked successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -100,7 +100,7 @@ export const createAlias = async (
     const response = await axios.post(apiUrl, null, {
       params: {
         data: JSON.stringify({
-          event: '$create_alias',
+          event: "$create_alias",
           properties: {
             distinct_id: distinctId,
             alias: aliasId,
@@ -110,7 +110,7 @@ export const createAlias = async (
       },
     });
 
-    return handleSuccess(response, 'Alias created successfully');
+    return handleSuccess(response, "Alias created successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -126,7 +126,7 @@ export const mergeIdentities = async (
     const response = await axios.post(importApiUrl, null, {
       params: {
         data: JSON.stringify({
-          event: '$merge',
+          event: "$merge",
           properties: {
             $distinct_ids: [anonId, identifiedId],
           },
@@ -138,11 +138,11 @@ export const mergeIdentities = async (
         password: apiSecretToken,
       },
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
-    return handleSuccess(response, 'Identities merged successfully');
+    return handleSuccess(response, "Identities merged successfully");
   } catch (error) {
     return handleError(error);
   }

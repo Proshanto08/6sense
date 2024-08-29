@@ -1,13 +1,20 @@
-import { Request, Response } from 'express';
-import { createProject, updateProject, getAllProjects, getProjectBySlug, deleteProjectBySlug, getBasicProjects } from '../services/caseStudyService';
-import { IApiResponse, IProject } from '../types';
-import { handleProjectUploads } from './fileUploadMiddleware';
-import { processFiles } from './fileHelpers';
-import fs from 'fs';
-import path from 'path';
+import { Request, Response } from "express";
+import {
+  createProject,
+  updateProject,
+  getAllProjects,
+  getProjectBySlug,
+  deleteProjectBySlug,
+  getBasicProjects,
+} from "../services/caseStudyService";
+import { IApiResponse, IProject } from "../types";
+import { handleProjectUploads } from "./fileUploadMiddleware";
+import { processFiles } from "./fileHelpers";
+import fs from "fs";
+import path from "path";
 
 const deleteFile = (filePath: string) => {
-  const fullPath = path.join(__dirname, '../uploads', path.basename(filePath));
+  const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
   fs.unlink(fullPath, (err) => {
     if (err) {
       console.error(`Error deleting file ${fullPath}:`, err);
@@ -15,8 +22,10 @@ const deleteFile = (filePath: string) => {
   });
 };
 
-
-export const createProjectController = async (req: Request, res: Response): Promise<void> => {
+export const createProjectController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const projectData: IProject = processFiles(req, req.body);
 
@@ -25,7 +34,10 @@ export const createProjectController = async (req: Request, res: Response): Prom
   });
 };
 
-export const updateProjectController = async (req: Request, res: Response): Promise<void> => {
+export const updateProjectController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const { slug } = req.params;
     const updateData: Partial<IProject> = processFiles(req, req.body);
@@ -45,7 +57,7 @@ export const updateProjectController = async (req: Request, res: Response): Prom
       oldProjectData.details?.solution?.solutionImage,
       oldProjectData.details?.keyFeature?.keyFeaturesImage,
       oldProjectData.details?.result?.resultImage,
-      oldProjectData.details?.clientFeedback?.clientImage
+      oldProjectData.details?.clientFeedback?.clientImage,
     ].filter(Boolean) as string[];
 
     filesToDelete.forEach((filePath) => {
@@ -59,7 +71,10 @@ export const updateProjectController = async (req: Request, res: Response): Prom
   });
 };
 
-export const getBasicProjectsController = async (req: Request, res: Response): Promise<void> => {
+export const getBasicProjectsController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const page: number = parseInt(req.query.page as string, 10) || 1;
   const limit: number = parseInt(req.query.limit as string, 10) || 6;
 
@@ -67,18 +82,27 @@ export const getBasicProjectsController = async (req: Request, res: Response): P
   res.status(result.status).json(result);
 };
 
-export const getAllProjectsController = async (_req: Request, res: Response): Promise<void> => {
+export const getAllProjectsController = async (
+  _req: Request,
+  res: Response
+): Promise<void> => {
   const result: IApiResponse = await getAllProjects();
   res.status(result.status).json(result);
 };
 
-export const getProjectBySlugController = async (req: Request, res: Response): Promise<void> => {
+export const getProjectBySlugController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { slug } = req.params;
   const result: IApiResponse = await getProjectBySlug(slug);
   res.status(result.status).json(result);
 };
 
-export const deleteProjectBySlugController = async (req: Request, res: Response): Promise<void> => {
+export const deleteProjectBySlugController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { slug } = req.params;
 
   const project: IApiResponse = await getProjectBySlug(slug);
@@ -89,7 +113,7 @@ export const deleteProjectBySlugController = async (req: Request, res: Response)
   }
 
   const projectData = project.data;
-  
+
   const filesToDelete = [
     projectData.logo,
     projectData.imageSrc,
@@ -97,7 +121,7 @@ export const deleteProjectBySlugController = async (req: Request, res: Response)
     projectData.details?.solution?.solutionImage,
     projectData.details?.keyFeature?.keyImage,
     projectData.details?.result?.resultImage,
-    projectData.details?.clientFeedback?.clientImage
+    projectData.details?.clientFeedback?.clientImage,
   ].filter(Boolean) as string[];
 
   filesToDelete.forEach((filePath) => {

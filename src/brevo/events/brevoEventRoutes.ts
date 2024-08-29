@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { handleCreateEvent } from './brevoEventController';
+import { Router } from "express";
+import { handleCreateEvent } from "./brevoEventController";
 
 const router = Router();
 
-router.post('/events', handleCreateEvent);
+router.post("/events", handleCreateEvent);
 
 export default router;

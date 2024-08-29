@@ -1,6 +1,6 @@
-import { initializeBrevoClient } from '../../config/brevoConfig';
-import { IApiResponse } from '../../types';
-import { handleSuccess, handleError } from '../../utils/responseHandlers';
+import { initializeBrevoClient } from "../../config/brevoConfig";
+import { IApiResponse } from "../../types";
+import { handleSuccess, handleError } from "../../utils/responseHandlers";
 
 export const getAllContacts = async (
   limit?: number,
@@ -10,10 +10,10 @@ export const getAllContacts = async (
   const apiInstance = initializeBrevoClient();
 
   try {
-    const response = await apiInstance.get('/contacts', {
+    const response = await apiInstance.get("/contacts", {
       params: { limit, offset, sort },
     });
-    return handleSuccess(response, 'Contacts retrieved successfully');
+    return handleSuccess(response, "Contacts retrieved successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -28,13 +28,13 @@ export const createContact = async (
   const apiInstance = initializeBrevoClient();
 
   try {
-    const response = await apiInstance.post('/contacts', {
+    const response = await apiInstance.post("/contacts", {
       email,
       attributes,
       listIds,
       updateEnabled,
     });
-    return handleSuccess(response, 'Contact successfully created');
+    return handleSuccess(response, "Contact successfully created");
   } catch (error) {
     return handleError(error);
   }
@@ -47,7 +47,7 @@ export const getContactById = async (
 
   try {
     const response = await apiInstance.get(`/contacts/${identifier}`);
-    return handleSuccess(response, 'Contact details retrieved successfully');
+    return handleSuccess(response, "Contact details retrieved successfully");
   } catch (error) {
     return handleError(error);
   }
@@ -69,7 +69,7 @@ export const updateContact = async (
       listIds,
       updateEnabled,
     });
-    return handleSuccess(response, 'Contact successfully updated');
+    return handleSuccess(response, "Contact successfully updated");
   } catch (error) {
     return handleError(error);
   }
@@ -82,7 +82,7 @@ export const deleteContact = async (
 
   try {
     const response = await apiInstance.delete(`/contacts/${identifier}`);
-    return handleSuccess(response, 'Contact successfully deleted');
+    return handleSuccess(response, "Contact successfully deleted");
   } catch (error) {
     return handleError(error);
   }

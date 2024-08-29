@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const getConfig = (): IConfig => {
   const { PORT, MONGO_URI, JWT_SECRET } = process.env;
 
   if (!PORT || !MONGO_URI || !JWT_SECRET) {
-    throw new Error('Missing required environment variables');
+    throw new Error("Missing required environment variables");
   }
 
   return {

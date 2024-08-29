@@ -1,4 +1,4 @@
-import { IApiResponse } from '../types';
+import { IApiResponse } from "../types";
 
 export const handleSuccess = (response: { status: number; data: any }, message: string): IApiResponse => {
   return {

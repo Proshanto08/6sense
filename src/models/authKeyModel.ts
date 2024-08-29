@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IAuthKey extends Document {
   key: string;
@@ -6,10 +6,13 @@ export interface IAuthKey extends Document {
   updatedAt: Date;
 }
 
-const AuthKeySchema = new Schema({
-  key: { type: String, required: true },
-}, {
-  timestamps: true,
-});
+const AuthKeySchema = new Schema(
+  {
+    key: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export default mongoose.model<IAuthKey>('AuthKey', AuthKeySchema);
+export default mongoose.model<IAuthKey>("AuthKey", AuthKeySchema);

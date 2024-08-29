@@ -1,6 +1,6 @@
-import { initializeBrevoClient } from '../../config/brevoConfig';
-import { IApiResponse } from '../../types';
-import { handleSuccess, handleError } from '../../utils/responseHandlers';
+import { initializeBrevoClient } from "../../config/brevoConfig";
+import { IApiResponse } from "../../types";
+import { handleSuccess, handleError } from "../../utils/responseHandlers";
 
 interface IIdentifiers {
   email_id?: string;
@@ -28,8 +28,8 @@ export const createEvent = async (
   const apiInstance = initializeBrevoClient();
 
   try {
-    const response = await apiInstance.post('/events', eventOptions);
-    return handleSuccess(response, 'Event created successfully');
+    const response = await apiInstance.post("/events", eventOptions);
+    return handleSuccess(response, "Event created successfully");
   } catch (error) {
     return handleError(error);
   }

@@ -1,10 +1,22 @@
-import { Request, Response } from 'express';
-import { updateUserProfile, trackUserEvent, createAlias } from './mixpanelService';
-import { v4 as uuidv4 } from 'uuid';
+import { Request, Response } from "express";
+import {
+  updateUserProfile,
+  trackUserEvent,
+  createAlias,
+} from "./mixpanelService";
+import { v4 as uuidv4 } from "uuid";
 
-export const handleTrackEvent = async (req: Request, res: Response): Promise<void> => {
-  const { event_name: eventName, identifiers, contact_properties: contactProperties, event_properties: eventProperties } = req.body;
-  
+export const handleTrackEvent = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const {
+    event_name: eventName,
+    identifiers,
+    contact_properties: contactProperties,
+    event_properties: eventProperties,
+  } = req.body;
+
   const email = identifiers?.email_id;
   const distinctId = email || req.cookies.distinctId || uuidv4();
 
@@ -13,7 +25,10 @@ export const handleTrackEvent = async (req: Request, res: Response): Promise<voi
 
     // Update the user profile with the provided contact properties
     try {
-      const updateProfileResponse = await updateUserProfile(distinctId, contactProperties);
+      const updateProfileResponse = await updateUserProfile(
+        distinctId,
+        contactProperties
+      );
       if (updateProfileResponse.status !== 200) {
         res.status(updateProfileResponse.status).json(updateProfileResponse);
         return;
@@ -28,36 +43,40 @@ export const handleTrackEvent = async (req: Request, res: Response): Promise<voi
         }
       }
     } catch (error) {
-      res.status(500).json({ message: 'Internal server error' });
+      res.status(500).json({ message: "Internal server error" });
       return;
     }
   }
 
   // Track the event with the updated structure
   try {
-    const trackEventResponse = await trackUserEvent(distinctId, eventName, eventProperties);
+    const trackEventResponse = await trackUserEvent(
+      distinctId,
+      eventName,
+      eventProperties
+    );
     if (trackEventResponse.status !== 200) {
       res.status(trackEventResponse.status).json(trackEventResponse);
       return;
     }
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: "Internal server error" });
     return;
   }
 
   // Set the distinct ID cookie
-  res.cookie('distinctId', distinctId, { maxAge: 365 * 24 * 60 * 60 * 1000 });
+  res.cookie("distinctId", distinctId, { maxAge: 365 * 24 * 60 * 60 * 1000 });
   res.status(200).json({
     status: 200,
-    message: 'Event tracked successfully',
+    message: "Event tracked successfully",
   });
 };
 
 export const handleClearDistinctId = (req: Request, res: Response): void => {
-  res.cookie('distinctId', '', { maxAge: 0, httpOnly: true });
-  res.cookie('anonymousEmailId', '', { maxAge: 0, httpOnly: true });
+  res.cookie("distinctId", "", { maxAge: 0, httpOnly: true });
+  res.cookie("anonymousEmailId", "", { maxAge: 0, httpOnly: true });
   res.status(200).json({
     status: 200,
-    message: 'Distinct ID cookie cleared successfully',
+    message: "Distinct ID cookie cleared successfully",
   });
 };

@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { handleSuccess, handleError } from '../../utils/responseHandlers';
-import { IApiResponse } from '../../types';
-import sanitizeHtml from 'sanitize-html';
+import axios from "axios";
+import { handleSuccess, handleError } from "../../utils/responseHandlers";
+import { IApiResponse } from "../../types";
+import sanitizeHtml from "sanitize-html";
 
 interface IBrevoEmailOptions {
   subject: string;
@@ -17,11 +17,20 @@ interface IBrevoEmailOptions {
 export const sendBrevoEmail = async (
   options: IBrevoEmailOptions
 ): Promise<IApiResponse> => {
-  const { subject, htmlContent, sender, to, replyTo, headers, params, attachments } = options;
+  const {
+    subject,
+    htmlContent,
+    sender,
+    to,
+    replyTo,
+    headers,
+    params,
+    attachments,
+  } = options;
 
   try {
     const response = await axios.post(
-      'https://api.brevo.com/v3/smtp/email',
+      "https://api.brevo.com/v3/smtp/email",
       {
         subject,
         htmlContent,
@@ -34,26 +43,36 @@ export const sendBrevoEmail = async (
       },
       {
         headers: {
-          'Content-Type': 'application/json',
-          'api-key': process.env.BREVO_API_KEY || '',
+          "Content-Type": "application/json",
+          "api-key": process.env.BREVO_API_KEY || "",
         },
       }
     );
 
-    return handleSuccess(response, 'Email successfully sent');
+    return handleSuccess(response, "Email successfully sent");
   } catch (error) {
     return handleError(error);
   }
 };
 
-
-export const SendContactEmail = async (contactProperties: any): Promise<IApiResponse> => {
-  const { FIRSTNAME, LASTNAME, email, companyWebsite, message, getNda, consent } = contactProperties;
+export const SendContactEmail = async (
+  contactProperties: any
+): Promise<IApiResponse> => {
+  const {
+    FIRSTNAME,
+    LASTNAME,
+    email,
+    companyWebsite,
+    message,
+    getNda,
+    consent,
+  } = contactProperties;
 
   if (!FIRSTNAME || !email || consent === undefined) {
     return {
       status: 400,
-      message: 'Missing required fields: FIRSTNAME, email, and consent are required.',
+      message:
+        "Missing required fields: FIRSTNAME, email, and consent are required.",
     };
   }
 
@@ -61,7 +80,7 @@ export const SendContactEmail = async (contactProperties: any): Promise<IApiResp
   if (!emailRegex.test(email)) {
     return {
       status: 400,
-      message: 'Invalid email format.',
+      message: "Invalid email format.",
     };
   }
 
@@ -72,26 +91,40 @@ export const SendContactEmail = async (contactProperties: any): Promise<IApiResp
         <p><strong>First Name:</strong> ${sanitizeHtml(FIRSTNAME)}</p>
         <p><strong>Last Name:</strong> ${sanitizeHtml(LASTNAME)}</p>
         <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
-        <p><strong>Company Website:</strong> ${sanitizeHtml(companyWebsite || 'N/A')}</p>
-        <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(message || 'N/A')}</p>
-        <p><strong>Get an NDA:</strong> ${getNda ? 'true' : 'false'}</p>
-        <p><strong>Consent to Data Processing:</strong> ${consent ? 'true' : 'false'}</p>
+        <p><strong>Company Website:</strong> ${sanitizeHtml(
+          companyWebsite || "N/A"
+        )}</p>
+        <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(
+          message || "N/A"
+        )}</p>
+        <p><strong>Get an NDA:</strong> ${getNda ? "true" : "false"}</p>
+        <p><strong>Consent to Data Processing:</strong> ${
+          consent ? "true" : "false"
+        }</p>
       </body>
     </html>
   `);
 
   const brevoOptions: IBrevoEmailOptions = {
-    subject: `New Contact Form Submission from ${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
+    subject: `New Contact Form Submission from ${sanitizeHtml(
+      FIRSTNAME
+    )} ${sanitizeHtml(LASTNAME)}`,
     htmlContent: sanitizedHtmlContent,
-    sender: { name: 'Contact Form', email: process.env.PERSONAL_EMAIL || '' },
-    to: [{ email: process.env.PERSONAL_EMAIL || '', name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}` }],
-    replyTo: { email: sanitizeHtml(email), name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}` },
+    sender: { name: "Contact Form", email: process.env.PERSONAL_EMAIL || "" },
+    to: [
+      {
+        email: process.env.PERSONAL_EMAIL || "",
+        name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
+      },
+    ],
+    replyTo: {
+      email: sanitizeHtml(email),
+      name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
+    },
   };
 
   return sendBrevoEmail(brevoOptions);
 };
-
-
 
 // interface ITransactionalEmailFilter {
 //   email?: string;

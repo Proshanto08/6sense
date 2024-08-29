@@ -1,10 +1,10 @@
-import { initializeBrevoClient } from '../../config/brevoConfig';
-import { createEvent } from './brevoEventService';
-import { IApiResponse } from '../../types';
-import { handleSuccess, handleError } from '../../utils/responseHandlers';
+import { initializeBrevoClient } from "../../config/brevoConfig";
+import { createEvent } from "./brevoEventService";
+import { IApiResponse } from "../../types";
+import { handleSuccess, handleError } from "../../utils/responseHandlers";
 
-jest.mock('../../config/brevoConfig');
-jest.mock('../../utils/responseHandlers');
+jest.mock("../../config/brevoConfig");
+jest.mock("../../utils/responseHandlers");
 
 const mockedBrevoClient = {
   post: jest.fn(),
@@ -37,41 +37,44 @@ const mockHandleError = (status: number, errorMessage: string) => {
   }));
 };
 
-describe('Event Service', () => {
-  describe('createEvent', () => {
-    it('should create an event successfully', async () => {
+describe("Event Service", () => {
+  describe("createEvent", () => {
+    it("should create an event successfully", async () => {
       const eventOptions = {
-        event_name: 'UserSignup',
-        event_date: '2024-08-27',
-        identifiers: { email_id: 'test@example.com' },
-        contact_properties: { name: 'John Doe' },
-        event_properties: { source: 'website' },
+        event_name: "UserSignup",
+        event_date: "2024-08-27",
+        identifiers: { email_id: "test@example.com" },
+        contact_properties: { name: "John Doe" },
+        event_properties: { source: "website" },
       };
 
       mockBrevoClientResponse(201, {});
-      mockHandleSuccess(201, 'Event created successfully');
+      mockHandleSuccess(201, "Event created successfully");
 
       const result: IApiResponse = await createEvent(eventOptions);
 
       expect(result.status).toBe(201);
-      expect(result.message).toBe('Event created successfully');
-      expect(mockedBrevoClient.post).toHaveBeenCalledWith('/events', eventOptions);
+      expect(result.message).toBe("Event created successfully");
+      expect(mockedBrevoClient.post).toHaveBeenCalledWith(
+        "/events",
+        eventOptions
+      );
     });
 
-    it('should handle errors when creating an event', async () => {
+    it("should handle errors when creating an event", async () => {
       const eventOptions = {
-        event_name: 'UserSignup',
-        event_date: '2024-08-27',
-        identifiers: { email_id: 'test@example.com' },
+        event_name: "UserSignup",
+        event_date: "2024-08-27",
+        identifiers: { email_id: "test@example.com" },
       };
 
-      mockBrevoClientError('Error');
-      mockHandleError(500, 'Error');
+      mockBrevoClientError("Error");
+      mockHandleError(500, "Error");
 
       const result: IApiResponse = await createEvent(eventOptions);
 
       expect(result.status).toBe(500);
-      expect(result.message).toBe('Error');
+      expect(result.message).toBe("Error");
     });
   });
 });

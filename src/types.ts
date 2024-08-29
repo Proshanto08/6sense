@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
 export interface IApiResponse {
   status: number;
@@ -55,7 +55,6 @@ interface IKeyFeature {
   keyFeaturesImage?: string; 
 }
 
-// HeroInfo Interfaces
 interface IHeroInfoTeam {
   icon: string;
   alt: string;
