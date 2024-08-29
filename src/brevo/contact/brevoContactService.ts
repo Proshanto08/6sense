@@ -41,7 +41,7 @@ export const createContact = async (
 };
 
 export const getContactById = async (
-  identifier: string
+  identifier: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

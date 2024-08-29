@@ -15,7 +15,7 @@ beforeEach(() => {
 const mockSuccessResponse = (
   method: "post" | "get",
   status: number,
-  data: any
+  data: any,
 ) => {
   mockedAxios[method].mockResolvedValue({ status, data });
 };
@@ -67,7 +67,7 @@ describe("Email Service", () => {
             "Content-Type": "application/json",
             "api-key": process.env.BREVO_API_KEY || "",
           },
-        }
+        },
       );
     });
 

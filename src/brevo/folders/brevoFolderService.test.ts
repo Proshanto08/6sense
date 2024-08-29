@@ -178,7 +178,7 @@ describe("Folder Service", () => {
         `/contacts/folders/${folderId}/lists`,
         {
           params: { limit: undefined, offset: undefined, sort: undefined },
-        }
+        },
       );
     });
 

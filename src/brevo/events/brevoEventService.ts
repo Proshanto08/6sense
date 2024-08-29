@@ -23,7 +23,7 @@ interface ICreateEventOptions {
 }
 
 export const createEvent = async (
-  eventOptions: ICreateEventOptions
+  eventOptions: ICreateEventOptions,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

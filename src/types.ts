@@ -25,12 +25,12 @@ export interface IProject extends Document {
     solution?: ISolution;
     keyFeature: IKeyFeature;
     result: IResult;
-  }
+  };
 }
 
 interface IClientFeedback {
   clientNameAndDesignation: string;
-  clientImage?: string; 
+  clientImage?: string;
   feedback: string;
 }
 
@@ -38,7 +38,7 @@ interface ISolution {
   description: string;
   solutionsPoints1: string[];
   solutionsPoints2: string[];
-  solutionImage?: string; 
+  solutionImage?: string;
 }
 
 interface IResult {

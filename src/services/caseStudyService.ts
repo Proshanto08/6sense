@@ -113,7 +113,7 @@ export const updateProject = async (
     const updatedProject = await Project.findOneAndUpdate(
       { slug },
       { $set: updateData },
-      { new: true }
+      { new: true },
     );
 
     if (updatedProject) {

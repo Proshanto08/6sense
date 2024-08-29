@@ -17,9 +17,6 @@ router.get("/lists/:listId", getListController);
 router.put("/lists/:listId", updateListController);
 router.delete("/lists/:listId", deleteListController);
 router.get("/contacts/lists/:listId/contacts", getContactsFromListController);
-router.post(
-  "/contacts/lists/:listId/contacts/add",
-  addContactsToListController
-);
+router.post("/contacts/lists/:listId/contacts/add",addContactsToListController);
 
 export default router;

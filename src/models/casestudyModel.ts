@@ -63,7 +63,7 @@ const AboutInfoSchema = new Schema(
     title: { type: String },
     subtitle: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const ProjectSchema = new Schema<IProject>(

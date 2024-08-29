@@ -81,7 +81,7 @@ export const getFolderLists = async (
       `/contacts/folders/${folderId}/lists`,
       {
         params: { limit, offset, sort },
-      }
+      },
     );
     return handleSuccess(response, "Folder lists fetched successfully");
   } catch (error) {

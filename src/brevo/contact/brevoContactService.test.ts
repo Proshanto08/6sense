@@ -32,7 +32,7 @@ const mockSuccessResponse = (
 
 const mockErrorResponse = (
   method: keyof typeof mockedBrevoClient,
-  errorMessage: string
+  errorMessage: string,
 ) => {
   mockedBrevoClient[method].mockRejectedValue({ message: errorMessage });
 };
@@ -64,7 +64,7 @@ describe("Contact Service", () => {
         "test@example.com",
         { name: "Test" },
         [1],
-        true
+        true,
       );
       expect(result.status).toBe(201);
       expect(result.message).toBe("Contact successfully created");
@@ -111,7 +111,7 @@ describe("Contact Service", () => {
         "updated@example.com",
         { name: "Updated" },
         [2],
-        false
+        false,
       );
       expect(result.status).toBe(200);
       expect(result.message).toBe("Contact successfully updated");

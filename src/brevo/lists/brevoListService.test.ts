@@ -201,7 +201,7 @@ describe("Brevo List Service", () => {
         "/contacts/lists/1/contacts/add",
         {
           emails: ["test@example.com"],
-        }
+        },
       );
     });
 

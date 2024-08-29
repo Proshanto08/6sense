@@ -90,7 +90,7 @@ export const getContactsFromList = async (
       `/contacts/lists/${listId}/contacts`,
       {
         params: { modifiedSince, limit, offset, sort },
-      }
+      },
     );
     return handleSuccess(response, "Contacts retrieved successfully");
   } catch (error) {
