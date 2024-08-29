@@ -118,7 +118,7 @@ const sampleProjects = [
     id: '2',
     appName: 'The Best EV Charging Solution Period.',
     logo: '/uploads/chargeonsite.svg',
-    slug: 'ChargeOnSite',
+    slug: 'chargeon-site',
     imageSrc: '/uploads/evcharging.png',
     details: {
       coloredPartTitle: 'ChargeOn Site-',

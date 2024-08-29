@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/case-studies', getBasicProjectsController);
-router.get('/case-study/projects', getAllProjectsController);
+router.get('/case-studies/projects', getAllProjectsController);
 router.post('/projects', createProjectController);
 router.get('/:slug', getProjectBySlugController); 
 router.put('/projects/:slug', updateProjectController); 
