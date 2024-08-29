@@ -2,7 +2,6 @@ import { connectDB } from "./database/mongoDB";
 import app from "./app";
 import { config } from "./config/config";
 
-
 const startServer = async (): Promise<void> => {
   try {
     await connectDB();

@@ -25,7 +25,7 @@ beforeEach(() => {
 const mockSuccessResponse = (
   method: keyof typeof mockedBrevoClient,
   status: number,
-  data: any
+  data: any,
 ) => {
   mockedBrevoClient[method].mockResolvedValue({ status, data });
 };
@@ -128,7 +128,7 @@ describe("Contact Service", () => {
       const result: IApiResponse = await updateContact(
         "123",
         "updated@example.com",
-        { name: "Updated" }
+        { name: "Updated" },
       );
       expect(result.status).toBe(500);
       expect(result.message).toBe("Error");

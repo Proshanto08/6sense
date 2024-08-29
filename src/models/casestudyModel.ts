@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IProject } from "../types";
 
-// Define the schema for nested objects
 const TeamSchema = new Schema(
   {
     icon: { type: String },
@@ -10,7 +9,7 @@ const TeamSchema = new Schema(
     title: { type: String },
     subtitle: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const SprintsSchema = new Schema(
@@ -21,7 +20,7 @@ const SprintsSchema = new Schema(
     title: { type: String },
     subtitle: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const TimeSchema = new Schema(
@@ -32,7 +31,7 @@ const TimeSchema = new Schema(
     title: { type: String },
     subtitle: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 // Define the schema for heroInfo array items
@@ -49,7 +48,7 @@ const HeroInfoSchema = new Schema(
     title: { type: String },
     subtitle: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 // Define the schema for aboutInfo array items
@@ -112,7 +111,7 @@ const ProjectSchema = new Schema<IProject>(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model<IProject & Document>("Project", ProjectSchema);

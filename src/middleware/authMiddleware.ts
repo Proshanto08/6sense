@@ -16,7 +16,7 @@ export const authToken = async (
       null,
       "NO_TOKEN_PROVIDED",
       "No token provided",
-      401
+      401,
     );
     res.status(response.status).json(response);
     return;
@@ -36,7 +36,7 @@ export const authToken = async (
       err,
       "TOKEN_VERIFICATION_FAILED",
       "Token verification failed",
-      401
+      401,
     );
     res.status(response.status).json(response);
   }

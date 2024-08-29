@@ -36,7 +36,7 @@ interface IClientFeedback {
 
 interface ISolution {
   description: string;
-  solutionsPoints1: string[]; 
+  solutionsPoints1: string[];
   solutionsPoints2: string[];
   solutionImage?: string; 
 }
@@ -45,14 +45,14 @@ interface IResult {
   description: string;
   resultsPoints1: string[];
   resultsPoints2: string[];
-  resultImage?: string; 
+  resultImage?: string;
 }
 
 interface IKeyFeature {
   description: string;
   keyFeaturesPoints1: string[];
   keyFeaturesPoints2: string[];
-  keyFeaturesImage?: string; 
+  keyFeaturesImage?: string;
 }
 
 interface IHeroInfoTeam {
@@ -80,7 +80,6 @@ interface IHeroInfoDuration {
 }
 
 type IHeroInfo = IHeroInfoTeam | IHeroInfoSprints | IHeroInfoDuration;
-
 
 interface IAboutInfoTeam {
   icon: string;

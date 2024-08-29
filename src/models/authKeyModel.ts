@@ -12,7 +12,7 @@ const AuthKeySchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model<IAuthKey>("AuthKey", AuthKeySchema);

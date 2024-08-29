@@ -25,7 +25,7 @@ export const verifyToken = async (token: string): Promise<IApiResponse> => {
     if (validKey) {
       return handleSuccess(
         { status: 200, data: decoded },
-        "Token verified successfully"
+        "Token verified successfully",
       );
     } else {
       return handleError(null, "INVALID_KEY", "Invalid key in token", 401);

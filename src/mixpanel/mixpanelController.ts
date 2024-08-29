@@ -26,7 +26,7 @@ export const handleTrackEvent = async (
     try {
       const updateProfileResponse = await updateUserProfile(
         distinctId,
-        contactProperties
+        contactProperties,
       );
       if (updateProfileResponse.status !== 200) {
         res.status(updateProfileResponse.status).json(updateProfileResponse);

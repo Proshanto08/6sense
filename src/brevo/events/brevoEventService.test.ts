@@ -57,7 +57,7 @@ describe("Event Service", () => {
       expect(result.message).toBe("Event created successfully");
       expect(mockedBrevoClient.post).toHaveBeenCalledWith(
         "/events",
-        eventOptions
+        eventOptions,
       );
     });
 

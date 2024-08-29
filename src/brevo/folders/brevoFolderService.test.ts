@@ -26,14 +26,14 @@ beforeEach(() => {
 const mockBrevoClientResponse = (
   method: "get" | "post" | "put" | "delete",
   status: number,
-  data: any
+  data: any,
 ) => {
   (mockedBrevoClient[method] as jest.Mock).mockResolvedValue({ status, data });
 };
 
 const mockBrevoClientError = (
   method: "get" | "post" | "put" | "delete",
-  errorMessage: string
+  errorMessage: string,
 ) => {
   (mockedBrevoClient[method] as jest.Mock).mockRejectedValue({
     message: errorMessage,
@@ -43,7 +43,7 @@ const mockBrevoClientError = (
 const checkResponse = (
   result: IApiResponse,
   expectedStatus: number,
-  expectedMessage: string
+  expectedMessage: string,
 ) => {
   expect(result.status).toBe(expectedStatus);
   expect(result.message).toBe(expectedMessage);
@@ -103,7 +103,7 @@ describe("Folder Service", () => {
 
       checkResponse(result, 200, "Folder details retrieved successfully");
       expect(mockedBrevoClient.get).toHaveBeenCalledWith(
-        `/contacts/folders/${folderId}`
+        `/contacts/folders/${folderId}`,
       );
     });
 
@@ -128,7 +128,7 @@ describe("Folder Service", () => {
       checkResponse(result, 200, "Folder successfully updated");
       expect(mockedBrevoClient.put).toHaveBeenCalledWith(
         `/contacts/folders/${folderId}`,
-        { name: folderName }
+        { name: folderName },
       );
     });
 
@@ -152,7 +152,7 @@ describe("Folder Service", () => {
 
       checkResponse(result, 204, "Folder successfully deleted");
       expect(mockedBrevoClient.delete).toHaveBeenCalledWith(
-        `/contacts/folders/${folderId}`
+        `/contacts/folders/${folderId}`,
       );
     });
 

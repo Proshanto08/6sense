@@ -27,14 +27,14 @@ beforeEach(() => {
 const mockBrevoClientResponse = (
   method: "get" | "post" | "put" | "delete",
   status: number,
-  data: any
+  data: any,
 ) => {
   mockedBrevoClient[method].mockResolvedValue({ status, data });
 };
 
 const mockBrevoClientError = (
   method: "get" | "post" | "put" | "delete",
-  errorMessage: string
+  errorMessage: string,
 ) => {
   mockedBrevoClient[method].mockRejectedValue(new Error(errorMessage));
 };
@@ -146,7 +146,7 @@ describe("Brevo List Service", () => {
       expect(result.status).toBe(204);
       expect(result.message).toBe("List successfully deleted");
       expect(mockedBrevoClient.delete).toHaveBeenCalledWith(
-        "/contacts/lists/1"
+        "/contacts/lists/1",
       );
     });
 
@@ -175,7 +175,7 @@ describe("Brevo List Service", () => {
             offset: undefined,
             sort: undefined,
           },
-        }
+        },
       );
     });
 
