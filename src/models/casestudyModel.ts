@@ -5,7 +5,7 @@ const TeamSchema = new Schema(
   {
     icon: { type: String },
     alt: { type: String },
-    numberOfMembers: { type: Number },
+    total: { type: Number },
     title: { type: String },
     subtitle: { type: String },
   },
@@ -16,7 +16,7 @@ const SprintsSchema = new Schema(
   {
     icon: { type: String },
     alt: { type: String },
-    numberOfSprints: { type: Number },
+    total: { type: Number },
     title: { type: String },
     subtitle: { type: String },
   },
@@ -27,7 +27,7 @@ const TimeSchema = new Schema(
   {
     icon: { type: String },
     alt: { type: String },
-    numberOfMonths: { type: Number },
+    total: { type: Number },
     title: { type: String },
     subtitle: { type: String },
   },
@@ -38,9 +38,7 @@ const HeroInfoSchema = new Schema(
   {
     icon: { type: String },
     alt: { type: String },
-    numberOfMembers: { type: Number },
-    numberOfSprints: { type: Number },
-    numberOfMonths: { type: Number },
+    total: { type: Number },
     team: { type: TeamSchema },
     sprints: { type: SprintsSchema },
     time: { type: TimeSchema },
@@ -54,10 +52,6 @@ const AboutInfoSchema = new Schema(
   {
     icon: { type: String },
     alt: { type: String },
-    numberOfMembers: { type: Number },
-    numberOfMonths: { type: Number },
-    technologies: { type: [String] },
-    industryName: { type: String },
     title: { type: String },
     subtitle: { type: String },
   },

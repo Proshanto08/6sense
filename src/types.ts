@@ -58,7 +58,7 @@ interface IKeyFeature {
 interface IHeroInfoTeam {
   icon: string;
   alt: string;
-  numberOfMembers: number;
+  total: number;
   title: string;
   subtitle: string;
 }
@@ -66,7 +66,7 @@ interface IHeroInfoTeam {
 interface IHeroInfoSprints {
   icon: string;
   alt: string;
-  numberOfSprints: number;
+  total: number;
   title: string;
   subtitle: string;
 }
@@ -74,7 +74,7 @@ interface IHeroInfoSprints {
 interface IHeroInfoDuration {
   icon: string;
   alt: string;
-  numberOfMonths: number;
+  total: number;
   title: string;
   subtitle: string;
 }
@@ -84,7 +84,6 @@ type IHeroInfo = IHeroInfoTeam | IHeroInfoSprints | IHeroInfoDuration;
 interface IAboutInfoTeam {
   icon: string;
   alt: string;
-  numberOfMembers: number;
   title: string;
   subtitle: string;
 }
@@ -92,7 +91,6 @@ interface IAboutInfoTeam {
 interface IAboutInfoDuration {
   icon: string;
   alt: string;
-  numberOfMonths: number;
   title: string;
   subtitle: string;
 }
@@ -101,14 +99,14 @@ interface IAboutInfoTechnologies {
   icon: string;
   alt: string;
   title: string;
-  technologies: string[];
+  subtitle: string;
 }
 
 interface IAboutInfoIndustry {
   icon: string;
   alt: string;
   title: string;
-  industryName: string;
+  subtitle: string;
 }
 
 type IAboutInfo = IAboutInfoTeam | IAboutInfoDuration | IAboutInfoTechnologies | IAboutInfoIndustry;
