@@ -34,7 +34,6 @@ const TimeSchema = new Schema(
   { _id: false },
 );
 
-// Define the schema for heroInfo array items
 const HeroInfoSchema = new Schema(
   {
     icon: { type: String },
@@ -51,7 +50,6 @@ const HeroInfoSchema = new Schema(
   { _id: false },
 );
 
-// Define the schema for aboutInfo array items
 const AboutInfoSchema = new Schema(
   {
     icon: { type: String },

@@ -23,57 +23,69 @@ export const processFiles = (req: Request, baseData: any): IProject => {
 
     details: {
       ...baseData.details,
+      heroInfo: {
+        ...baseData.details?.heroInfo,
+        team: {
+          ...baseData.details?.heroInfo?.team,
+          icon: files["teamIcon"]
+            ? getRelativePath(files["teamIcon"][0].path)
+            : baseData.details?.heroInfo?.team?.icon,
+        },
+        sprints: {
+          ...baseData.details?.heroInfo?.sprints,
+          icon: files["sprintIcon"]
+            ? getRelativePath(files["sprintIcon"][0].path)
+            : baseData.details?.heroInfo?.sprints?.icon,
+        },
+        time: {
+          ...baseData.details?.heroInfo?.time,
+          icon: files["timeIcon"]
+            ? getRelativePath(files["timeIcon"][0].path)
+            : baseData.details?.heroInfo?.time?.icon,
+        },
+      },
       overviewImage: files["overviewImage"]
         ? getRelativePath(files["overviewImage"][0].path)
         : baseData.details?.overviewImage,
-      sprints: {
-        ...baseData.details?.sprints,
-        icon: files["sprintIcon"]
-          ? getRelativePath(files["sprintIcon"][0].path)
-          : baseData.details?.sprints?.icon,
+      aboutInfo: {
+        ...baseData.details?.aboutInfo,
+        technologies: {
+          ...baseData.details?.aboutInfo?.technologies,
+          icon: files["technologiesIcon"]
+            ? getRelativePath(files["technologiesIcon"][0].path)
+            : baseData.details?.aboutInfo?.technologies?.icon,
+        },
+        industryName: {
+          ...baseData.details?.aboutInfo?.industryName,
+          icon: files["industryIcon"]
+            ? getRelativePath(files["industryIcon"][0].path)
+            : baseData.details?.aboutInfo?.industryName?.icon,
+        },
       },
-      time: {
-        ...baseData.details?.time,
-        icon: files["timeIcon"]
-          ? getRelativePath(files["timeIcon"][0].path)
-          : baseData.details?.time?.icon,
+      clientFeedback: {
+        ...baseData.details?.clientFeedback,
+        clientImage: files["clientImage"]
+          ? getRelativePath(files["clientImage"][0].path)
+          : baseData.details?.clientFeedback?.clientImage,
       },
-      technologies: {
-        ...baseData.details?.technologies,
-        icon: files["technologiesIcon"]
-          ? getRelativePath(files["technologiesIcon"][0].path)
-          : baseData.details?.technologies?.icon,
+      solution: {
+        ...baseData.details?.solution,
+        solutionImage: files["solutionImage"]
+          ? getRelativePath(files["solutionImage"][0].path)
+          : baseData.details?.solution?.solutionImage,
       },
-      industry: {
-        ...baseData.details?.industry,
-        icon: files["industryIcon"]
-          ? getRelativePath(files["industryIcon"][0].path)
-          : baseData.details?.industry?.icon,
+      keyFeature: {
+        ...baseData.details?.keyFeature,
+        keyFeaturesImage: files["keyFeaturesImage"]
+          ? getRelativePath(files["keyFeaturesImage"][0].path)
+          : baseData.details?.keyFeature?.keyFeaturesImage,
       },
-    },
-    solution: {
-      ...baseData.solution,
-      solutionImage: files["solutionImage"]
-        ? getRelativePath(files["solutionImage"][0].path)
-        : baseData.solution?.solutionImage,
-    },
-    keyFeature: {
-      ...baseData.keyFeature,
-      keyImage: files["keyImage"]
-        ? getRelativePath(files["keyImage"][0].path)
-        : baseData.keyFeature?.keyImage,
-    },
-    result: {
-      ...baseData.result,
-      resultImage: files["resultImage"]
-        ? getRelativePath(files["resultImage"][0].path)
-        : baseData.result?.resultImage,
-    },
-    clientFeedback: {
-      ...baseData.clientFeedback,
-      clientImage: files["clientImage"]
-        ? getRelativePath(files["clientImage"][0].path)
-        : baseData.clientFeedback?.clientImage,
+      result: {
+        ...baseData.details?.result,
+        resultImage: files["resultImage"]
+          ? getRelativePath(files["resultImage"][0].path)
+          : baseData.details?.result?.resultImage,
+      },
     },
   };
 };
