@@ -16,7 +16,7 @@ export const createFolder = async (name: string): Promise<IApiResponse> => {
 export const getFolders = async (
   limit?: number,
   offset?: number,
-  sort?: string
+  sort?: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -43,7 +43,7 @@ export const getFolder = async (folderId: number): Promise<IApiResponse> => {
 
 export const updateFolder = async (
   folderId: number,
-  name: string
+  name: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -72,7 +72,7 @@ export const getFolderLists = async (
   folderId: number,
   limit?: number,
   offset?: number,
-  sort?: string
+  sort?: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

@@ -11,7 +11,7 @@ import {
 
 export const getAllListsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { limit, offset, sort } = req.query;
   const parsedLimit = limit ? Number(limit) : undefined;
@@ -23,7 +23,7 @@ export const getAllListsController = async (
 
 export const createListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { name, folderId } = req.body;
   const result = await createList(name, folderId);
@@ -32,7 +32,7 @@ export const createListController = async (
 
 export const getListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { listId } = req.params;
   const result = await getList(Number(listId));
@@ -41,7 +41,7 @@ export const getListController = async (
 
 export const updateListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { listId } = req.params;
   const { name, folderId } = req.body;
@@ -51,7 +51,7 @@ export const updateListController = async (
 
 export const deleteListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { listId } = req.params;
   const result = await deleteList(Number(listId));
@@ -60,7 +60,7 @@ export const deleteListController = async (
 
 export const getContactsFromListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { listId } = req.params;
   const { modifiedSince, limit, offset, sort } = req.query;
@@ -74,14 +74,14 @@ export const getContactsFromListController = async (
     parsedModifiedSince,
     parsedLimit,
     parsedOffset,
-    parsedSort
+    parsedSort,
   );
   res.status(result.status).json(result);
 };
 
 export const addContactsToListController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { listId } = req.params;
   const { emails } = req.body;

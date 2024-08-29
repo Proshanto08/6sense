@@ -24,7 +24,7 @@ const deleteFile = (filePath: string) => {
 
 export const createProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const projectData: IProject = processFiles(req, req.body);
@@ -36,7 +36,7 @@ export const createProjectController = async (
 
 export const updateProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const { slug } = req.params;
@@ -73,7 +73,7 @@ export const updateProjectController = async (
 
 export const getBasicProjectsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const page: number = parseInt(req.query.page as string, 10) || 1;
   const limit: number = parseInt(req.query.limit as string, 10) || 6;
@@ -84,7 +84,7 @@ export const getBasicProjectsController = async (
 
 export const getAllProjectsController = async (
   _req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const result: IApiResponse = await getAllProjects();
   res.status(result.status).json(result);
@@ -92,7 +92,7 @@ export const getAllProjectsController = async (
 
 export const getProjectBySlugController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { slug } = req.params;
   const result: IApiResponse = await getProjectBySlug(slug);
@@ -101,7 +101,7 @@ export const getProjectBySlugController = async (
 
 export const deleteProjectBySlugController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { slug } = req.params;
 

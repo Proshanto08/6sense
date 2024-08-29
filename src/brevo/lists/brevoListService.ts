@@ -5,7 +5,7 @@ import { handleSuccess, handleError } from "../../utils/responseHandlers";
 export const getAllLists = async (
   limit?: number,
   offset?: number,
-  sort?: string
+  sort?: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -21,7 +21,7 @@ export const getAllLists = async (
 
 export const createList = async (
   name: string,
-  folderId: number
+  folderId: number,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -50,7 +50,7 @@ export const getList = async (listId: number): Promise<IApiResponse> => {
 export const updateList = async (
   listId: number,
   name: string,
-  folderId: number
+  folderId: number,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -81,7 +81,7 @@ export const getContactsFromList = async (
   modifiedSince?: string,
   limit?: number,
   offset?: number,
-  sort?: string
+  sort?: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -100,7 +100,7 @@ export const getContactsFromList = async (
 
 export const addContactsToList = async (
   listId: number,
-  emails: string[]
+  emails: string[],
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

@@ -9,7 +9,7 @@ import {
 
 export const getAllContactsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { limit, offset, sort } = req.query;
   const parsedLimit = limit ? Number(limit) : undefined;
@@ -21,7 +21,7 @@ export const getAllContactsController = async (
 
 export const createContactController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { email, attributes, listIds, updateEnabled } = req.body;
   const result = await createContact(email, attributes, listIds, updateEnabled);
@@ -30,7 +30,7 @@ export const createContactController = async (
 
 export const getContactByIdController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { identifier } = req.params;
   const result = await getContactById(identifier);
@@ -39,7 +39,7 @@ export const getContactByIdController = async (
 
 export const updateContactController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { identifier } = req.params;
   const { email, attributes, listIds, updateEnabled } = req.body;
@@ -48,14 +48,14 @@ export const updateContactController = async (
     email,
     attributes,
     listIds,
-    updateEnabled
+    updateEnabled,
   );
   res.status(result.status).json(result);
 };
 
 export const deleteContactController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { identifier } = req.params;
   const result = await deleteContact(identifier);

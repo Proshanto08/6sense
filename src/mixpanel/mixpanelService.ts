@@ -9,7 +9,7 @@ interface IEventProperties {
 
 export const updateUserProfile = async (
   distinctId: string,
-  properties: IEventProperties
+  properties: IEventProperties,
 ): Promise<IApiResponse> => {
   const { peopleApiUrl, projectToken } = mixpanelConfig;
 
@@ -39,7 +39,7 @@ export const updateUserProfile = async (
 
 export const identifyUser = async (
   userId: string,
-  anonId: string
+  anonId: string,
 ): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
 
@@ -66,7 +66,7 @@ export const identifyUser = async (
 export const trackUserEvent = async (
   distinctId: string,
   event_name: string,
-  properties: IEventProperties
+  properties: IEventProperties,
 ): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
 
@@ -92,7 +92,7 @@ export const trackUserEvent = async (
 
 export const createAlias = async (
   distinctId: string,
-  aliasId: string
+  aliasId: string,
 ): Promise<IApiResponse> => {
   const { apiUrl, projectToken } = mixpanelConfig;
 
@@ -118,7 +118,7 @@ export const createAlias = async (
 
 export const mergeIdentities = async (
   anonId: string,
-  identifiedId: string
+  identifiedId: string,
 ): Promise<IApiResponse> => {
   const { importApiUrl, projectToken, apiSecretToken } = mixpanelConfig;
 

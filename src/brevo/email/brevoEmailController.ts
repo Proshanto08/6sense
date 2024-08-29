@@ -4,7 +4,7 @@ import sanitizeHtml from "sanitize-html";
 
 export const handleContactFormSubmission = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { name, email, companyWebsite, message, getNda, consent } = req.body;
 
@@ -33,10 +33,10 @@ export const handleContactFormSubmission = async (
         <p><strong>Name:</strong> ${sanitizeHtml(name)}</p>
         <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
         <p><strong>Company Website:</strong> ${sanitizeHtml(
-          companyWebsite || "N/A"
+          companyWebsite || "N/A",
         )}</p>
         <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(
-          message || "N/A"
+          message || "N/A",
         )}</p>
         <p><strong>Get an NDA:</strong> ${getNda ? "true" : "false"}</p>
         <p><strong>Consent to Data Processing:</strong> ${

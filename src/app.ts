@@ -9,7 +9,7 @@ import brevoFolderRoutes from "./brevo/folders/brevoFolderRoutes";
 import brevoContactRoutes from "./brevo/contact/brevoContactRoutes";
 import brevoListRoutes from "./brevo/lists/brevoListRoutes";
 import brevoEventRoutes from "./brevo/events/brevoEventRoutes";
-import caseStudyRoutes from "./routes/caseStudyRoutes"
+import caseStudyRoutes from "./routes/caseStudyRoutes";
 import { generateToken } from "./services/authService";
 import mixpanelRoutes from "./mixpanel/mixpanelRoutes";
 
@@ -17,11 +17,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 app.use(rateLimiter);
-app.use('/uploads', express.static(path.join(__dirname, './uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 app.use(cookieParser());
 
-
-app.get('/', async (req: Request, res: Response) => {
+app.get("/", async (req: Request, res: Response) => {
   const tokenResponse = await generateToken();
 
   res.status(tokenResponse.status).json({
@@ -31,14 +30,13 @@ app.get('/', async (req: Request, res: Response) => {
   });
 });
 
-
-app.use('/', helloWorldRoutes);
-app.use('/brevo', brevoFolderRoutes);
-app.use('/brevo', brevoContactRoutes);
-app.use('/brevo', brevoListRoutes);
-app.use('/brevo', brevoEventRoutes);
+app.use("/", helloWorldRoutes);
+app.use("/brevo", brevoFolderRoutes);
+app.use("/brevo", brevoContactRoutes);
+app.use("/brevo", brevoListRoutes);
+app.use("/brevo", brevoEventRoutes);
 // app.use('/', emailRoutes);
-app.use('/', caseStudyRoutes);
-app.use('/mixpanel', mixpanelRoutes);
+app.use("/", caseStudyRoutes);
+app.use("/mixpanel", mixpanelRoutes);
 
 export default app;

@@ -5,7 +5,7 @@ import { handleSuccess, handleError } from "../../utils/responseHandlers";
 export const getAllContacts = async (
   limit?: number,
   offset?: number,
-  sort?: string
+  sort?: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -23,7 +23,7 @@ export const createContact = async (
   email: string,
   attributes: object,
   listIds?: number[],
-  updateEnabled?: boolean
+  updateEnabled?: boolean,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 
@@ -58,7 +58,7 @@ export const updateContact = async (
   email?: string,
   attributes?: object,
   listIds?: number[],
-  updateEnabled?: boolean
+  updateEnabled?: boolean,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

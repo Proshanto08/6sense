@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const handleTrackEvent = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const {
     event_name: eventName,
@@ -23,7 +23,6 @@ export const handleTrackEvent = async (
   if (email) {
     const previousDistinctId = req.cookies.distinctId;
 
-    // Update the user profile with the provided contact properties
     try {
       const updateProfileResponse = await updateUserProfile(
         distinctId,
@@ -34,7 +33,6 @@ export const handleTrackEvent = async (
         return;
       }
 
-      // Create alias if the user was previously identified with a different ID
       if (previousDistinctId) {
         const aliasResponse = await createAlias(previousDistinctId, distinctId);
         if (aliasResponse.status !== 200) {
@@ -47,13 +45,11 @@ export const handleTrackEvent = async (
       return;
     }
   }
-
-  // Track the event with the updated structure
   try {
     const trackEventResponse = await trackUserEvent(
       distinctId,
       eventName,
-      eventProperties
+      eventProperties,
     );
     if (trackEventResponse.status !== 200) {
       res.status(trackEventResponse.status).json(trackEventResponse);
@@ -64,7 +60,6 @@ export const handleTrackEvent = async (
     return;
   }
 
-  // Set the distinct ID cookie
   res.cookie("distinctId", distinctId, { maxAge: 365 * 24 * 60 * 60 * 1000 });
   res.status(200).json({
     status: 200,

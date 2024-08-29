@@ -10,7 +10,7 @@ import {
 
 export const createFolderController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { name } = req.body;
   const result = await createFolder(name);
@@ -19,7 +19,7 @@ export const createFolderController = async (
 
 export const getFoldersController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { limit, offset, sort } = req.query;
   const parsedLimit = limit ? Number(limit) : undefined;
@@ -31,7 +31,7 @@ export const getFoldersController = async (
 
 export const getFolderController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { folderId } = req.params;
   const result = await getFolder(Number(folderId));
@@ -40,7 +40,7 @@ export const getFolderController = async (
 
 export const updateFolderController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { folderId } = req.params;
   const { name } = req.body;
@@ -50,7 +50,7 @@ export const updateFolderController = async (
 
 export const deleteFolderController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { folderId } = req.params;
   const result = await deleteFolder(Number(folderId));
@@ -59,7 +59,7 @@ export const deleteFolderController = async (
 
 export const getFolderListsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { folderId } = req.params;
   const { limit, offset, sort } = req.query;
@@ -70,7 +70,7 @@ export const getFolderListsController = async (
     Number(folderId),
     parsedLimit,
     parsedOffset,
-    parsedSort
+    parsedSort,
   );
   res.status(result.status).json(result);
 };
