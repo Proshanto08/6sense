@@ -12,28 +12,24 @@ export interface IProject extends Document {
   logo: string;
   slug: string;
   imageSrc: string;
-  details:{
-  coloredPartTitle: string;
-  regularTitle: string,
-  team: ITeam;
-  sprints: ISprints;
-  time: ITime;
-  overviewParagraphs: string;
-  overviewImage?: string;
-  aboutParagraph: string;
-  technologies: ITechnologies;
-  industry: IIndusry;
-  clientFeedback?: IClientFeedback;
-  solution?: ISolution;
-  keyFeature: IKeyFeature;
-  result: IResult;
+  details: {
+    coloredPartTitle: string;
+    regularTitle: string;
+    heroInfo: Array<IHeroInfo>;
+    overviewParagraphs: string[];
+    overviewImage?: string;
+    aboutParagraph: string;
+    aboutInfo: Array<IAboutInfo>;
+    clientFeedback?: IClientFeedback;
+    solution?: ISolution;
+    keyFeature: IKeyFeature;
+    result: IResult;
   }
 }
 
 interface IClientFeedback {
-  clientName: string;
+  clientNameAndDesignation: string;
   clientImage?: string; 
-  clientDesignation: string;
   feedback: string;
 }
 
@@ -58,39 +54,62 @@ interface IKeyFeature {
   keyFeaturesImage?: string; 
 }
 
-interface ITeam {
-  icon:string,
-  alt:string,
+// HeroInfo Interfaces
+interface IHeroInfoTeam {
+  icon: string;
+  alt: string;
   numberOfMembers: number;
   title: string;
   subtitle: string;
 }
 
-interface ISprints {
-  icon:string,
-  alt:string,
+interface IHeroInfoSprints {
+  icon: string;
+  alt: string;
   numberOfSprints: number;
   title: string;
   subtitle: string;
 }
 
-interface ITime {
-  icon:string,
-  alt:string,
+interface IHeroInfoDuration {
+  icon: string;
+  alt: string;
   numberOfMonths: number;
   title: string;
   subtitle: string;
 }
 
-interface ITechnologies {
-  icon:string,
-  alt:string,
+type IHeroInfo = IHeroInfoTeam | IHeroInfoSprints | IHeroInfoDuration;
+
+
+interface IAboutInfoTeam {
+  icon: string;
+  alt: string;
+  numberOfMembers: number;
+  title: string;
+  subtitle: string;
+}
+
+interface IAboutInfoDuration {
+  icon: string;
+  alt: string;
+  numberOfMonths: number;
+  title: string;
+  subtitle: string;
+}
+
+interface IAboutInfoTechnologies {
+  icon: string;
+  alt: string;
   title: string;
   technologies: string[];
 }
-interface IIndusry {
-  icon:string,
-  alt:string,
+
+interface IAboutInfoIndustry {
+  icon: string;
+  alt: string;
   title: string;
   industryName: string;
 }
+
+type IAboutInfo = IAboutInfoTeam | IAboutInfoDuration | IAboutInfoTechnologies | IAboutInfoIndustry;

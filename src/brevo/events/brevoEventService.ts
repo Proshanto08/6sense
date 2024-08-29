@@ -4,7 +4,6 @@ import { handleSuccess, handleError } from '../../utils/responseHandlers';
 
 interface IIdentifiers {
   email_id?: string;
-  ext_id?: string;
 }
 
 interface IContactProperties {

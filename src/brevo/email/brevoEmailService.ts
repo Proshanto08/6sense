@@ -20,7 +20,6 @@ export const sendBrevoEmail = async (
   const { subject, htmlContent, sender, to, replyTo, headers, params, attachments } = options;
 
   try {
-    // Send email using Brevo API
     const response = await axios.post(
       'https://api.brevo.com/v3/smtp/email',
       {
@@ -41,19 +40,16 @@ export const sendBrevoEmail = async (
       }
     );
 
-    // Handle success
     return handleSuccess(response, 'Email successfully sent');
   } catch (error) {
-    // Handle error
     return handleError(error);
   }
 };
 
-// Function to prepare and send the contact email with specific properties
-export const prepareAndSendContactEmail = async (contactProperties: any): Promise<IApiResponse> => {
+
+export const SendContactEmail = async (contactProperties: any): Promise<IApiResponse> => {
   const { FIRSTNAME, LASTNAME, email, companyWebsite, message, getNda, consent } = contactProperties;
 
-  // Validate required fields
   if (!FIRSTNAME || !email || consent === undefined) {
     return {
       status: 400,
@@ -61,7 +57,6 @@ export const prepareAndSendContactEmail = async (contactProperties: any): Promis
     };
   }
 
-  // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return {
@@ -70,7 +65,6 @@ export const prepareAndSendContactEmail = async (contactProperties: any): Promis
     };
   }
 
-  // Create sanitized HTML content for the email
   const sanitizedHtmlContent = sanitizeHtml(`
     <html>
       <body>
@@ -86,7 +80,6 @@ export const prepareAndSendContactEmail = async (contactProperties: any): Promis
     </html>
   `);
 
-  // Create email options
   const brevoOptions: IBrevoEmailOptions = {
     subject: `New Contact Form Submission from ${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
     htmlContent: sanitizedHtmlContent,
@@ -95,7 +88,6 @@ export const prepareAndSendContactEmail = async (contactProperties: any): Promis
     replyTo: { email: sanitizeHtml(email), name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}` },
   };
 
-  // Send the email
   return sendBrevoEmail(brevoOptions);
 };
 

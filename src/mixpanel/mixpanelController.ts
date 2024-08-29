@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 export const handleTrackEvent = async (req: Request, res: Response): Promise<void> => {
   const { event_name: eventName, identifiers, contact_properties: contactProperties, event_properties: eventProperties } = req.body;
   
-  // Use the email or external ID if provided; fall back to cookie or new UUID
   const email = identifiers?.email_id;
   const distinctId = email || req.cookies.distinctId || uuidv4();
 

@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
 import { createEvent } from './brevoEventService';
-import { prepareAndSendContactEmail } from '../email/brevoEmailService';
+import { SendContactEmail } from '../email/brevoEmailService';
 import { v4 as uuidv4 } from 'uuid';
 
 export const handleCreateEvent = async (req: Request, res: Response): Promise<void> => {
-  const { event_name, event_date, identifiers, contact_properties, event_properties } = req.body;
+  const { event_name, event_date, contact_properties = {}, event_properties } = req.body;
 
-  // Generate or retrieve the identifier
   let email_id: string | undefined;
-  let ext_id: string | undefined;
 
   // Check for an existing anonymous ID in cookies
   let anonymousEmailId = req.cookies.anonymousEmailId;
@@ -22,9 +20,9 @@ export const handleCreateEvent = async (req: Request, res: Response): Promise<vo
   // Use the anonymous ID as the email_id
   email_id = anonymousEmailId;
 
-  // Modify contact_properties to include FIRSTNAME and LASTNAME
+  // Modify contact_properties to include FIRSTNAME and LASTNAME if name exists
   const updatedContactProperties = { ...contact_properties };
-  if (contact_properties.name) {
+  if (contact_properties?.name) {
     const [firstName, ...lastNameParts] = contact_properties.name.split(' ');
     const lastName = lastNameParts.join(' ');
     updatedContactProperties.FIRSTNAME = firstName;
@@ -37,7 +35,6 @@ export const handleCreateEvent = async (req: Request, res: Response): Promise<vo
     event_date,
     identifiers: {
       email_id,
-      ext_id,
     },
     contact_properties: updatedContactProperties,
     event_properties,
@@ -47,13 +44,15 @@ export const handleCreateEvent = async (req: Request, res: Response): Promise<vo
     // Call Brevo's createEvent function
     const result = await createEvent(eventOptions);
 
-    // Trigger email sending if the event is 'contact_form_submission'
+    // Check if the event is 'contact_form_submission' and update the email ID if provided
     if (event_name === 'contact_form_submission' && updatedContactProperties.email) {
-      // Use the real email from contact properties as email_id
+      // Set the email_id to the real email from contact_properties
       email_id = updatedContactProperties.email;
+      // Update the cookie to store the real email
       res.cookie('anonymousEmailId', email_id, { maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true });
 
-      const emailResult = await prepareAndSendContactEmail(updatedContactProperties);
+      // Send an email using the updated contact properties
+      const emailResult = await SendContactEmail(updatedContactProperties);
       res.status(emailResult.status).json(emailResult);
       return;
     }
