@@ -8,6 +8,7 @@ export interface IApiResponse {
 }
 
 export interface IProject extends Document {
+  id: string;
   appName: string;
   logo: string;
   slug: string;

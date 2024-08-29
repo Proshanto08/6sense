@@ -54,9 +54,10 @@ const AboutInfoSchema = new Schema({
 }, { _id: false });
 
 const ProjectSchema = new Schema<IProject>({
+  id: { type: String, unique: true, required: true },
   appName: { type: String },
   logo: { type: String },
-  slug: { type: String, unique: true },
+  slug: { type: String },
   imageSrc: { type: String },
   details: {
     coloredPartTitle: { type: String },

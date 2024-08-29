@@ -5,14 +5,14 @@ import { handleSuccess, handleError } from '../utils/responseHandlers';
 
 export const createProject = async (projectData: IProject): Promise<IApiResponse> => {
   try {
-    const existingProject = await Project.findOne({ appName: projectData.appName });
-    if (existingProject) {
-      return handleError({ response: { status: 400, data: { message: 'A project with this app name already exists' } } });
-    }
+    // const existingProject = await Project.findOne({ appName: projectData.appName });
+    // if (existingProject) {
+    //   return handleError({ response: { status: 400, data: { message: 'A project with this app name already exists' } } });
+    // }
 
-    if (!projectData.slug) {
-      projectData.slug = slugify(projectData.appName, { lower: true, strict: true });
-    }
+    // if (!projectData.slug) {
+    //   projectData.slug = slugify(projectData.appName, { lower: true, strict: true });
+    // }
 
     const createdProject = await Project.create(projectData);
     return handleSuccess({ status: 201, data: createdProject }, 'Project successfully created');
