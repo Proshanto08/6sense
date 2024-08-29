@@ -1,5 +1,5 @@
-import Project from "../models/casestudyModel";
-import { IApiResponse, IProject } from "../types";
+import Project, { IProject } from "../models/casestudyModel";
+import { IApiResponse } from "../types";
 import slugify from "slugify";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 

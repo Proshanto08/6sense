@@ -7,11 +7,11 @@ import {
   deleteProjectBySlug,
   getBasicProjects,
 } from "../services/caseStudyService";
-import { IApiResponse, IProject } from "../types";
-import { handleProjectUploads } from "./fileUploadMiddleware";
-import { processFiles } from "./fileHelpers";
+import { IApiResponse } from "../types";
+import { handleProjectUploads, processFiles } from "../multer/caseStudIesImageUpload";
 import fs from "fs";
 import path from "path";
+import { IProject } from "../models/casestudyModel";
 
 const deleteFile = (filePath: string) => {
   const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));

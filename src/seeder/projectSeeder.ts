@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Project from "../models/casestudyModel";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const sampleProjects = [
   {
@@ -1255,9 +1257,11 @@ const sampleProjects = [
 
 const seedDatabase = async (): Promise<void> => {
   try {
-    // Use environment variables for sensitive information
-    const mongoURI =
-      "mongodb+srv://proshantosaha1999:W0ZsFvmK5dmk5ayU@cluster0.hwzdkym.mongodb.net/express-app?retryWrites=true&w=majority";
+    const mongoURI = process.env.MONGO_URI;
+    if (!mongoURI) {
+      throw new Error("MONGO_URI environment variable is not defined");
+    }
+
     await mongoose.connect(mongoURI);
     console.log("Connected to MongoDB");
 

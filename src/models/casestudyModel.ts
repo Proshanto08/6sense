@@ -1,109 +1,141 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { IProject } from "../types";
+import mongoose, { Schema, Document } from 'mongoose';
 
-const TeamSchema = new Schema(
-  {
-    icon: { type: String },
-    alt: { type: String },
-    total: { type: Number },
-    title: { type: String },
-    subtitle: { type: String },
-  },
-  { _id: false },
-);
+interface IHeroInfo {
+  icon: string;
+  alt: string;
+  total: number;
+  title: string;
+  subtitle: string;
+}
 
-const SprintsSchema = new Schema(
-  {
-    icon: { type: String },
-    alt: { type: String },
-    total: { type: Number },
-    title: { type: String },
-    subtitle: { type: String },
-  },
-  { _id: false },
-);
+interface IAboutInfo {
+  icon: string;
+  alt: string;
+  subtitle: string;
+  title: string;
+}
 
-const TimeSchema = new Schema(
-  {
-    icon: { type: String },
-    alt: { type: String },
-    total: { type: Number },
-    title: { type: String },
-    subtitle: { type: String },
-  },
-  { _id: false },
-);
+interface ISolution {
+  description: string;
+  solutionsPoints1: string[];
+  solutionsPoints2: string[];
+  solutionImage: string;
+}
 
-const HeroInfoSchema = new Schema(
-  {
-    icon: { type: String },
-    alt: { type: String },
-    total: { type: Number },
-    team: { type: TeamSchema },
-    sprints: { type: SprintsSchema },
-    time: { type: TimeSchema },
-    title: { type: String },
-    subtitle: { type: String },
-  },
-  { _id: false },
-);
+interface IKeyFeature {
+  description: string;
+  keyFeaturesPoints1: string[];
+  keyFeaturesPoints2: string[];
+  keyFeaturesImage: string;
+}
 
-const AboutInfoSchema = new Schema(
-  {
-    icon: { type: String },
-    alt: { type: String },
-    title: { type: String },
-    subtitle: { type: String },
-  },
-  { _id: false },
-);
+interface IResult {
+  description: string;
+  resultsPoints1: string[];
+  resultsPoints2: string[];
+}
 
-const ProjectSchema = new Schema<IProject>(
-  {
-    id: { type: String, unique: true, required: true },
-    appName: { type: String },
-    logo: { type: String },
-    slug: { type: String },
-    imageSrc: { type: String },
-    details: {
-      coloredPartTitle: { type: String },
-      regularTitle: { type: String },
+interface IClientFeedback {
+  clientNameAndDesignation: string;
+  clientImage: string;
+  feedback: string;
+}
 
-      heroInfo: {
-        type: [HeroInfoSchema],
-      },
-      overviewParagraphs: { type: [String] },
-      overviewImage: { type: String },
-      aboutParagraph: { type: String },
-      aboutInfo: {
-        type: [AboutInfoSchema],
-      },
-      clientFeedback: {
-        clientNameAndDesignation: { type: String },
-        clientImage: { type: String },
-        feedback: { type: String },
-      },
-      solution: {
-        description: { type: String },
-        solutionsPoints1: { type: [String] },
-        solutionsPoints2: { type: [String] },
-        solutionImage: { type: String },
-      },
-      keyFeature: {
-        description: { type: String },
-        keyFeaturesPoints1: { type: [String] },
-        keyFeaturesPoints2: { type: [String] },
-        keyFeaturesImage: { type: String },
-      },
-      result: {
-        description: { type: String },
-        resultsPoints1: { type: [String] },
-        resultsPoints2: { type: [String] },
-        resultImage: { type: String },
-      },
-    },
-  },
-  { timestamps: true },
-);
+interface IDetails {
+  coloredPartTitle: string;
+  regularTitle: string;
+  heroInfo: IHeroInfo[];
+  overviewParagraphs: string[];
+  overviewImage: string;
+  aboutParagraph: string;
+  aboutInfo: IAboutInfo[];
+  solution: ISolution;
+  keyFeature: IKeyFeature;
+  result: IResult;
+  clientFeedback: IClientFeedback;
+}
 
-export default mongoose.model<IProject & Document>("Project", ProjectSchema);
+export interface IProject extends Document {
+  title: string;
+  appName: string;
+  logo: string;
+  slug: string;
+  thumbImage: string;
+  projectOverview: string;
+  about: string;
+  coverImage?: string;
+  details: IDetails;
+  technologies: string[];
+  industry: string;
+}
+
+const HeroInfoSchema = new Schema<IHeroInfo>({
+  icon: { type: String },
+  alt: { type: String },
+  total: { type: Number },
+  title: { type: String },
+  subtitle: { type: String },
+});
+
+const AboutInfoSchema = new Schema<IAboutInfo>({
+  icon: { type: String },
+  alt: { type: String },
+  subtitle: { type: String },
+  title: { type: String },
+});
+
+const SolutionSchema = new Schema<ISolution>({
+  description: { type: String },
+  solutionsPoints1: [{ type: String }],
+  solutionsPoints2: [{ type: String }],
+  solutionImage: { type: String },
+});
+
+const KeyFeatureSchema = new Schema<IKeyFeature>({
+  description: { type: String },
+  keyFeaturesPoints1: [{ type: String }],
+  keyFeaturesPoints2: [{ type: String }],
+  keyFeaturesImage: { type: String },
+});
+
+const ResultSchema = new Schema<IResult>({
+  description: { type: String },
+  resultsPoints1: [{ type: String }],
+  resultsPoints2: [{ type: String }],
+});
+
+const ClientFeedbackSchema = new Schema<IClientFeedback>({
+  clientNameAndDesignation: { type: String, default: '' },
+  clientImage: { type: String, default: '' },
+  feedback: { type: String, default: '' },
+});
+
+const DetailsSchema = new Schema<IDetails>({
+  coloredPartTitle: { type: String },
+  regularTitle: { type: String },
+  heroInfo: [HeroInfoSchema],
+  overviewParagraphs: [{ type: String }],
+  overviewImage: { type: String },
+  aboutParagraph: { type: String },
+  aboutInfo: [AboutInfoSchema],
+  solution: { type: SolutionSchema },
+  keyFeature: { type: KeyFeatureSchema },
+  result: { type: ResultSchema },
+  clientFeedback: { type: ClientFeedbackSchema },
+});
+
+const ProjectSchema = new Schema<IProject>({
+  title: { type: String },
+  appName: { type: String },
+  logo: { type: String },
+  slug: { type: String, unique: true },
+  thumbImage: { type: String },
+  projectOverview: { type: String },
+  about: { type: String },
+  coverImage: { type: String },
+  details: { type: DetailsSchema },
+  technologies: { type: [String] },
+  industry: { type: String },
+}, { timestamps: true });
+
+export default mongoose.model<IProject>('Project', ProjectSchema);

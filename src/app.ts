@@ -12,6 +12,7 @@ import brevoEventRoutes from "./brevo/events/brevoEventRoutes";
 import caseStudyRoutes from "./routes/caseStudyRoutes";
 import { generateToken } from "./services/authService";
 import mixpanelRoutes from "./mixpanel/mixpanelRoutes";
+import eventsRoutes from "./routes/eventsRoute";
 
 const app = express();
 app.use(bodyParser.json());
@@ -35,8 +36,9 @@ app.use("/brevo", brevoFolderRoutes);
 app.use("/brevo", brevoContactRoutes);
 app.use("/brevo", brevoListRoutes);
 app.use("/brevo", brevoEventRoutes);
-// app.use('/', emailRoutes);
 app.use("/", caseStudyRoutes);
 app.use("/mixpanel", mixpanelRoutes);
+app.use("/", eventsRoutes);
+
 
 export default app;
