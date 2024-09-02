@@ -10,7 +10,7 @@ export const generateToken = (): IApiResponse => {
     const token = jwt.sign({ key }, config.jwtSecret, { expiresIn: "1h" });
     return handleSuccess(
       { status: 200, data: { token } },
-      "Token generated successfully"
+      "Token generated successfully",
     );
   } catch (error: any) {
     return handleError(error, "TOKEN_GENERATION_FAILED");
@@ -25,7 +25,7 @@ export const verifyToken = async (token: string): Promise<IApiResponse> => {
     if (validKey) {
       return handleSuccess(
         { status: 200, data: decoded },
-        "Token verified successfully"
+        "Token verified successfully",
       );
     }
     return handleError(null, "INVALID_KEY", "Invalid key in token", 401);

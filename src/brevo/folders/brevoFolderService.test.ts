@@ -27,14 +27,14 @@ const mockBrevoClientResponse = (
   method: "get" | "post" | "put" | "delete",
   status: number,
   data: any,
-) => {
+): void => {
   (mockedBrevoClient[method] as jest.Mock).mockResolvedValue({ status, data });
 };
 
 const mockBrevoClientError = (
   method: "get" | "post" | "put" | "delete",
   errorMessage: string,
-) => {
+): void => {
   (mockedBrevoClient[method] as jest.Mock).mockRejectedValue({
     message: errorMessage,
   });
@@ -44,14 +44,14 @@ const checkResponse = (
   result: IApiResponse,
   expectedStatus: number,
   expectedMessage: string,
-) => {
+): void => {
   expect(result.status).toBe(expectedStatus);
   expect(result.message).toBe(expectedMessage);
 };
 
 describe("Folder Service", () => {
   describe("createFolder", () => {
-    it("should create a folder successfully", async () => {
+    it("should create a folder successfully", async (): Promise<void> => {
       const folderName = "Test Folder";
       mockBrevoClientResponse("post", 201, {});
 
@@ -63,7 +63,7 @@ describe("Folder Service", () => {
       });
     });
 
-    it("should handle errors when creating a folder", async () => {
+    it("should handle errors when creating a folder", async (): Promise<void> => {
       const folderName = "Test Folder";
       mockBrevoClientError("post", "Error");
 
@@ -74,7 +74,7 @@ describe("Folder Service", () => {
   });
 
   describe("getFolders", () => {
-    it("should retrieve all folders successfully", async () => {
+    it("should retrieve all folders successfully", async (): Promise<void> => {
       mockBrevoClientResponse("get", 200, {});
 
       const result: IApiResponse = await getFolders();
@@ -85,7 +85,7 @@ describe("Folder Service", () => {
       });
     });
 
-    it("should handle errors when retrieving folders", async () => {
+    it("should handle errors when retrieving folders", async (): Promise<void> => {
       mockBrevoClientError("get", "Error");
 
       const result: IApiResponse = await getFolders();
@@ -95,7 +95,7 @@ describe("Folder Service", () => {
   });
 
   describe("getFolder", () => {
-    it("should retrieve a folder successfully", async () => {
+    it("should retrieve a folder successfully", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientResponse("get", 200, {});
 
@@ -107,7 +107,7 @@ describe("Folder Service", () => {
       );
     });
 
-    it("should handle errors when retrieving a folder", async () => {
+    it("should handle errors when retrieving a folder", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientError("get", "Error");
 
@@ -118,7 +118,7 @@ describe("Folder Service", () => {
   });
 
   describe("updateFolder", () => {
-    it("should update a folder successfully", async () => {
+    it("should update a folder successfully", async (): Promise<void> => {
       const folderId = 1;
       const folderName = "Updated Folder";
       mockBrevoClientResponse("put", 200, {});
@@ -132,7 +132,7 @@ describe("Folder Service", () => {
       );
     });
 
-    it("should handle errors when updating a folder", async () => {
+    it("should handle errors when updating a folder", async (): Promise<void> => {
       const folderId = 1;
       const folderName = "Updated Folder";
       mockBrevoClientError("put", "Error");
@@ -144,7 +144,7 @@ describe("Folder Service", () => {
   });
 
   describe("deleteFolder", () => {
-    it("should delete a folder successfully", async () => {
+    it("should delete a folder successfully", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientResponse("delete", 204, {});
 
@@ -156,7 +156,7 @@ describe("Folder Service", () => {
       );
     });
 
-    it("should handle errors when deleting a folder", async () => {
+    it("should handle errors when deleting a folder", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientError("delete", "Error");
 
@@ -167,7 +167,7 @@ describe("Folder Service", () => {
   });
 
   describe("getFolderLists", () => {
-    it("should retrieve lists from a folder successfully", async () => {
+    it("should retrieve lists from a folder successfully", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientResponse("get", 200, {});
 
@@ -182,7 +182,7 @@ describe("Folder Service", () => {
       );
     });
 
-    it("should handle errors when retrieving lists from a folder", async () => {
+    it("should handle errors when retrieving lists from a folder", async (): Promise<void> => {
       const folderId = 1;
       mockBrevoClientError("get", "Error");
 

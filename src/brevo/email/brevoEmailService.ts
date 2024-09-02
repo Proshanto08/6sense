@@ -6,27 +6,24 @@ import sanitizeHtml from "sanitize-html";
 interface IBrevoEmailOptions {
   subject: string;
   htmlContent: string;
-  sender: { name: string; email: string };
-  to: { email: string; name: string }[];
+  sender: { email: string };
+  to: { email: string }[];
   replyTo?: { email: string; name?: string };
-  headers?: { [key: string]: string };
-  params?: { [key: string]: string };
-  attachments?: Array<{ url?: string; content?: string; name: string }>;
+}
+
+interface IContactProperties {
+  name: string;
+  email: string;
+  companyWebsite?: string;
+  message?: string;
+  getNda?: boolean;
+  consent: boolean;
 }
 
 export const sendBrevoEmail = async (
   options: IBrevoEmailOptions,
 ): Promise<IApiResponse> => {
-  const {
-    subject,
-    htmlContent,
-    sender,
-    to,
-    replyTo,
-    headers,
-    params,
-    attachments,
-  } = options;
+  const { subject, htmlContent, sender, to, replyTo } = options;
 
   try {
     const response = await axios.post(
@@ -37,9 +34,6 @@ export const sendBrevoEmail = async (
         sender,
         to,
         replyTo,
-        headers,
-        params,
-        attachments,
       },
       {
         headers: {
@@ -56,23 +50,16 @@ export const sendBrevoEmail = async (
 };
 
 export const SendContactEmail = async (
-  contactProperties: any,
+  contactProperties: IContactProperties,
 ): Promise<IApiResponse> => {
-  const {
-    FIRSTNAME,
-    LASTNAME,
-    email,
-    companyWebsite,
-    message,
-    getNda,
-    consent,
-  } = contactProperties;
+  const { name, email, companyWebsite, message, getNda, consent } =
+    contactProperties;
 
-  if (!FIRSTNAME || !email || consent === undefined) {
+  if (!name || !email || consent === undefined) {
     return {
       status: 400,
       message:
-        "Missing required fields: FIRSTNAME, email, and consent are required.",
+        "Missing required fields: name, email, and consent are required.",
     };
   }
 
@@ -88,8 +75,7 @@ export const SendContactEmail = async (
     <html>
       <body>
         <h1>Contact Form Submission</h1>
-        <p><strong>First Name:</strong> ${sanitizeHtml(FIRSTNAME)}</p>
-        <p><strong>Last Name:</strong> ${sanitizeHtml(LASTNAME)}</p>
+        <p><strong>Name:</strong> ${sanitizeHtml(name)}</p>
         <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
         <p><strong>Company Website:</strong> ${sanitizeHtml(
           companyWebsite || "N/A",
@@ -106,65 +92,19 @@ export const SendContactEmail = async (
   `);
 
   const brevoOptions: IBrevoEmailOptions = {
-    subject: `New Contact Form Submission from ${sanitizeHtml(
-      FIRSTNAME,
-    )} ${sanitizeHtml(LASTNAME)}`,
+    subject: `New Contact Form Submission from ${sanitizeHtml(name)}`,
     htmlContent: sanitizedHtmlContent,
-    sender: { name: "Contact Form", email: process.env.PERSONAL_EMAIL || "" },
+    sender: { email: process.env.PERSONAL_EMAIL || "" },
     to: [
       {
         email: process.env.PERSONAL_EMAIL || "",
-        name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
       },
     ],
     replyTo: {
       email: sanitizeHtml(email),
-      name: `${sanitizeHtml(FIRSTNAME)} ${sanitizeHtml(LASTNAME)}`,
+      name: sanitizeHtml(name),
     },
   };
 
   return sendBrevoEmail(brevoOptions);
 };
-
-// interface ITransactionalEmailFilter {
-//   email?: string;
-//   templateId?: number;
-//   messageId?: string;
-//   startDate?: string;
-//   endDate?: string;
-//   sort?: 'asc' | 'desc';
-//   limit?: number;
-//   offset?: number;
-// }
-
-// export const getTransactionalEmails = async (
-//   filters: ITransactionalEmailFilter
-// ): Promise<IApiResponse> => {
-//   const { email, templateId, messageId, startDate, endDate, sort = 'desc', limit = 500, offset = 0 } = filters;
-
-//   try {
-//     const response = await axios.get(
-//       'https://api.brevo.com/v3/smtp/emails',
-//       {
-//         params: {
-//           email,
-//           templateId,
-//           messageId,
-//           startDate,
-//           endDate,
-//           sort,
-//           limit,
-//           offset,
-//         },
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'api-key': process.env.BREVO_API_KEY || '',
-//         },
-//       }
-//     );
-
-//     return handleSuccess(response, 'Transactional emails retrieved successfully');
-//   } catch (error) {
-//     return handleError(error);
-//   }
-// };

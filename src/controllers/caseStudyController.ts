@@ -8,12 +8,15 @@ import {
   getBasicProjects,
 } from "../services/caseStudyService";
 import { IApiResponse } from "../types";
-import { handleProjectUploads, processFiles } from "../multer/caseStudIesImageUpload";
+import {
+  handleProjectUploads,
+  processFiles,
+} from "../multer/caseStudIesImageUpload";
 import fs from "fs";
 import path from "path";
 import { IProject } from "../models/casestudyModel";
 
-const deleteFile = (filePath: string) => {
+const deleteFile = (filePath: string): void => {
   const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
   fs.unlink(fullPath, (err) => {
     if (err) {

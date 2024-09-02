@@ -12,9 +12,9 @@ const router = express.Router();
 
 router.get("/case-studies", getBasicProjectsController);
 router.get("/case-studies/projects", getAllProjectsController);
-router.post("/projects", createProjectController);
-router.get("/:slug", getProjectBySlugController);
-router.put("/projects/:slug", updateProjectController);
-router.delete("/projects/:slug", deleteProjectBySlugController);
+router.post("/case-studies", createProjectController);
+router.get("/case-studies/:slug", getProjectBySlugController);
+router.put("/case-studies/:slug", updateProjectController);
+router.delete("/case-studies/:slug", deleteProjectBySlugController);
 
 export default router;

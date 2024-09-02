@@ -76,7 +76,7 @@ export const updateContact = async (
 };
 
 export const deleteContact = async (
-  identifier: string
+  identifier: string,
 ): Promise<IApiResponse> => {
   const apiInstance = initializeBrevoClient();
 

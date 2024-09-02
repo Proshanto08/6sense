@@ -109,7 +109,7 @@ export const addContactsToList = async (
       `/contacts/lists/${listId}/contacts/add`,
       {
         emails,
-      }
+      },
     );
     return handleSuccess(response, "Contacts added to the list successfully");
   } catch (error) {

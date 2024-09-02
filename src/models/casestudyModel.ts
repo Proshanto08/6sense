@@ -1,9 +1,8 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 interface IHeroInfo {
   icon: string;
   alt: string;
-  total: number;
   title: string;
   subtitle: string;
 }
@@ -60,19 +59,13 @@ export interface IProject extends Document {
   appName: string;
   logo: string;
   slug: string;
-  thumbImage: string;
-  projectOverview: string;
-  about: string;
-  coverImage?: string;
+  imageSrc: string;
   details: IDetails;
-  technologies: string[];
-  industry: string;
 }
 
 const HeroInfoSchema = new Schema<IHeroInfo>({
   icon: { type: String },
   alt: { type: String },
-  total: { type: Number },
   title: { type: String },
   subtitle: { type: String },
 });
@@ -105,9 +98,9 @@ const ResultSchema = new Schema<IResult>({
 });
 
 const ClientFeedbackSchema = new Schema<IClientFeedback>({
-  clientNameAndDesignation: { type: String, default: '' },
-  clientImage: { type: String, default: '' },
-  feedback: { type: String, default: '' },
+  clientNameAndDesignation: { type: String },
+  clientImage: { type: String },
+  feedback: { type: String },
 });
 
 const DetailsSchema = new Schema<IDetails>({
@@ -124,18 +117,16 @@ const DetailsSchema = new Schema<IDetails>({
   clientFeedback: { type: ClientFeedbackSchema },
 });
 
-const ProjectSchema = new Schema<IProject>({
-  title: { type: String },
-  appName: { type: String },
-  logo: { type: String },
-  slug: { type: String, unique: true },
-  thumbImage: { type: String },
-  projectOverview: { type: String },
-  about: { type: String },
-  coverImage: { type: String },
-  details: { type: DetailsSchema },
-  technologies: { type: [String] },
-  industry: { type: String },
-}, { timestamps: true });
+const ProjectSchema = new Schema<IProject>(
+  {
+    title: { type: String },
+    appName: { type: String },
+    logo: { type: String },
+    slug: { type: String, unique: true },
+    imageSrc: { type: String },
+    details: { type: DetailsSchema },
+  },
+  { timestamps: true },
+);
 
-export default mongoose.model<IProject>('Project', ProjectSchema);
+export default mongoose.model<IProject>("Project", ProjectSchema);

@@ -17,7 +17,7 @@ const mockedBrevoClient = {
   delete: jest.fn(),
 };
 
-beforeEach(() => {
+beforeEach((): void => {
   (initializeBrevoClient as jest.Mock).mockReturnValue(mockedBrevoClient);
   jest.clearAllMocks();
 });
@@ -26,20 +26,20 @@ const mockSuccessResponse = (
   method: keyof typeof mockedBrevoClient,
   status: number,
   data: any,
-) => {
+): void => {
   mockedBrevoClient[method].mockResolvedValue({ status, data });
 };
 
 const mockErrorResponse = (
   method: keyof typeof mockedBrevoClient,
   errorMessage: string,
-) => {
+): void => {
   mockedBrevoClient[method].mockRejectedValue({ message: errorMessage });
 };
 
 describe("Contact Service", () => {
   describe("getAllContacts", () => {
-    it("should retrieve all contacts successfully", async () => {
+    it("should retrieve all contacts successfully", async (): Promise<void> => {
       mockSuccessResponse("get", 200, {});
       const result: IApiResponse = await getAllContacts();
       expect(result.status).toBe(200);
@@ -49,7 +49,7 @@ describe("Contact Service", () => {
       });
     });
 
-    it("should handle errors when retrieving contacts", async () => {
+    it("should handle errors when retrieving contacts", async (): Promise<void> => {
       mockErrorResponse("get", "Error");
       const result: IApiResponse = await getAllContacts();
       expect(result.status).toBe(500);
@@ -58,7 +58,7 @@ describe("Contact Service", () => {
   });
 
   describe("createContact", () => {
-    it("should create a contact successfully", async () => {
+    it("should create a contact successfully", async (): Promise<void> => {
       mockSuccessResponse("post", 201, {});
       const result: IApiResponse = await createContact(
         "test@example.com",
@@ -76,7 +76,7 @@ describe("Contact Service", () => {
       });
     });
 
-    it("should handle errors when creating a contact", async () => {
+    it("should handle errors when creating a contact", async (): Promise<void> => {
       mockErrorResponse("post", "Error");
       const result: IApiResponse = await createContact("test@example.com", {
         name: "Test",
@@ -87,7 +87,7 @@ describe("Contact Service", () => {
   });
 
   describe("getContactById", () => {
-    it("should retrieve a contact by ID successfully", async () => {
+    it("should retrieve a contact by ID successfully", async (): Promise<void> => {
       mockSuccessResponse("get", 200, {});
       const result: IApiResponse = await getContactById("123");
       expect(result.status).toBe(200);
@@ -95,7 +95,7 @@ describe("Contact Service", () => {
       expect(mockedBrevoClient.get).toHaveBeenCalledWith("/contacts/123");
     });
 
-    it("should handle errors when retrieving a contact by ID", async () => {
+    it("should handle errors when retrieving a contact by ID", async (): Promise<void> => {
       mockErrorResponse("get", "Error");
       const result: IApiResponse = await getContactById("123");
       expect(result.status).toBe(500);
@@ -104,7 +104,7 @@ describe("Contact Service", () => {
   });
 
   describe("updateContact", () => {
-    it("should update a contact successfully", async () => {
+    it("should update a contact successfully", async (): Promise<void> => {
       mockSuccessResponse("put", 200, {});
       const result: IApiResponse = await updateContact(
         "123",
@@ -123,7 +123,7 @@ describe("Contact Service", () => {
       });
     });
 
-    it("should handle errors when updating a contact", async () => {
+    it("should handle errors when updating a contact", async (): Promise<void> => {
       mockErrorResponse("put", "Error");
       const result: IApiResponse = await updateContact(
         "123",
@@ -136,7 +136,7 @@ describe("Contact Service", () => {
   });
 
   describe("deleteContact", () => {
-    it("should delete a contact successfully", async () => {
+    it("should delete a contact successfully", async (): Promise<void> => {
       mockSuccessResponse("delete", 204, {});
       const result: IApiResponse = await deleteContact("123");
       expect(result.status).toBe(204);
@@ -144,7 +144,7 @@ describe("Contact Service", () => {
       expect(mockedBrevoClient.delete).toHaveBeenCalledWith("/contacts/123");
     });
 
-    it("should handle errors when deleting a contact", async () => {
+    it("should handle errors when deleting a contact", async (): Promise<void> => {
       mockErrorResponse("delete", "Error");
       const result: IApiResponse = await deleteContact("123");
       expect(result.status).toBe(500);

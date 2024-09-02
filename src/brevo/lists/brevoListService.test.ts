@@ -28,29 +28,15 @@ const mockBrevoClientResponse = (
   method: "get" | "post" | "put" | "delete",
   status: number,
   data: any,
-) => {
+): void => {
   mockedBrevoClient[method].mockResolvedValue({ status, data });
 };
 
 const mockBrevoClientError = (
   method: "get" | "post" | "put" | "delete",
   errorMessage: string,
-) => {
+): void => {
   mockedBrevoClient[method].mockRejectedValue(new Error(errorMessage));
-};
-
-const mockSuccessResponse = (message: string) => {
-  return (response: any) => ({
-    status: response.status,
-    message,
-  });
-};
-
-const mockErrorResponse = (status: number, errorMessage: string) => {
-  return (err: Error) => ({
-    status,
-    message: errorMessage || err.message,
-  });
 };
 
 describe("Brevo List Service", () => {

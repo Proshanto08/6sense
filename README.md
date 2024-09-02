@@ -13,12 +13,7 @@
     ```
 
 3. **Create Environment Variables File:**
-    Create a `.env` file in the server directory and add the following environment variables:
-    ```env
-    PORT=3000
-    MONGODB_URI=your-mongodb-url
-    JWT_SECRET=jwt-secret
-    ```
+    Create a `.env` file in the server directory and add the following environment variables of "sample.env" file.
 
 4. **Start the Server:**
     ```bash

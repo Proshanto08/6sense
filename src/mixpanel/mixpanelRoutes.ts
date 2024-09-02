@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { handleTrackEventByMixpanel, handleClearDistinctId } from "./mixpanelController";
+import {
+  handleTrackEventByMixpanel,
+  handleClearDistinctId,
+} from "./mixpanelController";
 
 const router = Router();
 
