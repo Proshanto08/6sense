@@ -1,50 +1,36 @@
-import { initializeBrevoClient } from "../../config/brevoConfig";
+import { apiRequest } from "../../utils/apiRequest";
 import { IApiResponse } from "../../types";
-import { handleSuccess, handleError } from "../../utils/responseHandlers";
 
 export const getAllLists = async (
   limit?: number,
   offset?: number,
   sort?: string,
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.get("/contacts/lists", {
-      params: { limit, offset, sort },
-    });
-    return handleSuccess(response, "Lists retrieved successfully");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "get",
+    "/contacts/lists",
+    "Lists retrieved successfully",
+    undefined,
+    { limit, offset, sort },
+  );
 };
 
 export const createList = async (
   name: string,
   folderId: number,
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.post("/contacts/lists", {
-      name,
-      folderId,
-    });
-    return handleSuccess(response, "List successfully created");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest("post", "/contacts/lists", "List successfully created", {
+    name,
+    folderId,
+  });
 };
 
 export const getList = async (listId: number): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.get(`/contacts/lists/${listId}`);
-    return handleSuccess(response, "List details retrieved successfully");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "get",
+    `/contacts/lists/${listId}`,
+    "List details retrieved successfully",
+  );
 };
 
 export const updateList = async (
@@ -52,28 +38,20 @@ export const updateList = async (
   name: string,
   folderId: number,
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.put(`/contacts/lists/${listId}`, {
-      name,
-      folderId,
-    });
-    return handleSuccess(response, "List successfully updated");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "put",
+    `/contacts/lists/${listId}`,
+    "List successfully updated",
+    { name, folderId },
+  );
 };
 
 export const deleteList = async (listId: number): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.delete(`/contacts/lists/${listId}`);
-    return handleSuccess(response, "List successfully deleted");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "delete",
+    `/contacts/lists/${listId}`,
+    "List successfully deleted",
+  );
 };
 
 export const getContactsFromList = async (
@@ -83,36 +61,23 @@ export const getContactsFromList = async (
   offset?: number,
   sort?: string,
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.get(
-      `/contacts/lists/${listId}/contacts`,
-      {
-        params: { modifiedSince, limit, offset, sort },
-      },
-    );
-    return handleSuccess(response, "Contacts retrieved successfully");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "get",
+    `/contacts/lists/${listId}/contacts`,
+    "Contacts retrieved successfully",
+    undefined,
+    { modifiedSince, limit, offset, sort },
+  );
 };
 
 export const addContactsToList = async (
   listId: number,
   emails: string[],
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.post(
-      `/contacts/lists/${listId}/contacts/add`,
-      {
-        emails,
-      },
-    );
-    return handleSuccess(response, "Contacts added to the list successfully");
-  } catch (error) {
-    return handleError(error);
-  }
+  return apiRequest(
+    "post",
+    `/contacts/lists/${listId}/contacts/add`,
+    "Contacts added to the list successfully",
+    { emails },
+  );
 };

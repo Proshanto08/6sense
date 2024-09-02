@@ -7,6 +7,7 @@ import {
   deleteFolder,
   getFolderLists,
 } from "./brevoFolderService";
+import { parseQueryParams } from "../../utils/parseQueryParams";
 
 export const createFolderController = async (
   req: Request,
@@ -21,10 +22,7 @@ export const getFoldersController = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { limit, offset, sort } = req.query;
-  const parsedLimit = limit ? Number(limit) : undefined;
-  const parsedOffset = offset ? Number(offset) : undefined;
-  const parsedSort = sort ? String(sort) : "desc";
+  const { parsedLimit, parsedOffset, parsedSort } = parseQueryParams(req);
   const result = await getFolders(parsedLimit, parsedOffset, parsedSort);
   res.status(result.status).json(result);
 };
@@ -62,10 +60,7 @@ export const getFolderListsController = async (
   res: Response,
 ): Promise<void> => {
   const { folderId } = req.params;
-  const { limit, offset, sort } = req.query;
-  const parsedLimit = limit ? Number(limit) : undefined;
-  const parsedOffset = offset ? Number(offset) : undefined;
-  const parsedSort = sort ? String(sort) : "desc";
+  const { parsedLimit, parsedOffset, parsedSort } = parseQueryParams(req);
   const result = await getFolderLists(
     Number(folderId),
     parsedLimit,

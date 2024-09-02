@@ -6,15 +6,13 @@ import {
   updateContact,
   deleteContact,
 } from "./brevoContactService";
+import { parseQueryParams } from "../../utils/parseQueryParams";
 
 export const getAllContactsController = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const { limit, offset, sort } = req.query;
-  const parsedLimit = limit ? Number(limit) : undefined;
-  const parsedOffset = offset ? Number(offset) : undefined;
-  const parsedSort = sort ? String(sort) : "desc";
+  const { parsedLimit, parsedOffset, parsedSort } = parseQueryParams(req);
   const result = await getAllContacts(parsedLimit, parsedOffset, parsedSort);
   res.status(result.status).json(result);
 };
