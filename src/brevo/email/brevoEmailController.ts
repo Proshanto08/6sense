@@ -53,6 +53,7 @@ export const handleContactFormSubmission = async (
     to: [{ email: process.env.PERSONAL_EMAIL || "", name: sanitizeHtml(name) }],
     replyTo: { email: sanitizeHtml(email), name: sanitizeHtml(name) },
   };
+
   const result = await sendBrevoEmail(brevoOptions);
   res.status(result.status).json(result);
 };

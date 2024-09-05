@@ -16,7 +16,7 @@ export const verifyRecaptchaV3 = async (
         secret,
         response: recaptchaToken,
       },
-    }
+    },
   );
 
   res.json(recaptchaResponse.data);
