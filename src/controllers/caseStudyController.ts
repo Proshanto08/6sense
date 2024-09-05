@@ -12,15 +12,26 @@ import {
   handleProjectUploads,
   processFiles,
 } from "../multer/caseStudIesImageUpload";
-import { deleteFiles } from "../utils/fileHandler";
+import fs from "fs";
+import path from "path";
 import { IProject } from "../models/casestudyModel";
+
+const deleteFile = (filePath: string): void => {
+  const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
+  fs.unlink(fullPath, (err) => {
+    if (err) {
+      console.error(`Error deleting file ${fullPath}:`, err);
+    }
+  });
+};
 
 export const createProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const projectData: IProject = processFiles(req, req.body);
+
     const result: IApiResponse = await createProject(projectData);
     res.status(result.status).json(result);
   });
@@ -28,7 +39,7 @@ export const createProjectController = async (
 
 export const updateProjectController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleProjectUploads(req, res, async () => {
     const { slug } = req.params;
@@ -50,8 +61,13 @@ export const updateProjectController = async (
       oldProjectData.details?.keyFeature?.keyFeaturesImage,
       oldProjectData.details?.result?.resultImage,
       oldProjectData.details?.clientFeedback?.clientImage,
-    ];
-    deleteFiles(filesToDelete);
+    ].filter(Boolean) as string[];
+
+    filesToDelete.forEach((filePath) => {
+      if (filePath) {
+        deleteFile(filePath);
+      }
+    });
 
     const result: IApiResponse = await updateProject(slug, updateData);
     res.status(result.status).json(result);
@@ -60,7 +76,7 @@ export const updateProjectController = async (
 
 export const getBasicProjectsController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const page: number = parseInt(req.query.page as string, 10) || 1;
   const limit: number = parseInt(req.query.limit as string, 10) || 6;
@@ -71,7 +87,7 @@ export const getBasicProjectsController = async (
 
 export const getAllProjectsController = async (
   _req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const result: IApiResponse = await getAllProjects();
   res.status(result.status).json(result);
@@ -79,7 +95,7 @@ export const getAllProjectsController = async (
 
 export const getProjectBySlugController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { slug } = req.params;
   const result: IApiResponse = await getProjectBySlug(slug);
@@ -88,7 +104,7 @@ export const getProjectBySlugController = async (
 
 export const deleteProjectBySlugController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { slug } = req.params;
 
@@ -100,6 +116,7 @@ export const deleteProjectBySlugController = async (
   }
 
   const projectData = project.data;
+
   const filesToDelete = [
     projectData.logo,
     projectData.imageSrc,
@@ -108,8 +125,13 @@ export const deleteProjectBySlugController = async (
     projectData.details?.keyFeature?.keyImage,
     projectData.details?.result?.resultImage,
     projectData.details?.clientFeedback?.clientImage,
-  ];
-  deleteFiles(filesToDelete);
+  ].filter(Boolean) as string[];
+
+  filesToDelete.forEach((filePath) => {
+    if (filePath) {
+      deleteFile(filePath);
+    }
+  });
 
   const result: IApiResponse = await deleteProjectBySlug(slug);
   res.status(result.status).json(result);

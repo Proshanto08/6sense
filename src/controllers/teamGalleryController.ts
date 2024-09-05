@@ -11,15 +11,26 @@ import {
   handleTeamGalleryUploads,
   processTeamGalleryFiles,
 } from "../multer/teamGalleryImageUpload";
-import { deleteFiles } from "../utils/fileHandler";
+import fs from "fs";
+import path from "path";
 import { ITeamGallery } from "../models/teamGalleryModel";
+
+const deleteFile = (filePath: string): void => {
+  const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
+  fs.unlink(fullPath, (err) => {
+    if (err) {
+      console.error(`Error deleting file ${fullPath}:`, err);
+    }
+  });
+};
 
 export const createTeamGalleryController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleTeamGalleryUploads(req, res, async () => {
     const galleryData: ITeamGallery = processTeamGalleryFiles(req, req.body);
+
     const result: IApiResponse = await createTeamGallery(galleryData);
     res.status(result.status).json(result);
   });
@@ -27,13 +38,13 @@ export const createTeamGalleryController = async (
 
 export const updateTeamGalleryController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   handleTeamGalleryUploads(req, res, async () => {
     const { id } = req.params;
     const updateData: Partial<ITeamGallery> = processTeamGalleryFiles(
       req,
-      req.body
+      req.body,
     );
 
     const gallery: IApiResponse = await getTeamGalleryById(id);
@@ -44,8 +55,13 @@ export const updateTeamGalleryController = async (
     }
 
     const oldGalleryData = gallery.data;
-    const filesToDelete = [oldGalleryData.image];
-    deleteFiles(filesToDelete);
+    const filesToDelete = [oldGalleryData.image].filter(Boolean) as string[];
+
+    filesToDelete.forEach((filePath) => {
+      if (filePath) {
+        deleteFile(filePath);
+      }
+    });
 
     const result: IApiResponse = await updateTeamGallery(id, updateData);
     res.status(result.status).json(result);
@@ -54,7 +70,7 @@ export const updateTeamGalleryController = async (
 
 export const getAllTeamGalleriesController = async (
   _req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const result: IApiResponse = await getAllTeamGalleries();
   res.status(result.status).json(result);
@@ -62,7 +78,7 @@ export const getAllTeamGalleriesController = async (
 
 export const getTeamGalleryByIdController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { id } = req.params;
   const result: IApiResponse = await getTeamGalleryById(id);
@@ -71,7 +87,7 @@ export const getTeamGalleryByIdController = async (
 
 export const deleteTeamGalleryByIdController = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { id } = req.params;
 
@@ -83,8 +99,14 @@ export const deleteTeamGalleryByIdController = async (
   }
 
   const galleryData = gallery.data;
-  const filesToDelete = [galleryData.image];
-  deleteFiles(filesToDelete);
+
+  const filesToDelete = [galleryData.image].filter(Boolean) as string[];
+
+  filesToDelete.forEach((filePath) => {
+    if (filePath) {
+      deleteFile(filePath);
+    }
+  });
 
   const result: IApiResponse = await deleteTeamGalleryById(id);
   res.status(result.status).json(result);

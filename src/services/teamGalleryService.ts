@@ -11,8 +11,13 @@ export const createTeamGallery = async (
       { status: 201, data: createdGallery },
       "Gallery successfully created",
     );
-  } catch (error: any) {
-    return handleError(error);
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "CREATE_GALLERY_FAILED",
+      "Failed to create gallery",
+      500,
+    );
   }
 };
 
@@ -23,8 +28,13 @@ export const getAllTeamGalleries = async (): Promise<IApiResponse> => {
       { status: 200, data: galleries },
       "Galleries retrieved successfully",
     );
-  } catch (error: any) {
-    return handleError(error);
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "GET_GALLERIES_FAILED",
+      "Failed to retrieve galleries",
+      500,
+    );
   }
 };
 
@@ -37,11 +47,19 @@ export const getTeamGalleryById = async (id: string): Promise<IApiResponse> => {
         "Gallery details retrieved successfully",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Gallery not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Gallery not found"),
+      "GALLERY_NOT_FOUND",
+      "Gallery not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "GET_GALLERY_BY_ID_FAILED",
+      "Failed to retrieve gallery details",
+      500,
+    );
   }
 };
 
@@ -62,11 +80,19 @@ export const updateTeamGallery = async (
         "Gallery successfully updated",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Gallery not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Gallery not found"),
+      "GALLERY_NOT_FOUND",
+      "Gallery not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "UPDATE_GALLERY_FAILED",
+      "Failed to update gallery",
+      500,
+    );
   }
 };
 
@@ -81,10 +107,18 @@ export const deleteTeamGalleryById = async (
         "Gallery successfully deleted",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Gallery not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Gallery not found"),
+      "GALLERY_NOT_FOUND",
+      "Gallery not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "DELETE_GALLERY_FAILED",
+      "Failed to delete gallery",
+      500,
+    );
   }
 };

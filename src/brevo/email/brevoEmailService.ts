@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { handleSuccess, handleError } from "../../utils/responseHandlers";
 import { IApiResponse } from "../../types";
 import sanitizeHtml from "sanitize-html";
@@ -45,7 +45,7 @@ export const sendBrevoEmail = async (
 
     return handleSuccess(response, "Email successfully sent");
   } catch (error) {
-    return handleError(error);
+    return handleError(error as AxiosError);
   }
 };
 
@@ -106,5 +106,9 @@ export const SendContactEmail = async (
     },
   };
 
-  return sendBrevoEmail(brevoOptions);
+  try {
+    return await sendBrevoEmail(brevoOptions);
+  } catch (error) {
+    return handleError(error as AxiosError);
+  }
 };

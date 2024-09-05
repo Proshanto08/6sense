@@ -16,9 +16,10 @@ import { generateToken } from "./services/authService";
 import mixpanelRoutes from "./mixpanel/mixpanelRoutes";
 import eventsRoutes from "./routes/eventsRoute";
 import teamGalleryRoutes from "./routes/teamGalleryRoutes";
+import recaptchaRoutes from './routes/recaptchaRoutes';
 
 const app = express();
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 app.use(rateLimiter);
@@ -45,5 +46,6 @@ app.use("/", caseStudyRoutes);
 app.use("/mixpanel", mixpanelRoutes);
 app.use("/", eventsRoutes);
 app.use("/", teamGalleryRoutes);
+app.use("/", recaptchaRoutes);
 
 export default app;

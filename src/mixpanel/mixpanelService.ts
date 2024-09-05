@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { mixpanelConfig } from "../config/mixpanelConfig";
 import { IApiResponse } from "../types";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
@@ -32,7 +32,7 @@ export const updateUserProfile = async (
 
     return handleSuccess(response, "User profile updated successfully");
   } catch (error) {
-    return handleError(error, undefined, "Failed to update user profile");
+    return handleError(error as AxiosError);
   }
 };
 
@@ -58,7 +58,7 @@ export const identifyUser = async (
 
     return handleSuccess(response, "User identified successfully");
   } catch (error) {
-    return handleError(error, undefined, "Failed to identify user");
+    return handleError(error as AxiosError);
   }
 };
 
@@ -85,7 +85,7 @@ export const trackUserEvent = async (
 
     return handleSuccess(response, "Event tracked successfully");
   } catch (error) {
-    return handleError(error, undefined, "Failed to track event");
+    return handleError(error as AxiosError);
   }
 };
 
@@ -111,7 +111,7 @@ export const createAlias = async (
 
     return handleSuccess(response, "Alias created successfully");
   } catch (error) {
-    return handleError(error, undefined, "Failed to create alias");
+    return handleError(error as AxiosError);
   }
 };
 
@@ -143,7 +143,7 @@ export const mergeIdentities = async (
 
     return handleSuccess(response, "Identities merged successfully");
   } catch (error) {
-    return handleError(error, undefined, "Failed to merge identities");
+    return handleError(error as AxiosError);
   }
 };
 

@@ -3,6 +3,7 @@ import { IApiResponse } from "../../types";
 import { handleSuccess, handleError } from "../../utils/responseHandlers";
 import { SendContactEmail } from "../email/brevoEmailService";
 import { v4 as uuidv4 } from "uuid";
+import { AxiosError } from "axios";
 
 interface IIdentifiers {
   email_id?: string;
@@ -35,7 +36,7 @@ export const createEvent = async (
     const response = await apiInstance.post("/events", eventOptions);
     return handleSuccess(response, "Event created successfully");
   } catch (error) {
-    return handleError(error);
+    return handleError(error as AxiosError);
   }
 };
 
@@ -84,7 +85,7 @@ export const handleCreateEventByBrevo = async (
 
     if (result.status !== 200 && result.status !== 204) {
       return handleError(
-        result.data,
+        result.data as AxiosError,
         result.errorCode,
         result.message,
         result.status,
@@ -109,6 +110,6 @@ export const handleCreateEventByBrevo = async (
 
     return handleSuccess({ status: 200, data: { email_id } }, result.message);
   } catch (error) {
-    return handleError(error);
+    return handleError(error as AxiosError);
   }
 };

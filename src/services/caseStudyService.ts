@@ -10,13 +10,14 @@ export const createProject = async (
     const existingProject = await Project.findOne({
       appName: projectData.appName,
     });
+
     if (existingProject) {
-      return handleError({
-        response: {
-          status: 400,
-          data: { message: "A project with this app name already exists" },
-        },
-      });
+      return handleError(
+        new Error("A project with this app name already exists"),
+        "PROJECT_EXISTS",
+        "A project with this app name already exists",
+        400,
+      );
     }
 
     if (!projectData.slug) {
@@ -31,8 +32,13 @@ export const createProject = async (
       { status: 201, data: createdProject },
       "Project successfully created",
     );
-  } catch (error: any) {
-    return handleError(error);
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "CREATE_PROJECT_FAILED",
+      "Failed to create project",
+      500,
+    );
   }
 };
 
@@ -43,8 +49,13 @@ export const getAllProjects = async (): Promise<IApiResponse> => {
       { status: 200, data: projects },
       "Projects retrieved successfully",
     );
-  } catch (error: any) {
-    return handleError(error);
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "GET_PROJECTS_FAILED",
+      "Failed to retrieve projects",
+      500,
+    );
   }
 };
 
@@ -55,7 +66,6 @@ export const getBasicProjects = async (
   try {
     const currentPage = Math.max(1, page);
     const currentLimit = Math.max(1, limit);
-
     const skip = (currentPage - 1) * currentLimit;
 
     const projects = await Project.find({}, "appName logo slug imageSrc")
@@ -75,8 +85,13 @@ export const getBasicProjects = async (
       },
       "Basic projects retrieved successfully",
     );
-  } catch (error: any) {
-    return handleError(error);
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "GET_BASIC_PROJECTS_FAILED",
+      "Failed to retrieve basic projects",
+      500,
+    );
   }
 };
 
@@ -89,11 +104,19 @@ export const getProjectBySlug = async (slug: string): Promise<IApiResponse> => {
         "Project details retrieved successfully",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Project not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Project not found"),
+      "PROJECT_NOT_FOUND",
+      "Project not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "GET_PROJECT_BY_SLUG_FAILED",
+      "Failed to retrieve project details",
+      500,
+    );
   }
 };
 
@@ -121,11 +144,19 @@ export const updateProject = async (
         "Project successfully updated",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Project not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Project not found"),
+      "PROJECT_NOT_FOUND",
+      "Project not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "UPDATE_PROJECT_FAILED",
+      "Failed to update project",
+      500,
+    );
   }
 };
 
@@ -140,10 +171,18 @@ export const deleteProjectBySlug = async (
         "Project successfully deleted",
       );
     }
-    return handleError({
-      response: { status: 404, data: { message: "Project not found" } },
-    });
-  } catch (error: any) {
-    return handleError(error);
+    return handleError(
+      new Error("Project not found"),
+      "PROJECT_NOT_FOUND",
+      "Project not found",
+      404,
+    );
+  } catch (error) {
+    return handleError(
+      error as Error,
+      "DELETE_PROJECT_FAILED",
+      "Failed to delete project",
+      500,
+    );
   }
 };

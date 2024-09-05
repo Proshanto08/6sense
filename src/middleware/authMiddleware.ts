@@ -13,7 +13,7 @@ export const authToken = async (
 
   if (!token) {
     const response: IApiResponse = handleError(
-      null,
+      new Error("No token provided"),
       "NO_TOKEN_PROVIDED",
       "No token provided",
       401,
@@ -33,7 +33,7 @@ export const authToken = async (
     next();
   } catch (err) {
     const response: IApiResponse = handleError(
-      err,
+      err as Error,
       "TOKEN_VERIFICATION_FAILED",
       "Token verification failed",
       401,
