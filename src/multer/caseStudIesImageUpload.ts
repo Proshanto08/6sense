@@ -27,6 +27,9 @@ export const processFiles = (
     [fieldname: string]: Express.Multer.File[] | undefined;
   };
 
+  const heroInfoImages = files["heroInfoImages"] || [];
+  const aboutInfoImages = files["aboutInfoImages"] || [];
+
   return {
     ...baseData,
     logo: files["logo"]
@@ -59,21 +62,23 @@ export const processFiles = (
           : baseData.details?.keyFeature?.keyFeaturesImage,
       },
       heroInfo:
-        baseData.details?.heroInfo?.map((info, index) => ({
-          ...info,
-          icon:
-            files["heroInfoImages"] && files["heroInfoImages"][index]
-              ? getRelativePath(files["heroInfoImages"][index].path)
+        baseData.details?.heroInfo?.map((info, index) => {
+          return {
+            ...info,
+            icon: heroInfoImages[index]
+              ? getRelativePath(heroInfoImages[index].path)
               : info.icon,
-        })) || [],
+          };
+        }) || [],
       aboutInfo:
-        baseData.details?.aboutInfo?.map((info, index) => ({
-          ...info,
-          icon:
-            files["aboutInfoImages"] && files["aboutInfoImages"][index]
-              ? getRelativePath(files["aboutInfoImages"][index].path)
+        baseData.details?.aboutInfo?.map((info, index) => {
+          return {
+            ...info,
+            icon: aboutInfoImages[index]
+              ? getRelativePath(aboutInfoImages[index].path)
               : info.icon,
-        })) || [],
+          };
+        }) || [],
     },
   } as IProject;
 };
