@@ -42,9 +42,9 @@ export const createEvent = async (
 
 export const handleCreateEventByBrevo = async (
   event_name: string,
-  contact_properties: IContactProperties | Partial<IContactProperties> = {},
   event_properties: IEventProperties,
   cookies: { anonymousEmailId?: string },
+  contact_properties: IContactProperties | Partial<IContactProperties> = {},
 ): Promise<IApiResponse> => {
   const {
     name = "",
