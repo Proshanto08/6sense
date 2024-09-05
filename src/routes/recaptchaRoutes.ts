@@ -1,5 +1,8 @@
 import express, { Request, Response } from "express";
-import { verifyRecaptchaV3,verifyRecaptchaV2 } from "../controllers/recaptchaController";
+import {
+  verifyRecaptchaV3,
+  verifyRecaptchaV2,
+} from "../controllers/recaptchaController";
 
 const router = express.Router();
 

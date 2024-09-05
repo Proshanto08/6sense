@@ -15,7 +15,6 @@ const getRelativePath = (filePath: string | undefined): string => {
   return `/uploads/${path.basename(filePath)}`;
 };
 
-
 export const processTeamGalleryFiles = (
   req: Request,
   baseData: ITeamGalleryInput,

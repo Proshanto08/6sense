@@ -16,7 +16,7 @@ import { generateToken } from "./services/authService";
 import mixpanelRoutes from "./mixpanel/mixpanelRoutes";
 import eventsRoutes from "./routes/eventsRoute";
 import teamGalleryRoutes from "./routes/teamGalleryRoutes";
-import recaptchaRoutes from './routes/recaptchaRoutes';
+import recaptchaRoutes from "./routes/recaptchaRoutes";
 
 const app = express();
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));

@@ -21,7 +21,7 @@ const getRelativePath = (filePath: string | undefined): string | undefined => {
 
 export const processFiles = (
   req: Request,
-  baseData: Partial<IProject>
+  baseData: Partial<IProject>,
 ): IProject => {
   const files = req.files as {
     [fieldname: string]: Express.Multer.File[] | undefined;

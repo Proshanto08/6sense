@@ -1,5 +1,5 @@
-import { AxiosError } from 'axios';
-import { IApiResponse } from '../types';
+import { AxiosError } from "axios";
+import { IApiResponse } from "../types";
 
 export const handleSuccess = (
   response: { status: number; data: any },
@@ -18,7 +18,7 @@ export const handleError = (
   message?: string,
   statusCode = 500,
 ): IApiResponse => {
-  let errorMessage = message || error.message || 'An error occurred';
+  let errorMessage = message || error.message || "An error occurred";
   let errorStatusCode = statusCode;
   let errorData = {};
   let errorResponseCode: string | undefined = errorCode;
