@@ -8,58 +8,54 @@ interface IEventProperties {
   [key: string]: any;
 }
 
+const { peopleApiUrl, apiUrl, importApiUrl, projectToken, apiSecretToken } = mixpanelConfig;
+
+const postToMixpanel = async (
+  url: string,
+  data: any,
+  auth?: { username: string; password: string },
+  headers?: { [key: string]: string }
+): Promise<IApiResponse> => {
+  try {
+    const response = await axios.post(url, null, {
+      params: { data: JSON.stringify(data) },
+      auth,
+      headers,
+    });
+
+    return handleSuccess(response, "Request successful");
+  } catch (error) {
+    return handleError(error as AxiosError);
+  }
+};
+
 export const updateUserProfile = async (
   distinctId: string,
   properties: IEventProperties,
 ): Promise<IApiResponse> => {
-  const { peopleApiUrl, projectToken } = mixpanelConfig;
-  const { name, email, companyWebsite } = properties;
+  const data = {
+    $token: projectToken,
+    $distinct_id: distinctId,
+    $set: properties,
+  };
 
-  try {
-    const response = await axios.post(peopleApiUrl, null, {
-      params: {
-        data: JSON.stringify({
-          $token: projectToken,
-          $distinct_id: distinctId,
-          $set: {
-            $name: name,
-            $email: email,
-            $company_website: companyWebsite,
-          },
-        }),
-      },
-    });
-
-    return handleSuccess(response, "User profile updated successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return postToMixpanel(peopleApiUrl, data);
 };
 
 export const identifyUser = async (
   userId: string,
   anonId: string,
 ): Promise<IApiResponse> => {
-  const { apiUrl, projectToken } = mixpanelConfig;
+  const data = {
+    event: "$identify",
+    properties: {
+      $distinct_id: userId,
+      $anon_id: anonId,
+      token: projectToken,
+    },
+  };
 
-  try {
-    const response = await axios.post(apiUrl, null, {
-      params: {
-        data: JSON.stringify({
-          event: "$identify",
-          properties: {
-            $distinct_id: userId,
-            $anon_id: anonId,
-            token: projectToken,
-          },
-        }),
-      },
-    });
-
-    return handleSuccess(response, "User identified successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return postToMixpanel(apiUrl, data);
 };
 
 export const trackUserEvent = async (
@@ -67,84 +63,52 @@ export const trackUserEvent = async (
   event_name: string,
   properties: IEventProperties,
 ): Promise<IApiResponse> => {
-  const { apiUrl, projectToken } = mixpanelConfig;
+  const data = {
+    event: event_name,
+    properties: {
+      distinct_id: distinctId,
+      token: projectToken,
+      ...properties,
+    },
+  };
 
-  try {
-    const response = await axios.post(apiUrl, null, {
-      params: {
-        data: JSON.stringify({
-          event: event_name,
-          properties: {
-            distinct_id: distinctId,
-            token: projectToken,
-            ...properties,
-          },
-        }),
-      },
-    });
-
-    return handleSuccess(response, "Event tracked successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return postToMixpanel(apiUrl, data);
 };
 
 export const createAlias = async (
   distinctId: string,
   aliasId: string,
 ): Promise<IApiResponse> => {
-  const { apiUrl, projectToken } = mixpanelConfig;
+  const data = {
+    event: "$create_alias",
+    properties: {
+      distinct_id: distinctId,
+      alias: aliasId,
+      token: projectToken,
+    },
+  };
 
-  try {
-    const response = await axios.post(apiUrl, null, {
-      params: {
-        data: JSON.stringify({
-          event: "$create_alias",
-          properties: {
-            distinct_id: distinctId,
-            alias: aliasId,
-            token: projectToken,
-          },
-        }),
-      },
-    });
-
-    return handleSuccess(response, "Alias created successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return postToMixpanel(apiUrl, data);
 };
 
 export const mergeIdentities = async (
   anonId: string,
   identifiedId: string,
 ): Promise<IApiResponse> => {
-  const { importApiUrl, projectToken, apiSecretToken } = mixpanelConfig;
+  const data = {
+    event: "$merge",
+    properties: {
+      $distinct_ids: [anonId, identifiedId],
+    },
+    token: projectToken,
+  };
 
-  try {
-    const response = await axios.post(importApiUrl, null, {
-      params: {
-        data: JSON.stringify({
-          event: "$merge",
-          properties: {
-            $distinct_ids: [anonId, identifiedId],
-          },
-          token: projectToken,
-        }),
-      },
-      auth: {
-        username: projectToken,
-        password: apiSecretToken,
-      },
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
-
-    return handleSuccess(response, "Identities merged successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return postToMixpanel(importApiUrl, data, {
+    username: projectToken,
+    password: apiSecretToken,
+  }, {
+    "Content-Type": "application/x-www-form-urlencoded",
+  });
 };
 
 export const handleTrackEvent = async (
