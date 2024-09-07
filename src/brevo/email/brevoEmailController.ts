@@ -3,7 +3,7 @@ import { sendContactEmail } from "./brevoEmailService";
 
 export const handleContactFormSubmission = async (
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   const { name, email, companyWebsite, message, getNda, consent } = req.body;
 

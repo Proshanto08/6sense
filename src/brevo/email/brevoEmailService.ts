@@ -22,7 +22,7 @@ interface IContactProperties {
 }
 
 export const sendBrevoEmail = async (
-  options: IBrevoEmailOptions
+  options: IBrevoEmailOptions,
 ): Promise<IApiResponse> => {
   const { subject, htmlContent, sender, to, replyTo } = options;
 
@@ -36,7 +36,7 @@ export const sendBrevoEmail = async (
 };
 
 export const sendContactEmail = async (
-  contactProperties: IContactProperties
+  contactProperties: IContactProperties,
 ): Promise<IApiResponse> => {
   const { name, email, companyWebsite, message, getNda, consent } =
     contactProperties;
@@ -65,10 +65,10 @@ export const sendContactEmail = async (
         <p><strong>Name:</strong> ${sanitizeHtml(name)}</p>
         <p><strong>Business Email:</strong> ${sanitizeHtml(email)}</p>
         <p><strong>Company Website:</strong> ${sanitizeHtml(
-          companyWebsite || "N/A"
+          companyWebsite || "N/A",
         )}</p>
         <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(
-          message || "N/A"
+          message || "N/A",
         )}</p>
         <p><strong>Get an NDA:</strong> ${getNda ? "true" : "false"}</p>
         <p><strong>Consent to Data Processing:</strong> ${
