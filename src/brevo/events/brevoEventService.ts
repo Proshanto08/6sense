@@ -1,8 +1,8 @@
-import { initializeBrevoClient } from "../../config/brevoConfig";
+import { apiRequest } from "../../utils/apiRequest";
 import { IApiResponse } from "../../types";
-import { handleSuccess, handleError } from "../../utils/responseHandlers";
-import { SendContactEmail } from "../email/brevoEmailService";
+import { sendContactEmail } from "../email/brevoEmailService";
 import { v4 as uuidv4 } from "uuid";
+import { handleError, handleSuccess } from "../../utils/responseHandlers";
 import { AxiosError } from "axios";
 
 interface IIdentifiers {
@@ -30,21 +30,19 @@ interface ICreateEventOptions {
 export const createEvent = async (
   eventOptions: ICreateEventOptions,
 ): Promise<IApiResponse> => {
-  const apiInstance = initializeBrevoClient();
-
-  try {
-    const response = await apiInstance.post("/events", eventOptions);
-    return handleSuccess(response, "Event created successfully");
-  } catch (error) {
-    return handleError(error as AxiosError);
-  }
+  return apiRequest(
+    "post",
+    "/events",
+    "Event created successfully",
+    eventOptions,
+  );
 };
 
 export const handleCreateEventByBrevo = async (
   event_name: string,
+  contact_properties: IContactProperties | Partial<IContactProperties> = {},
   event_properties: IEventProperties,
   cookies: { anonymousEmailId?: string },
-  contact_properties: IContactProperties | Partial<IContactProperties> = {},
 ): Promise<IApiResponse> => {
   const {
     name = "",
@@ -65,7 +63,7 @@ export const handleCreateEventByBrevo = async (
   }
 
   if (event_name === "contact_form_submission" && email) {
-    await SendContactEmail(contact_properties as IContactProperties);
+    await sendContactEmail(contact_properties as IContactProperties);
   }
 
   const eventOptions: ICreateEventOptions = {
@@ -85,7 +83,7 @@ export const handleCreateEventByBrevo = async (
 
     if (result.status !== 200 && result.status !== 204) {
       return handleError(
-        result.data as AxiosError,
+        result.data,
         result.errorCode,
         result.message,
         result.status,
