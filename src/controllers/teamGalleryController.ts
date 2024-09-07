@@ -34,7 +34,7 @@ export const updateTeamGalleryController = async (
     const { id } = req.params;
     const updateData: Partial<ITeamGallery> = processTeamGalleryFiles(
       req,
-      req.body
+      req.body,
     );
 
     const gallery: IApiResponse = await getTeamGalleryById(id);
