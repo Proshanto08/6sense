@@ -8,13 +8,14 @@ interface IEventProperties {
   [key: string]: any;
 }
 
-const { peopleApiUrl, apiUrl, importApiUrl, projectToken, apiSecretToken } = mixpanelConfig;
+const { peopleApiUrl, apiUrl, importApiUrl, projectToken, apiSecretToken } =
+  mixpanelConfig;
 
 const postToMixpanel = async (
   url: string,
   data: any,
   auth?: { username: string; password: string },
-  headers?: { [key: string]: string }
+  headers?: { [key: string]: string },
 ): Promise<IApiResponse> => {
   try {
     const response = await axios.post(url, null, {
@@ -103,12 +104,17 @@ export const mergeIdentities = async (
     token: projectToken,
   };
 
-  return postToMixpanel(importApiUrl, data, {
-    username: projectToken,
-    password: apiSecretToken,
-  }, {
-    "Content-Type": "application/x-www-form-urlencoded",
-  });
+  return postToMixpanel(
+    importApiUrl,
+    data,
+    {
+      username: projectToken,
+      password: apiSecretToken,
+    },
+    {
+      "Content-Type": "application/x-www-form-urlencoded",
+    }
+  );
 };
 
 export const handleTrackEvent = async (

@@ -12,18 +12,8 @@ import {
   handleProjectUploads,
   processFiles,
 } from "../multer/caseStudIesImageUpload";
-import fs from "fs";
-import path from "path";
+import { deleteFile } from "../utils/fileHelpers";
 import { IProject } from "../models/casestudyModel";
-
-const deleteFile = (filePath: string): void => {
-  const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
-  fs.unlink(fullPath, (err) => {
-    if (err) {
-      console.error(`Error deleting file ${fullPath}:`, err);
-    }
-  });
-};
 
 export const createProjectController = async (
   req: Request,
@@ -63,11 +53,7 @@ export const updateProjectController = async (
       oldProjectData.details?.clientFeedback?.clientImage,
     ].filter(Boolean) as string[];
 
-    filesToDelete.forEach((filePath) => {
-      if (filePath) {
-        deleteFile(filePath);
-      }
-    });
+    filesToDelete.forEach(deleteFile);
 
     const result: IApiResponse = await updateProject(slug, updateData);
     res.status(result.status).json(result);
@@ -127,11 +113,7 @@ export const deleteProjectBySlugController = async (
     projectData.details?.clientFeedback?.clientImage,
   ].filter(Boolean) as string[];
 
-  filesToDelete.forEach((filePath) => {
-    if (filePath) {
-      deleteFile(filePath);
-    }
-  });
+  filesToDelete.forEach(deleteFile);
 
   const result: IApiResponse = await deleteProjectBySlug(slug);
   res.status(result.status).json(result);

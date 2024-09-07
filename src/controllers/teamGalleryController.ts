@@ -11,18 +11,8 @@ import {
   handleTeamGalleryUploads,
   processTeamGalleryFiles,
 } from "../multer/teamGalleryImageUpload";
-import fs from "fs";
-import path from "path";
+import { deleteFile } from "../utils/fileHelpers";
 import { ITeamGallery } from "../models/teamGalleryModel";
-
-const deleteFile = (filePath: string): void => {
-  const fullPath = path.join(__dirname, "../uploads", path.basename(filePath));
-  fs.unlink(fullPath, (err) => {
-    if (err) {
-      console.error(`Error deleting file ${fullPath}:`, err);
-    }
-  });
-};
 
 export const createTeamGalleryController = async (
   req: Request,
@@ -44,7 +34,7 @@ export const updateTeamGalleryController = async (
     const { id } = req.params;
     const updateData: Partial<ITeamGallery> = processTeamGalleryFiles(
       req,
-      req.body,
+      req.body
     );
 
     const gallery: IApiResponse = await getTeamGalleryById(id);
@@ -57,11 +47,7 @@ export const updateTeamGalleryController = async (
     const oldGalleryData = gallery.data;
     const filesToDelete = [oldGalleryData.image].filter(Boolean) as string[];
 
-    filesToDelete.forEach((filePath) => {
-      if (filePath) {
-        deleteFile(filePath);
-      }
-    });
+    filesToDelete.forEach(deleteFile);
 
     const result: IApiResponse = await updateTeamGallery(id, updateData);
     res.status(result.status).json(result);
@@ -102,11 +88,7 @@ export const deleteTeamGalleryByIdController = async (
 
   const filesToDelete = [galleryData.image].filter(Boolean) as string[];
 
-  filesToDelete.forEach((filePath) => {
-    if (filePath) {
-      deleteFile(filePath);
-    }
-  });
+  filesToDelete.forEach(deleteFile);
 
   const result: IApiResponse = await deleteTeamGalleryById(id);
   res.status(result.status).json(result);
