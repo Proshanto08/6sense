@@ -6,8 +6,14 @@ import {
   getContactByIdController,
   updateContactController,
   deleteContactController,
-} from "./brevoContactController"; // Adjust the import path
-import { getAllContacts, createContact, getContactById, updateContact, deleteContact } from "./brevoContactService"; // Adjust the import path
+} from "./brevoContactController";
+import {
+  getAllContacts,
+  createContact,
+  getContactById,
+  updateContact,
+  deleteContact,
+} from "./brevoContactService";
 
 jest.mock("./brevoContactService");
 
@@ -28,7 +34,9 @@ describe("Brevo Contact Controller", () => {
     const mockResult = { status: 200, data: [] };
     (getAllContacts as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app).get("/contacts?limit=10&offset=0&sort=asc");
+    const response = await request(app).get(
+      "/contacts?limit=10&offset=0&sort=asc"
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
@@ -41,15 +49,28 @@ describe("Brevo Contact Controller", () => {
 
     const response = await request(app)
       .post("/contacts")
-      .send({ email: "test@example.com", attributes: {}, listIds: [], updateEnabled: true });
+      .send({
+        email: "test@example.com",
+        attributes: {},
+        listIds: [],
+        updateEnabled: true,
+      });
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual(mockResult);
-    expect(createContact).toHaveBeenCalledWith("test@example.com", {}, [], true);
+    expect(createContact).toHaveBeenCalledWith(
+      "test@example.com",
+      {},
+      [],
+      true
+    );
   });
 
   it("should get a contact by ID", async () => {
-    const mockResult = { status: 200, data: { id: "123", email: "test@example.com" } };
+    const mockResult = {
+      status: 200,
+      data: { id: "123", email: "test@example.com" },
+    };
     (getContactById as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app).get("/contacts/123");
@@ -60,26 +81,40 @@ describe("Brevo Contact Controller", () => {
   });
 
   it("should update a contact", async () => {
-    const mockResult = { status: 200, data: { id: "123", email: "updated@example.com" } };
+    const mockResult = {
+      status: 200,
+      data: { id: "123", email: "updated@example.com" },
+    };
     (updateContact as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app)
       .put("/contacts/123")
-      .send({ email: "updated@example.com", attributes: {}, listIds: [], updateEnabled: true });
+      .send({
+        email: "updated@example.com",
+        attributes: {},
+        listIds: [],
+        updateEnabled: true,
+      });
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
-    expect(updateContact).toHaveBeenCalledWith("123", "updated@example.com", {}, [], true);
+    expect(updateContact).toHaveBeenCalledWith(
+      "123",
+      "updated@example.com",
+      {},
+      [],
+      true
+    );
   });
 
   it("should delete a contact", async () => {
-    const mockResult = { status: 204 }; // You can keep this for clarity, but it's not necessary for a 204 response
+    const mockResult = { status: 204 };
     (deleteContact as jest.Mock).mockResolvedValue(mockResult);
-  
+
     const response = await request(app).delete("/contacts/123");
-  
+
     expect(response.status).toBe(204);
-    expect(response.body).toEqual({}); // Expecting an empty object for 204 No Content
+    expect(response.body).toEqual({});
     expect(deleteContact).toHaveBeenCalledWith("123");
-  });  
+  });
 });

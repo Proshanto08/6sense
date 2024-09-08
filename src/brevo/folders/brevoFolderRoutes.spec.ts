@@ -1,6 +1,6 @@
-import request from 'supertest';
-import express from 'express';
-import router from './brevoFolderRoutes';
+import request from "supertest";
+import express from "express";
+import router from "./brevoFolderRoutes";
 import {
   createFolder,
   getFolders,
@@ -8,28 +8,27 @@ import {
   updateFolder,
   deleteFolder,
   getFolderLists,
-} from './brevoFolderService';
+} from "./brevoFolderService";
 
-// Mock the service functions
-jest.mock('./brevoFolderService');
+jest.mock("./brevoFolderService");
 
 const app = express();
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json());
 app.use(router);
 
-describe('Folders Routes', () => {
+describe("Folders Routes", () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Clear mocks after each test
+    jest.clearAllMocks();
   });
 
-  describe('POST /folders', () => {
-    it('should create a folder', async () => {
-      const mockFolder = { name: 'New Folder' };
-      const mockResult = { status: 201, data: { id: '123', ...mockFolder } };
+  describe("POST /folders", () => {
+    it("should create a folder", async () => {
+      const mockFolder = { name: "New Folder" };
+      const mockResult = { status: 201, data: { id: "123", ...mockFolder } };
 
       (createFolder as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).post('/folders').send(mockFolder);
+      const response = await request(app).post("/folders").send(mockFolder);
 
       expect(response.status).toBe(201);
       expect(response.body).toEqual(mockResult);
@@ -37,27 +36,30 @@ describe('Folders Routes', () => {
     });
   });
 
-  describe('GET /folders', () => {
-    it('should get all folders', async () => {
-      const mockResult = { status: 200, data: [{ id: '123', name: 'Folder 1' }] };
+  describe("GET /folders", () => {
+    it("should get all folders", async () => {
+      const mockResult = {
+        status: 200,
+        data: [{ id: "123", name: "Folder 1" }],
+      };
 
       (getFolders as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).get('/folders');
+      const response = await request(app).get("/folders");
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockResult);
-      expect(getFolders).toHaveBeenCalledWith(undefined, undefined, 'desc'); // Default values
+      expect(getFolders).toHaveBeenCalledWith(undefined, undefined, "desc");
     });
   });
 
-  describe('GET /folders/:folderId', () => {
-    it('should get a folder by ID', async () => {
-      const mockResult = { status: 200, data: { id: '123', name: 'Folder 1' } };
+  describe("GET /folders/:folderId", () => {
+    it("should get a folder by ID", async () => {
+      const mockResult = { status: 200, data: { id: "123", name: "Folder 1" } };
 
       (getFolder as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).get('/folders/123');
+      const response = await request(app).get("/folders/123");
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockResult);
@@ -65,14 +67,14 @@ describe('Folders Routes', () => {
     });
   });
 
-  describe('PUT /folders/:folderId', () => {
-    it('should update a folder', async () => {
-      const mockUpdate = { name: 'Updated Folder' };
-      const mockResult = { status: 200, data: { id: '123', ...mockUpdate } };
+  describe("PUT /folders/:folderId", () => {
+    it("should update a folder", async () => {
+      const mockUpdate = { name: "Updated Folder" };
+      const mockResult = { status: 200, data: { id: "123", ...mockUpdate } };
 
       (updateFolder as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).put('/folders/123').send(mockUpdate);
+      const response = await request(app).put("/folders/123").send(mockUpdate);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockResult);
@@ -80,13 +82,13 @@ describe('Folders Routes', () => {
     });
   });
 
-  describe('DELETE /folders/:folderId', () => {
-    it('should delete a folder', async () => {
+  describe("DELETE /folders/:folderId", () => {
+    it("should delete a folder", async () => {
       const mockResult = { status: 204 };
 
       (deleteFolder as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).delete('/folders/123');
+      const response = await request(app).delete("/folders/123");
 
       expect(response.status).toBe(204);
       expect(response.body).toEqual({});
@@ -94,18 +96,20 @@ describe('Folders Routes', () => {
     });
   });
 
-  describe('GET /folders/:folderId/lists', () => {
-    it('should get lists from a folder', async () => {
-      const mockResult = { status: 200, data: [{ id: '456', name: 'List 1' }] };
-      const queryParams = { limit: '10', offset: '0', sort: 'asc' };
+  describe("GET /folders/:folderId/lists", () => {
+    it("should get lists from a folder", async () => {
+      const mockResult = { status: 200, data: [{ id: "456", name: "List 1" }] };
+      const queryParams = { limit: "10", offset: "0", sort: "asc" };
 
       (getFolderLists as jest.Mock).mockResolvedValue(mockResult);
 
-      const response = await request(app).get('/folders/123/lists').query(queryParams);
+      const response = await request(app)
+        .get("/folders/123/lists")
+        .query(queryParams);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(mockResult);
-      expect(getFolderLists).toHaveBeenCalledWith(123, 10, 0, 'asc');
+      expect(getFolderLists).toHaveBeenCalledWith(123, 10, 0, "asc");
     });
   });
 });

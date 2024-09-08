@@ -5,21 +5,18 @@ import {
   getTeamGalleryById,
   updateTeamGallery,
   deleteTeamGalleryById,
-} from "../services/teamGalleryService"; // Adjust the import path
+} from "../services/teamGalleryService";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 
-// Mocking dependencies
 jest.mock("../models/teamGalleryModel");
 jest.mock("../utils/responseHandlers");
 
 describe("TeamGallery Service Functions", () => {
-  // Define the mock data with explicit typing
   const mockGalleryData = {
     title: "Test Gallery",
     image: "image.png",
     _id: "12345",
   } as ITeamGallery;
-  
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -31,10 +28,12 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await createTeamGallery(mockGalleryData);
 
-      expect(response).toEqual(handleSuccess(
-        { status: 201, data: mockGalleryData },
-        "Gallery successfully created"
-      ));
+      expect(response).toEqual(
+        handleSuccess(
+          { status: 201, data: mockGalleryData },
+          "Gallery successfully created"
+        )
+      );
       expect(TeamGallery.create).toHaveBeenCalledWith(mockGalleryData);
     });
 
@@ -45,12 +44,14 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await createTeamGallery(mockGalleryData);
 
-      expect(response).toEqual(handleError(
-        new Error("Creation error"),
-        "CREATE_GALLERY_FAILED",
-        "Failed to create gallery",
-        500
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Creation error"),
+          "CREATE_GALLERY_FAILED",
+          "Failed to create gallery",
+          500
+        )
+      );
     });
   });
 
@@ -60,10 +61,12 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await getAllTeamGalleries();
 
-      expect(response).toEqual(handleSuccess(
-        { status: 200, data: [mockGalleryData] },
-        "Galleries retrieved successfully"
-      ));
+      expect(response).toEqual(
+        handleSuccess(
+          { status: 200, data: [mockGalleryData] },
+          "Galleries retrieved successfully"
+        )
+      );
     });
 
     it("should handle errors during retrieval of all galleries", async () => {
@@ -73,12 +76,14 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await getAllTeamGalleries();
 
-      expect(response).toEqual(handleError(
-        new Error("Retrieval error"),
-        "GET_GALLERIES_FAILED",
-        "Failed to retrieve galleries",
-        500
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Retrieval error"),
+          "GET_GALLERIES_FAILED",
+          "Failed to retrieve galleries",
+          500
+        )
+      );
     });
   });
 
@@ -88,10 +93,12 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await getTeamGalleryById(mockGalleryData._id as string);
 
-      expect(response).toEqual(handleSuccess(
-        { status: 200, data: mockGalleryData },
-        "Gallery details retrieved successfully"
-      ));
+      expect(response).toEqual(
+        handleSuccess(
+          { status: 200, data: mockGalleryData },
+          "Gallery details retrieved successfully"
+        )
+      );
     });
 
     it("should handle gallery not found error", async () => {
@@ -99,12 +106,14 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await getTeamGalleryById("non-existent-id");
 
-      expect(response).toEqual(handleError(
-        new Error("Gallery not found"),
-        "GALLERY_NOT_FOUND",
-        "Gallery not found",
-        404
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Gallery not found"),
+          "GALLERY_NOT_FOUND",
+          "Gallery not found",
+          404
+        )
+      );
     });
 
     it("should handle errors during retrieval of gallery by ID", async () => {
@@ -114,38 +123,50 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await getTeamGalleryById(mockGalleryData._id as string);
 
-      expect(response).toEqual(handleError(
-        new Error("Retrieval error"),
-        "GET_GALLERY_BY_ID_FAILED",
-        "Failed to retrieve gallery details",
-        500
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Retrieval error"),
+          "GET_GALLERY_BY_ID_FAILED",
+          "Failed to retrieve gallery details",
+          500
+        )
+      );
     });
   });
 
   describe("updateTeamGallery", () => {
     it("should update gallery successfully", async () => {
-      (TeamGallery.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockGalleryData);
+      (TeamGallery.findByIdAndUpdate as jest.Mock).mockResolvedValue(
+        mockGalleryData
+      );
 
-      const response = await updateTeamGallery(mockGalleryData._id as string, { title: "Updated Title" });
+      const response = await updateTeamGallery(mockGalleryData._id as string, {
+        title: "Updated Title",
+      });
 
-      expect(response).toEqual(handleSuccess(
-        { status: 200, data: mockGalleryData },
-        "Gallery successfully updated"
-      ));
+      expect(response).toEqual(
+        handleSuccess(
+          { status: 200, data: mockGalleryData },
+          "Gallery successfully updated"
+        )
+      );
     });
 
     it("should handle gallery not found error during update", async () => {
       (TeamGallery.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
 
-      const response = await updateTeamGallery(mockGalleryData._id as string, { title: "Updated Title" });
+      const response = await updateTeamGallery(mockGalleryData._id as string, {
+        title: "Updated Title",
+      });
 
-      expect(response).toEqual(handleError(
-        new Error("Gallery not found"),
-        "GALLERY_NOT_FOUND",
-        "Gallery not found",
-        404
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Gallery not found"),
+          "GALLERY_NOT_FOUND",
+          "Gallery not found",
+          404
+        )
+      );
     });
 
     it("should handle errors during gallery update", async () => {
@@ -153,27 +174,34 @@ describe("TeamGallery Service Functions", () => {
         throw new Error("Update error");
       });
 
-      const response = await updateTeamGallery(mockGalleryData._id as string, { title: "Updated Title" });
+      const response = await updateTeamGallery(mockGalleryData._id as string, {
+        title: "Updated Title",
+      });
 
-      expect(response).toEqual(handleError(
-        new Error("Update error"),
-        "UPDATE_GALLERY_FAILED",
-        "Failed to update gallery",
-        500
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Update error"),
+          "UPDATE_GALLERY_FAILED",
+          "Failed to update gallery",
+          500
+        )
+      );
     });
   });
 
   describe("deleteTeamGalleryById", () => {
     it("should delete gallery by ID successfully", async () => {
-      (TeamGallery.findByIdAndDelete as jest.Mock).mockResolvedValue(mockGalleryData);
+      (TeamGallery.findByIdAndDelete as jest.Mock).mockResolvedValue(
+        mockGalleryData
+      );
 
-      const response = await deleteTeamGalleryById(mockGalleryData._id as string);
+      const response = await deleteTeamGalleryById(
+        mockGalleryData._id as string
+      );
 
-      expect(response).toEqual(handleSuccess(
-        { status: 200, data: {} },
-        "Gallery successfully deleted"
-      ));
+      expect(response).toEqual(
+        handleSuccess({ status: 200, data: {} }, "Gallery successfully deleted")
+      );
     });
 
     it("should handle gallery not found error during deletion", async () => {
@@ -181,12 +209,14 @@ describe("TeamGallery Service Functions", () => {
 
       const response = await deleteTeamGalleryById("non-existent-id");
 
-      expect(response).toEqual(handleError(
-        new Error("Gallery not found"),
-        "GALLERY_NOT_FOUND",
-        "Gallery not found",
-        404
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Gallery not found"),
+          "GALLERY_NOT_FOUND",
+          "Gallery not found",
+          404
+        )
+      );
     });
 
     it("should handle errors during gallery deletion", async () => {
@@ -194,14 +224,18 @@ describe("TeamGallery Service Functions", () => {
         throw new Error("Deletion error");
       });
 
-      const response = await deleteTeamGalleryById(mockGalleryData._id as string);
+      const response = await deleteTeamGalleryById(
+        mockGalleryData._id as string
+      );
 
-      expect(response).toEqual(handleError(
-        new Error("Deletion error"),
-        "DELETE_GALLERY_FAILED",
-        "Failed to delete gallery",
-        500
-      ));
+      expect(response).toEqual(
+        handleError(
+          new Error("Deletion error"),
+          "DELETE_GALLERY_FAILED",
+          "Failed to delete gallery",
+          500
+        )
+      );
     });
   });
 });

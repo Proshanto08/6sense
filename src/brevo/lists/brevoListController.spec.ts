@@ -8,7 +8,7 @@ import {
   deleteListController,
   getContactsFromListController,
   addContactsToListController,
-} from "./brevoListController"; // Adjust the import path
+} from "./brevoListController";
 import {
   getAllLists,
   createList,
@@ -17,7 +17,7 @@ import {
   deleteList,
   getContactsFromList,
   addContactsToList,
-} from "./brevoListService"; // Adjust the import path
+} from "./brevoListService";
 
 jest.mock("./brevoListService");
 
@@ -40,7 +40,9 @@ describe("Brevo List Controller", () => {
     const mockResult = { status: 200, data: [] };
     (getAllLists as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app).get("/lists?limit=10&offset=0&sort=asc");
+    const response = await request(app).get(
+      "/lists?limit=10&offset=0&sort=asc"
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
@@ -48,7 +50,10 @@ describe("Brevo List Controller", () => {
   });
 
   it("should create a list", async () => {
-    const mockResult = { status: 201, data: { id: 1, name: "New List", folderId: 1 } };
+    const mockResult = {
+      status: 201,
+      data: { id: 1, name: "New List", folderId: 1 },
+    };
     (createList as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app)
@@ -61,7 +66,10 @@ describe("Brevo List Controller", () => {
   });
 
   it("should get a list by ID", async () => {
-    const mockResult = { status: 200, data: { id: 1, name: "List 1", folderId: 1 } };
+    const mockResult = {
+      status: 200,
+      data: { id: 1, name: "List 1", folderId: 1 },
+    };
     (getList as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app).get("/lists/1");
@@ -72,7 +80,10 @@ describe("Brevo List Controller", () => {
   });
 
   it("should update a list", async () => {
-    const mockResult = { status: 200, data: { id: 1, name: "Updated List", folderId: 2 } };
+    const mockResult = {
+      status: 200,
+      data: { id: 1, name: "Updated List", folderId: 2 },
+    };
     (updateList as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app)
@@ -85,13 +96,13 @@ describe("Brevo List Controller", () => {
   });
 
   it("should delete a list", async () => {
-    const mockResult = { status: 204 }; // 204 No Content
+    const mockResult = { status: 204 };
     (deleteList as jest.Mock).mockResolvedValue(mockResult);
 
     const response = await request(app).delete("/lists/1");
 
     expect(response.status).toBe(204);
-    expect(response.body).toEqual({}); // Expecting an empty object for 204 No Content
+    expect(response.body).toEqual({});
     expect(deleteList).toHaveBeenCalledWith(1);
   });
 
@@ -99,12 +110,19 @@ describe("Brevo List Controller", () => {
     const mockResult = { status: 200, data: [] };
     (getContactsFromList as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app)
-      .get("/lists/1/contacts?limit=10&offset=0&sort=desc&modifiedSince=2023-01-01T00:00:00Z");
+    const response = await request(app).get(
+      "/lists/1/contacts?limit=10&offset=0&sort=desc&modifiedSince=2023-01-01T00:00:00Z"
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
-    expect(getContactsFromList).toHaveBeenCalledWith(1, "2023-01-01T00:00:00Z", 10, 0, "desc");
+    expect(getContactsFromList).toHaveBeenCalledWith(
+      1,
+      "2023-01-01T00:00:00Z",
+      10,
+      0,
+      "desc"
+    );
   });
 
   it("should add contacts to a list", async () => {
@@ -117,6 +135,9 @@ describe("Brevo List Controller", () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
-    expect(addContactsToList).toHaveBeenCalledWith(1, ["test@example.com", "test2@example.com"]);
+    expect(addContactsToList).toHaveBeenCalledWith(1, [
+      "test@example.com",
+      "test2@example.com",
+    ]);
   });
 });

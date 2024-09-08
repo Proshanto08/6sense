@@ -1,8 +1,7 @@
-import { getHelloMessage } from "./helloWorldService"; // Adjust the import path as necessary
+import { getHelloMessage } from "./helloWorldService";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 import { IApiResponse } from "../types";
 
-// Mocking dependencies
 jest.mock("../utils/responseHandlers");
 
 describe("getHelloMessage", () => {

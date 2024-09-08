@@ -7,7 +7,7 @@ import {
   updateFolderController,
   deleteFolderController,
   getFolderListsController,
-} from "./brevoFolderController"; // Adjust the import path
+} from "./brevoFolderController";
 import {
   createFolder,
   getFolders,
@@ -15,7 +15,7 @@ import {
   updateFolder,
   deleteFolder,
   getFolderLists,
-} from "./brevoFolderService"; // Adjust the import path
+} from "./brevoFolderService";
 
 jest.mock("./brevoFolderService");
 
@@ -50,7 +50,9 @@ describe("Brevo Folder Controller", () => {
     const mockResult = { status: 200, data: [] };
     (getFolders as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app).get("/folders?limit=10&offset=0&sort=asc");
+    const response = await request(app).get(
+      "/folders?limit=10&offset=0&sort=asc"
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);
@@ -88,7 +90,7 @@ describe("Brevo Folder Controller", () => {
     const response = await request(app).delete("/folders/1");
 
     expect(response.status).toBe(204);
-    expect(response.body).toEqual({}); // Expecting an empty object for 204 No Content
+    expect(response.body).toEqual({});
     expect(deleteFolder).toHaveBeenCalledWith(1);
   });
 
@@ -96,7 +98,9 @@ describe("Brevo Folder Controller", () => {
     const mockResult = { status: 200, data: [] };
     (getFolderLists as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app).get("/folders/1/lists?limit=10&offset=0&sort=asc");
+    const response = await request(app).get(
+      "/folders/1/lists?limit=10&offset=0&sort=asc"
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);

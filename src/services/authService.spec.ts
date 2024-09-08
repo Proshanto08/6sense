@@ -1,11 +1,9 @@
-// src/services/authService.spec.ts
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { generateToken, verifyToken } from "./authService"; // Adjust the import path
+import { generateToken, verifyToken } from "./authService";
 import AuthKey from "../models/authKeyModel";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 import { IApiResponse } from "../types";
 
-// Mock implementations
 jest.mock("jsonwebtoken", () => ({
   sign: jest.fn(),
   verify: jest.fn(),
@@ -20,7 +18,6 @@ jest.mock("../utils/responseHandlers", () => ({
   handleError: jest.fn(),
 }));
 
-// Mock the config file to return the necessary environment variables
 jest.mock("../config/config", () => ({
   config: {
     jwtSecret: "mockJwtSecret",
@@ -53,7 +50,7 @@ describe("Auth Service", () => {
       });
       expect(jwt.sign).toHaveBeenCalledWith(
         { key: "express" },
-        "mockJwtSecret", // Use the mocked secret
+        "mockJwtSecret",
         { expiresIn: "1h" }
       );
     });
@@ -74,7 +71,10 @@ describe("Auth Service", () => {
         status: 500,
         error: "Token generation error",
       });
-      expect(handleError).toHaveBeenCalledWith(mockError, "TOKEN_GENERATION_FAILED");
+      expect(handleError).toHaveBeenCalledWith(
+        mockError,
+        "TOKEN_GENERATION_FAILED"
+      );
     });
   });
 
@@ -97,34 +97,33 @@ describe("Auth Service", () => {
         data: mockDecoded,
         message: "Token verified successfully",
       });
-      expect(jwt.verify).toHaveBeenCalledWith(mockToken, "mockJwtSecret"); // Use the mocked secret
+      expect(jwt.verify).toHaveBeenCalledWith(mockToken, "mockJwtSecret");
       expect(AuthKey.findOne).toHaveBeenCalledWith({ key: mockDecoded.key });
     });
 
     it("should handle invalid key in token", async () => {
-        const mockToken = "mockToken";
-        const mockDecoded: JwtPayload = { key: "invalidKey" };
-        (jwt.verify as jest.Mock).mockReturnValue(mockDecoded);
-        (AuthKey.findOne as jest.Mock).mockResolvedValue(null); // Simulate invalid key
-      
-        (handleError as jest.Mock).mockReturnValue({
-          status: 401,
-          error: "Invalid key in token",
-        });
-        const response: IApiResponse = await verifyToken(mockToken);
-      
-        expect(response).toEqual({
-          status: 401,
-          error: "Invalid key in token",
-        });
-        expect(handleError).toHaveBeenCalledWith(
-          new Error("Invalid key in token"),
-          "INVALID_KEY",
-          "Invalid key in token",
-          401
-        );
+      const mockToken = "mockToken";
+      const mockDecoded: JwtPayload = { key: "invalidKey" };
+      (jwt.verify as jest.Mock).mockReturnValue(mockDecoded);
+      (AuthKey.findOne as jest.Mock).mockResolvedValue(null);
+
+      (handleError as jest.Mock).mockReturnValue({
+        status: 401,
+        error: "Invalid key in token",
       });
-      
+      const response: IApiResponse = await verifyToken(mockToken);
+
+      expect(response).toEqual({
+        status: 401,
+        error: "Invalid key in token",
+      });
+      expect(handleError).toHaveBeenCalledWith(
+        new Error("Invalid key in token"),
+        "INVALID_KEY",
+        "Invalid key in token",
+        401
+      );
+    });
 
     it("should handle errors during token verification", async () => {
       const mockError = new Error("Token verification error");
@@ -142,7 +141,10 @@ describe("Auth Service", () => {
         status: 500,
         error: "Token verification error",
       });
-      expect(handleError).toHaveBeenCalledWith(mockError, "TOKEN_VERIFICATION_FAILED");
+      expect(handleError).toHaveBeenCalledWith(
+        mockError,
+        "TOKEN_VERIFICATION_FAILED"
+      );
     });
   });
 });
