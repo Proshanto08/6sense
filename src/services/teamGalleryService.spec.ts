@@ -31,7 +31,7 @@ describe("TeamGallery Service Functions", () => {
       expect(response).toEqual(
         handleSuccess(
           { status: 201, data: mockGalleryData },
-          "Gallery successfully created"
+          "Gallery successfully created",
         )
       );
       expect(TeamGallery.create).toHaveBeenCalledWith(mockGalleryData);
@@ -49,7 +49,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Creation error"),
           "CREATE_GALLERY_FAILED",
           "Failed to create gallery",
-          500
+          500,
         )
       );
     });
@@ -64,7 +64,7 @@ describe("TeamGallery Service Functions", () => {
       expect(response).toEqual(
         handleSuccess(
           { status: 200, data: [mockGalleryData] },
-          "Galleries retrieved successfully"
+          "Galleries retrieved successfully",
         )
       );
     });
@@ -81,7 +81,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Retrieval error"),
           "GET_GALLERIES_FAILED",
           "Failed to retrieve galleries",
-          500
+          500,
         )
       );
     });
@@ -96,7 +96,7 @@ describe("TeamGallery Service Functions", () => {
       expect(response).toEqual(
         handleSuccess(
           { status: 200, data: mockGalleryData },
-          "Gallery details retrieved successfully"
+          "Gallery details retrieved successfully",
         )
       );
     });
@@ -111,7 +111,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Gallery not found"),
           "GALLERY_NOT_FOUND",
           "Gallery not found",
-          404
+          404,
         )
       );
     });
@@ -128,7 +128,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Retrieval error"),
           "GET_GALLERY_BY_ID_FAILED",
           "Failed to retrieve gallery details",
-          500
+          500,
         )
       );
     });
@@ -147,7 +147,7 @@ describe("TeamGallery Service Functions", () => {
       expect(response).toEqual(
         handleSuccess(
           { status: 200, data: mockGalleryData },
-          "Gallery successfully updated"
+          "Gallery successfully updated",
         )
       );
     });
@@ -164,7 +164,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Gallery not found"),
           "GALLERY_NOT_FOUND",
           "Gallery not found",
-          404
+          404,
         )
       );
     });
@@ -183,7 +183,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Update error"),
           "UPDATE_GALLERY_FAILED",
           "Failed to update gallery",
-          500
+          500,
         )
       );
     });
@@ -214,7 +214,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Gallery not found"),
           "GALLERY_NOT_FOUND",
           "Gallery not found",
-          404
+          404,
         )
       );
     });
@@ -233,7 +233,7 @@ describe("TeamGallery Service Functions", () => {
           new Error("Deletion error"),
           "DELETE_GALLERY_FAILED",
           "Failed to delete gallery",
-          500
+          500,
         )
       );
     });

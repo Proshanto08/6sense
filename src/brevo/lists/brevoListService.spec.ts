@@ -32,7 +32,7 @@ describe("ListService", () => {
       "/contacts/lists",
       "Lists retrieved successfully",
       undefined,
-      { limit: 10, offset: 0, sort: "asc" }
+      { limit: 10, offset: 0, sort: "asc" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -50,7 +50,7 @@ describe("ListService", () => {
       "post",
       "/contacts/lists",
       "List successfully created",
-      { name: "New List", folderId: 1 }
+      { name: "New List", folderId: 1 },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -67,7 +67,7 @@ describe("ListService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "get",
       "/contacts/lists/1",
-      "List details retrieved successfully"
+      "List details retrieved successfully",
     );
     expect(result).toEqual(mockResponse);
   });
@@ -85,7 +85,7 @@ describe("ListService", () => {
       "put",
       "/contacts/lists/1",
       "List successfully updated",
-      { name: "Updated List", folderId: 1 }
+      { name: "Updated List", folderId: 1 },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -101,7 +101,7 @@ describe("ListService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "delete",
       "/contacts/lists/1",
-      "List successfully deleted"
+      "List successfully deleted",
     );
     expect(result).toEqual(mockResponse);
   });
@@ -120,7 +120,7 @@ describe("ListService", () => {
       "/contacts/lists/1/contacts",
       "Contacts retrieved successfully",
       undefined,
-      { modifiedSince: "2024-01-01", limit: 10, offset: 0, sort: "asc" }
+      { modifiedSince: "2024-01-01", limit: 10, offset: 0, sort: "asc" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -137,7 +137,7 @@ describe("ListService", () => {
       "post",
       "/contacts/lists/1/contacts/add",
       "Contacts added to the list successfully",
-      { emails: ["test@example.com"] }
+      { emails: ["test@example.com"] },
     );
     expect(result).toEqual(mockResponse);
   });

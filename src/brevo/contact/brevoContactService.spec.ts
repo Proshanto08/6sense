@@ -30,7 +30,7 @@ describe("BrevoContactService", () => {
       "/contacts",
       "Contacts retrieved successfully",
       undefined,
-      { limit: 10, offset: 0, sort: "asc" }
+      { limit: 10, offset: 0, sort: "asc" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -53,7 +53,7 @@ describe("BrevoContactService", () => {
         attributes: {},
         listIds: [1],
         updateEnabled: true,
-      }
+      },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -70,7 +70,7 @@ describe("BrevoContactService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "get",
       "/contacts/123",
-      "Contact details retrieved successfully"
+      "Contact details retrieved successfully",
     );
     expect(result).toEqual(mockResponse);
   });
@@ -88,7 +88,7 @@ describe("BrevoContactService", () => {
       "updated@example.com",
       {},
       [1],
-      true
+      true,
     );
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "put",
@@ -99,7 +99,7 @@ describe("BrevoContactService", () => {
         attributes: {},
         listIds: [1],
         updateEnabled: true,
-      }
+      },
     );
     expect(result).toEqual(mockResponse);
   });

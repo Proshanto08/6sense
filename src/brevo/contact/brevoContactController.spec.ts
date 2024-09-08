@@ -47,14 +47,12 @@ describe("Brevo Contact Controller", () => {
     const mockResult = { status: 201, data: { id: "123" } };
     (createContact as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app)
-      .post("/contacts")
-      .send({
-        email: "test@example.com",
-        attributes: {},
-        listIds: [],
-        updateEnabled: true,
-      });
+    const response = await request(app).post("/contacts").send({
+      email: "test@example.com",
+      attributes: {},
+      listIds: [],
+      updateEnabled: true,
+    });
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual(mockResult);
@@ -87,14 +85,12 @@ describe("Brevo Contact Controller", () => {
     };
     (updateContact as jest.Mock).mockResolvedValue(mockResult);
 
-    const response = await request(app)
-      .put("/contacts/123")
-      .send({
-        email: "updated@example.com",
-        attributes: {},
-        listIds: [],
-        updateEnabled: true,
-      });
+    const response = await request(app).put("/contacts/123").send({
+      email: "updated@example.com",
+      attributes: {},
+      listIds: [],
+      updateEnabled: true,
+    });
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual(mockResult);

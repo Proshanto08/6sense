@@ -30,7 +30,7 @@ describe("FolderService", () => {
       "post",
       "/contacts/folders",
       "Folder successfully created",
-      { name: "New Folder" }
+      { name: "New Folder" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -49,7 +49,7 @@ describe("FolderService", () => {
       "/contacts/folders",
       "Folders retrieved successfully",
       undefined,
-      { limit: 10, offset: 0, sort: "asc" }
+      { limit: 10, offset: 0, sort: "asc" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -66,7 +66,7 @@ describe("FolderService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "get",
       "/contacts/folders/1",
-      "Folder details retrieved successfully"
+      "Folder details retrieved successfully",
     );
     expect(result).toEqual(mockResponse);
   });
@@ -84,7 +84,7 @@ describe("FolderService", () => {
       "put",
       "/contacts/folders/1",
       "Folder successfully updated",
-      { name: "Updated Folder" }
+      { name: "Updated Folder" },
     );
     expect(result).toEqual(mockResponse);
   });
@@ -100,7 +100,7 @@ describe("FolderService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "delete",
       "/contacts/folders/1",
-      "Folder successfully deleted"
+      "Folder successfully deleted",
     );
     expect(result).toEqual(mockResponse);
   });
@@ -119,7 +119,7 @@ describe("FolderService", () => {
       "/contacts/folders/1/lists",
       "Folder lists fetched successfully",
       undefined,
-      { limit: 10, offset: 0, sort: "asc" }
+      { limit: 10, offset: 0, sort: "asc" },
     );
     expect(result).toEqual(mockResponse);
   });

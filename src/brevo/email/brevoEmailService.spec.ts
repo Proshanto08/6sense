@@ -39,7 +39,7 @@ describe("BrevoEmailService", () => {
         "post",
         "/smtp/email",
         "Email successfully sent",
-        options
+        options,
       );
       expect(result).toEqual(mockResponse);
     });
@@ -83,7 +83,6 @@ describe("BrevoEmailService", () => {
         message: "Email successfully sent",
       };
       mockedApiRequest.mockResolvedValue(mockResponse);
-      const mockHandleError = jest.fn();
       mockedHandleError.mockReturnValue({
         status: 500,
         message: "Internal Server Error",
@@ -140,7 +139,7 @@ describe("BrevoEmailService", () => {
             email: sanitizeHtml(contactProperties.email),
             name: sanitizeHtml(contactProperties.name),
           },
-        }
+        },
       );
       expect(result).toEqual(mockResponse);
     });

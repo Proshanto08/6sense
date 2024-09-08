@@ -36,7 +36,7 @@ describe("Contacts Routes", () => {
         mockContact.email,
         mockContact.attributes,
         mockContact.listIds,
-        mockContact.updateEnabled
+        mockContact.updateEnabled,
       );
     });
   });
@@ -96,7 +96,7 @@ describe("Contacts Routes", () => {
         mockUpdate.email,
         mockUpdate.attributes,
         mockUpdate.listIds,
-        mockUpdate.updateEnabled
+        mockUpdate.updateEnabled,
       );
     });
   });

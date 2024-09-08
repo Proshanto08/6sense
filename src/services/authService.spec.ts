@@ -4,27 +4,35 @@ import AuthKey from "../models/authKeyModel";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 import { IApiResponse } from "../types";
 
-jest.mock("jsonwebtoken", () => ({
-  sign: jest.fn(),
-  verify: jest.fn(),
-}));
+jest.mock("jsonwebtoken", () => {
+  return {
+    sign: jest.fn(),
+    verify: jest.fn(),
+  };
+});
 
-jest.mock("../models/authKeyModel", () => ({
-  findOne: jest.fn(),
-}));
+jest.mock("../models/authKeyModel", () => {
+  return {
+    findOne: jest.fn(),
+  };
+});
 
-jest.mock("../utils/responseHandlers", () => ({
-  handleSuccess: jest.fn(),
-  handleError: jest.fn(),
-}));
+jest.mock("../utils/responseHandlers", () => {
+  return {
+    handleSuccess: jest.fn(),
+    handleError: jest.fn(),
+  };
+});
 
-jest.mock("../config/config", () => ({
-  config: {
-    jwtSecret: "mockJwtSecret",
-    port: "3000",
-    mongoURI: "mockMongoURI",
-  },
-}));
+jest.mock("../config/config", () => {
+  return {
+    config: {
+      jwtSecret: "mockJwtSecret",
+      port: "3000",
+      mongoURI: "mockMongoURI",
+    },
+  };
+});
 
 describe("Auth Service", () => {
   beforeEach(() => {
@@ -51,7 +59,7 @@ describe("Auth Service", () => {
       expect(jwt.sign).toHaveBeenCalledWith(
         { key: "express" },
         "mockJwtSecret",
-        { expiresIn: "1h" }
+        { expiresIn: "1h" },
       );
     });
 
@@ -121,7 +129,7 @@ describe("Auth Service", () => {
         new Error("Invalid key in token"),
         "INVALID_KEY",
         "Invalid key in token",
-        401
+        401,
       );
     });
 
@@ -143,7 +151,7 @@ describe("Auth Service", () => {
       });
       expect(handleError).toHaveBeenCalledWith(
         mockError,
-        "TOKEN_VERIFICATION_FAILED"
+        "TOKEN_VERIFICATION_FAILED",
       );
     });
   });
