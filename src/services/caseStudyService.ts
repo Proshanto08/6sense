@@ -1,31 +1,11 @@
 import Project, { IProject } from "../models/casestudyModel";
 import { IApiResponse } from "../types";
-import slugify from "slugify";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 
 export const createProject = async (
   projectData: IProject,
 ): Promise<IApiResponse> => {
   try {
-    const existingProject = await Project.findOne({
-      appName: projectData.appName,
-    });
-
-    if (existingProject) {
-      return handleError(
-        new Error("A project with this app name already exists"),
-        "PROJECT_EXISTS",
-        "A project with this app name already exists",
-        400,
-      );
-    }
-
-    if (!projectData.slug) {
-      projectData.slug = slugify(projectData.appName, {
-        lower: true,
-        strict: true,
-      });
-    }
 
     const createdProject = await Project.create(projectData);
     return handleSuccess(
@@ -125,12 +105,6 @@ export const updateProject = async (
   updateData: Partial<IProject>,
 ): Promise<IApiResponse> => {
   try {
-    if (updateData.appName) {
-      updateData.slug = slugify(updateData.appName, {
-        lower: true,
-        strict: true,
-      });
-    }
 
     const updatedProject = await Project.findOneAndUpdate(
       { slug },
