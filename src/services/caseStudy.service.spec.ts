@@ -1,8 +1,14 @@
-import Project, { IProject } from '../models/casestudyModel';
-import { createProject, getAllProjects, getBasicProjects, getProjectBySlug, updateProject, deleteProjectBySlug } from './caseStudy.service';
-import { IApiResponse } from '../types';
+import Project, { IProject } from "../models/casestudyModel";
+import {
+  createProject,
+  getAllProjects,
+  getProjectBySlug,
+  updateProject,
+  deleteProjectBySlug,
+} from "./caseStudy.service";
+import { IApiResponse } from "../types";
 
-jest.mock('../models/casestudyModel');
+jest.mock("../models/casestudyModel");
 const mockProject = {
   title: "Test Project",
   appName: "Test App",
@@ -12,11 +18,25 @@ const mockProject = {
   details: {
     coloredPartTitle: "Test Title",
     regularTitle: "Regular Title",
-    heroInfo: [{ icon: "icon.png", alt: "icon", title: "Hero Title", subtitle: "Hero Subtitle" }],
+    heroInfo: [
+      {
+        icon: "icon.png",
+        alt: "icon",
+        title: "Hero Title",
+        subtitle: "Hero Subtitle",
+      },
+    ],
     overviewParagraphs: ["Overview Paragraph"],
     overviewImage: "overview.png",
     aboutParagraph: "About Paragraph",
-    aboutInfo: [{ icon: "icon.png", alt: "icon", subtitle: "Subtitle", title: "About Title" }],
+    aboutInfo: [
+      {
+        icon: "icon.png",
+        alt: "icon",
+        subtitle: "Subtitle",
+        title: "About Title",
+      },
+    ],
     solution: {
       description: "Solution Description",
       solutionsPoints1: ["Point 1"],
@@ -42,155 +62,173 @@ const mockProject = {
   },
 };
 
-describe('Project Service', () => {
-
+describe("Project Service", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('createProject', () => {
-    it('should create a project successfully', async () => {
+  describe("createProject", () => {
+    it("should create a project successfully", async () => {
       (Project.create as jest.Mock).mockResolvedValue(mockProject);
 
-      const response: IApiResponse = await createProject(mockProject as IProject);
+      const response: IApiResponse = await createProject(
+        mockProject as IProject
+      );
       expect(response.status).toBe(201);
       expect(response.data).toEqual(mockProject);
-      expect(response.message).toBe('Project successfully created');
+      expect(response.message).toBe("Project successfully created");
     });
 
-    it('should handle errors when creating a project', async () => {
-      (Project.create as jest.Mock).mockRejectedValue(new Error('Error creating project'));
+    it("should handle errors when creating a project", async () => {
+      (Project.create as jest.Mock).mockRejectedValue(
+        new Error("Error creating project")
+      );
 
-      const response: IApiResponse = await createProject(mockProject as IProject);
+      const response: IApiResponse = await createProject(
+        mockProject as IProject
+      );
       expect(response.status).toBe(500);
-      expect(response.message).toBe('Failed to create project');
+      expect(response.message).toBe("Failed to create project");
     });
   });
 
-  describe('getAllProjects', () => {
-    it('should retrieve all projects successfully', async () => {
+  describe("getAllProjects", () => {
+    it("should retrieve all projects successfully", async () => {
       (Project.find as jest.Mock).mockResolvedValue([mockProject]);
 
       const response: IApiResponse = await getAllProjects();
       expect(response.status).toBe(200);
       expect(response.data).toEqual([mockProject]);
-      expect(response.message).toBe('Projects retrieved successfully');
+      expect(response.message).toBe("Projects retrieved successfully");
     });
 
-    it('should handle errors when retrieving all projects', async () => {
-      (Project.find as jest.Mock).mockRejectedValue(new Error('Error retrieving projects'));
+    it("should handle errors when retrieving all projects", async () => {
+      (Project.find as jest.Mock).mockRejectedValue(
+        new Error("Error retrieving projects")
+      );
 
       const response: IApiResponse = await getAllProjects();
       expect(response.status).toBe(500);
-      expect(response.message).toBe('Failed to retrieve projects');
+      expect(response.message).toBe("Failed to retrieve projects");
     });
   });
 
-//  // Mock setup in your test file
-// describe('getBasicProjects', () => {
-//   it('should retrieve basic projects with pagination', async () => {
-//     // Mock the methods used in getBasicProjects
-//     (Project.find as jest.Mock).mockResolvedValue([mockProject]);
-//     (Project.countDocuments as jest.Mock).mockResolvedValue(1);
+  //  // Mock setup in your test file
+  // describe('getBasicProjects', () => {
+  //   it('should retrieve basic projects with pagination', async () => {
+  //     // Mock the methods used in getBasicProjects
+  //     (Project.find as jest.Mock).mockResolvedValue([mockProject]);
+  //     (Project.countDocuments as jest.Mock).mockResolvedValue(1);
 
-//     const response: IApiResponse = await getBasicProjects(1, 6);
-//     expect(response.status).toBe(200);
-//     expect(response.data.projects).toEqual([mockProject]);
-//     expect(response.data.totalPages).toBe(1);
-//     expect(response.data.currentPage).toBe(1);
-//     expect(response.message).toBe('Basic projects retrieved successfully');
-//   });
+  //     const response: IApiResponse = await getBasicProjects(1, 6);
+  //     expect(response.status).toBe(200);
+  //     expect(response.data.projects).toEqual([mockProject]);
+  //     expect(response.data.totalPages).toBe(1);
+  //     expect(response.data.currentPage).toBe(1);
+  //     expect(response.message).toBe('Basic projects retrieved successfully');
+  //   });
 
-//   it('should handle errors when retrieving basic projects', async () => {
-//     // Mock the methods used in getBasicProjects
-//     (Project.find as jest.Mock).mockRejectedValue(new Error('Error retrieving projects'));
-//     (Project.countDocuments as jest.Mock).mockResolvedValue(0); // Ensure countDocuments also returns something
+  //   it('should handle errors when retrieving basic projects', async () => {
+  //     // Mock the methods used in getBasicProjects
+  //     (Project.find as jest.Mock).mockRejectedValue(new Error('Error retrieving projects'));
+  //     (Project.countDocuments as jest.Mock).mockResolvedValue(0); // Ensure countDocuments also returns something
 
-//     const response: IApiResponse = await getBasicProjects();
-//     expect(response.status).toBe(500);
-//     expect(response.message).toBe('Failed to retrieve basic projects');
-//   });
-// });
+  //     const response: IApiResponse = await getBasicProjects();
+  //     expect(response.status).toBe(500);
+  //     expect(response.message).toBe('Failed to retrieve basic projects');
+  //   });
+  // });
 
-
-  describe('getProjectBySlug', () => {
-    it('should retrieve a project by slug', async () => {
+  describe("getProjectBySlug", () => {
+    it("should retrieve a project by slug", async () => {
       (Project.findOne as jest.Mock).mockResolvedValue(mockProject);
 
-      const response: IApiResponse = await getProjectBySlug('test-project');
+      const response: IApiResponse = await getProjectBySlug("test-project");
       expect(response.status).toBe(200);
       expect(response.data).toEqual(mockProject);
-      expect(response.message).toBe('Project details retrieved successfully');
+      expect(response.message).toBe("Project details retrieved successfully");
     });
 
-    it('should handle project not found', async () => {
+    it("should handle project not found", async () => {
       (Project.findOne as jest.Mock).mockResolvedValue(null);
 
-      const response: IApiResponse = await getProjectBySlug('test-project');
+      const response: IApiResponse = await getProjectBySlug("test-project");
       expect(response.status).toBe(404);
-      expect(response.message).toBe('Project not found');
+      expect(response.message).toBe("Project not found");
     });
 
-    it('should handle errors when retrieving a project by slug', async () => {
-      (Project.findOne as jest.Mock).mockRejectedValue(new Error('Error retrieving project'));
+    it("should handle errors when retrieving a project by slug", async () => {
+      (Project.findOne as jest.Mock).mockRejectedValue(
+        new Error("Error retrieving project")
+      );
 
-      const response: IApiResponse = await getProjectBySlug('test-project');
+      const response: IApiResponse = await getProjectBySlug("test-project");
       expect(response.status).toBe(500);
-      expect(response.message).toBe('Failed to retrieve project details');
+      expect(response.message).toBe("Failed to retrieve project details");
     });
   });
 
-  describe('updateProject', () => {
-    it('should update a project by slug', async () => {
+  describe("updateProject", () => {
+    it("should update a project by slug", async () => {
       (Project.findOneAndUpdate as jest.Mock).mockResolvedValue(mockProject);
 
-      const response: IApiResponse = await updateProject('test-project', { title: 'Updated Title' });
+      const response: IApiResponse = await updateProject("test-project", {
+        title: "Updated Title",
+      });
       expect(response.status).toBe(200);
       expect(response.data).toEqual(mockProject);
-      expect(response.message).toBe('Project successfully updated');
+      expect(response.message).toBe("Project successfully updated");
     });
 
-    it('should handle project not found during update', async () => {
+    it("should handle project not found during update", async () => {
       (Project.findOneAndUpdate as jest.Mock).mockResolvedValue(null);
 
-      const response: IApiResponse = await updateProject('test-project', { title: 'Updated Title' });
+      const response: IApiResponse = await updateProject("test-project", {
+        title: "Updated Title",
+      });
       expect(response.status).toBe(404);
-      expect(response.message).toBe('Project not found');
+      expect(response.message).toBe("Project not found");
     });
 
-    it('should handle errors when updating a project', async () => {
-      (Project.findOneAndUpdate as jest.Mock).mockRejectedValue(new Error('Error updating project'));
+    it("should handle errors when updating a project", async () => {
+      (Project.findOneAndUpdate as jest.Mock).mockRejectedValue(
+        new Error("Error updating project")
+      );
 
-      const response: IApiResponse = await updateProject('test-project', { title: 'Updated Title' });
+      const response: IApiResponse = await updateProject("test-project", {
+        title: "Updated Title",
+      });
       expect(response.status).toBe(500);
-      expect(response.message).toBe('Failed to update project');
+      expect(response.message).toBe("Failed to update project");
     });
   });
 
-  describe('deleteProjectBySlug', () => {
-    it('should delete a project by slug', async () => {
+  describe("deleteProjectBySlug", () => {
+    it("should delete a project by slug", async () => {
       (Project.findOneAndDelete as jest.Mock).mockResolvedValue(mockProject);
 
-      const response: IApiResponse = await deleteProjectBySlug('test-project');
+      const response: IApiResponse = await deleteProjectBySlug("test-project");
       expect(response.status).toBe(200);
       expect(response.data).toEqual({});
-      expect(response.message).toBe('Project successfully deleted');
+      expect(response.message).toBe("Project successfully deleted");
     });
 
-    it('should handle project not found during delete', async () => {
+    it("should handle project not found during delete", async () => {
       (Project.findOneAndDelete as jest.Mock).mockResolvedValue(null);
 
-      const response: IApiResponse = await deleteProjectBySlug('test-project');
+      const response: IApiResponse = await deleteProjectBySlug("test-project");
       expect(response.status).toBe(404);
-      expect(response.message).toBe('Project not found');
+      expect(response.message).toBe("Project not found");
     });
 
-    it('should handle errors when deleting a project', async () => {
-      (Project.findOneAndDelete as jest.Mock).mockRejectedValue(new Error('Error deleting project'));
+    it("should handle errors when deleting a project", async () => {
+      (Project.findOneAndDelete as jest.Mock).mockRejectedValue(
+        new Error("Error deleting project")
+      );
 
-      const response: IApiResponse = await deleteProjectBySlug('test-project');
+      const response: IApiResponse = await deleteProjectBySlug("test-project");
       expect(response.status).toBe(500);
-      expect(response.message).toBe('Failed to delete project');
+      expect(response.message).toBe("Failed to delete project");
     });
   });
 });
