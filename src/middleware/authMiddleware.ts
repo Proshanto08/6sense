@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../services/authService";
+import { verifyToken } from "../services/auth.service";
 import { IApiResponse } from "../types";
 import { handleError } from "../utils/responseHandlers";
 
