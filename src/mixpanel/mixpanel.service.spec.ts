@@ -287,7 +287,7 @@ describe("Mixpanel Service", () => {
       "Test Event",
       { email: "test@example.com" },
       { eventProp: "value" },
-      { distinctId: "previousDistinctId" }
+      { distinctId: "previousDistinctId" },
     );
 
     expect(result).toEqual({

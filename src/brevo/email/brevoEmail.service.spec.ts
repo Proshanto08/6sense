@@ -103,16 +103,16 @@ describe("BrevoEmailService", () => {
           <body>
             <h1>Contact Form Submission</h1>
             <p><strong>Name:</strong> ${sanitizeHtml(
-              contactProperties.name
+              contactProperties.name,
             )}</p>
             <p><strong>Business Email:</strong> ${sanitizeHtml(
-              contactProperties.email
+              contactProperties.email,
             )}</p>
             <p><strong>Company Website:</strong> ${sanitizeHtml(
-              contactProperties.companyWebsite || "N/A"
+              contactProperties.companyWebsite || "N/A",
             )}</p>
             <p><strong>Message/Project Brief:</strong> ${sanitizeHtml(
-              contactProperties.message || "N/A"
+              contactProperties.message || "N/A",
             )}</p>
             <p><strong>Get an NDA:</strong> ${
               contactProperties.getNda ? "true" : "false"
