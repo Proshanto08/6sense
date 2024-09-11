@@ -7,25 +7,34 @@ import {
 } from "./mixpanel.service";
 import { handleSuccess, handleError } from "../utils/responseHandlers";
 
-jest.mock("../config/mixpanelConfig", () => ({
-  mixpanelConfig: {
-    peopleApiUrl: "mockPeopleApiUrl",
-    apiUrl: "mockApiUrl",
-    importApiUrl: "mockImportApiUrl",
-    projectToken: "mockProjectToken",
-    apiSecretToken: "mockApiSecretToken",
-  },
-}));
+jest.mock("../config/mixpanelConfig", () => {
+  return {
+    mixpanelConfig: {
+      peopleApiUrl: "mockPeopleApiUrl",
+      apiUrl: "mockApiUrl",
+      importApiUrl: "mockImportApiUrl",
+      projectToken: "mockProjectToken",
+      apiSecretToken: "mockApiSecretToken",
+    },
+  };
+});
+
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => {
+      return "mock-uuid";
+    }),
+  };
+});
+
+jest.mock("../utils/responseHandlers", () => {
+  return {
+    handleSuccess: jest.fn(),
+    handleError: jest.fn(),
+  };
+});
 
 jest.mock("axios");
-jest.mock("uuid", () => ({
-  v4: jest.fn(() => "mock-uuid"),
-}));
-
-jest.mock("../utils/responseHandlers", () => ({
-  handleSuccess: jest.fn(),
-  handleError: jest.fn(),
-}));
 
 describe("Mixpanel Service", () => {
   beforeEach(() => {
