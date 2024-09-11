@@ -6,7 +6,6 @@ export const createProject = async (
   projectData: IProject,
 ): Promise<IApiResponse> => {
   try {
-
     const createdProject = await Project.create(projectData);
     return handleSuccess(
       { status: 201, data: createdProject },

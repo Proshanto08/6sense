@@ -85,7 +85,7 @@ describe("Project Service", () => {
       );
 
       const response: IApiResponse = await createProject(
-        mockProject as IProject
+        mockProject as IProject,
       );
       expect(response.status).toBe(500);
       expect(response.message).toBe("Failed to create project");

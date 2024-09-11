@@ -138,8 +138,6 @@ export const handleTrackEvent = async (
 
 //   return postToMixpanel(apiUrl, data);
 // };
-
-
 // export const identifyUser = async (
 //   userId: string,
 //   anonId: string,

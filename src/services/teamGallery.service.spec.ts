@@ -200,8 +200,11 @@ describe("TeamGallery Service Functions", () => {
       );
 
       expect(response).toEqual(
-        handleSuccess({ status: 200, data: {} }, "Gallery successfully deleted")
-      );
+        handleSuccess(
+          { status: 200, data: {} },
+          "Gallery successfully deleted",
+        ),
+      );      
     });
 
     it("should handle gallery not found error during deletion", async () => {
