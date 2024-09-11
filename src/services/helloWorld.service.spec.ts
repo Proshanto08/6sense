@@ -26,7 +26,7 @@ describe("getHelloMessage", () => {
     });
     expect(handleSuccess).toHaveBeenCalledWith(
       { status: 200, data: mockResponse },
-      mockResponse.message
+      mockResponse.message,
     );
   });
 

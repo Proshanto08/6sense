@@ -123,8 +123,6 @@ export const handleTrackEvent = async (
   };
 };
 
-
-
 // export const createAlias = async (
 //   distinctId: string,
 //   aliasId: string,

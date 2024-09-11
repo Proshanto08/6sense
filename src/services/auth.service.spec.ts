@@ -81,7 +81,7 @@ describe("Auth Service", () => {
       });
       expect(handleError).toHaveBeenCalledWith(
         mockError,
-        "TOKEN_GENERATION_FAILED"
+        "TOKEN_GENERATION_FAILED",
       );
     });
   });

@@ -72,7 +72,7 @@ describe("Project Service", () => {
       (Project.create as jest.Mock).mockResolvedValue(mockProject);
 
       const response: IApiResponse = await createProject(
-        mockProject as IProject
+        mockProject as IProject,
       );
       expect(response.status).toBe(201);
       expect(response.data).toEqual(mockProject);
@@ -81,7 +81,7 @@ describe("Project Service", () => {
 
     it("should handle errors when creating a project", async () => {
       (Project.create as jest.Mock).mockRejectedValue(
-        new Error("Error creating project")
+        new Error("Error creating project"),
       );
 
       const response: IApiResponse = await createProject(
@@ -104,7 +104,7 @@ describe("Project Service", () => {
 
     it("should handle errors when retrieving all projects", async () => {
       (Project.find as jest.Mock).mockRejectedValue(
-        new Error("Error retrieving projects")
+        new Error("Error retrieving projects"),
       );
 
       const response: IApiResponse = await getAllProjects();
@@ -159,7 +159,7 @@ describe("Project Service", () => {
 
     it("should handle errors when retrieving a project by slug", async () => {
       (Project.findOne as jest.Mock).mockRejectedValue(
-        new Error("Error retrieving project")
+        new Error("Error retrieving project"),
       );
 
       const response: IApiResponse = await getProjectBySlug("test-project");
@@ -192,7 +192,7 @@ describe("Project Service", () => {
 
     it("should handle errors when updating a project", async () => {
       (Project.findOneAndUpdate as jest.Mock).mockRejectedValue(
-        new Error("Error updating project")
+        new Error("Error updating project"),
       );
 
       const response: IApiResponse = await updateProject("test-project", {
@@ -223,7 +223,7 @@ describe("Project Service", () => {
 
     it("should handle errors when deleting a project", async () => {
       (Project.findOneAndDelete as jest.Mock).mockRejectedValue(
-        new Error("Error deleting project")
+        new Error("Error deleting project"),
       );
 
       const response: IApiResponse = await deleteProjectBySlug("test-project");

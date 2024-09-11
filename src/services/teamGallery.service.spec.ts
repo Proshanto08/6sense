@@ -215,7 +215,7 @@ describe("TeamGallery Service Functions", () => {
           "GALLERY_NOT_FOUND",
           "Gallery not found",
           404,
-        )
+        ),
       );
     });
 

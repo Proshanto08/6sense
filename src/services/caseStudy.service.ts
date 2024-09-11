@@ -105,7 +105,6 @@ export const updateProject = async (
   updateData: Partial<IProject>,
 ): Promise<IApiResponse> => {
   try {
-
     const updatedProject = await Project.findOneAndUpdate(
       { slug },
       { $set: updateData },

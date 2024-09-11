@@ -130,7 +130,7 @@ describe("BrevoEmailService", () => {
         "Email successfully sent",
         {
           subject: `New Contact Form Submission from ${sanitizeHtml(
-            contactProperties.name
+            contactProperties.name,
           )}`,
           htmlContent: sanitizedHtmlContent,
           sender: { email: process.env.PERSONAL_EMAIL || "" },
