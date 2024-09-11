@@ -32,7 +32,7 @@ describe("TeamGallery Service Functions", () => {
         handleSuccess(
           { status: 201, data: mockGalleryData },
           "Gallery successfully created",
-        )
+        ),
       );
       expect(TeamGallery.create).toHaveBeenCalledWith(mockGalleryData);
     });
@@ -50,7 +50,7 @@ describe("TeamGallery Service Functions", () => {
           "CREATE_GALLERY_FAILED",
           "Failed to create gallery",
           500,
-        )
+        ),
       );
     });
   });
@@ -65,7 +65,7 @@ describe("TeamGallery Service Functions", () => {
         handleSuccess(
           { status: 200, data: [mockGalleryData] },
           "Galleries retrieved successfully",
-        )
+        ),
       );
     });
 
@@ -82,7 +82,7 @@ describe("TeamGallery Service Functions", () => {
           "GET_GALLERIES_FAILED",
           "Failed to retrieve galleries",
           500,
-        )
+        ),
       );
     });
   });
@@ -97,7 +97,7 @@ describe("TeamGallery Service Functions", () => {
         handleSuccess(
           { status: 200, data: mockGalleryData },
           "Gallery details retrieved successfully",
-        )
+        ),
       );
     });
 
@@ -112,7 +112,7 @@ describe("TeamGallery Service Functions", () => {
           "GALLERY_NOT_FOUND",
           "Gallery not found",
           404,
-        )
+        ),
       );
     });
 
@@ -129,7 +129,7 @@ describe("TeamGallery Service Functions", () => {
           "GET_GALLERY_BY_ID_FAILED",
           "Failed to retrieve gallery details",
           500,
-        )
+        ),
       );
     });
   });
@@ -137,7 +137,7 @@ describe("TeamGallery Service Functions", () => {
   describe("updateTeamGallery", () => {
     it("should update gallery successfully", async () => {
       (TeamGallery.findByIdAndUpdate as jest.Mock).mockResolvedValue(
-        mockGalleryData
+        mockGalleryData,
       );
 
       const response = await updateTeamGallery(mockGalleryData._id as string, {
@@ -148,7 +148,7 @@ describe("TeamGallery Service Functions", () => {
         handleSuccess(
           { status: 200, data: mockGalleryData },
           "Gallery successfully updated",
-        )
+        ),
       );
     });
 
@@ -165,7 +165,7 @@ describe("TeamGallery Service Functions", () => {
           "GALLERY_NOT_FOUND",
           "Gallery not found",
           404,
-        )
+        ),
       );
     });
 
@@ -184,7 +184,7 @@ describe("TeamGallery Service Functions", () => {
           "UPDATE_GALLERY_FAILED",
           "Failed to update gallery",
           500,
-        )
+        ),
       );
     });
   });
@@ -192,11 +192,11 @@ describe("TeamGallery Service Functions", () => {
   describe("deleteTeamGalleryById", () => {
     it("should delete gallery by ID successfully", async () => {
       (TeamGallery.findByIdAndDelete as jest.Mock).mockResolvedValue(
-        mockGalleryData
+        mockGalleryData,
       );
 
       const response = await deleteTeamGalleryById(
-        mockGalleryData._id as string
+        mockGalleryData._id as string,
       );
 
       expect(response).toEqual(
@@ -225,7 +225,7 @@ describe("TeamGallery Service Functions", () => {
       });
 
       const response = await deleteTeamGalleryById(
-        mockGalleryData._id as string
+        mockGalleryData._id as string,
       );
 
       expect(response).toEqual(
@@ -234,7 +234,7 @@ describe("TeamGallery Service Functions", () => {
           "DELETE_GALLERY_FAILED",
           "Failed to delete gallery",
           500,
-        )
+        ),
       );
     });
   });
