@@ -115,7 +115,7 @@ describe("BrevoContactService", () => {
     expect(mockedApiRequest).toHaveBeenCalledWith(
       "delete",
       "/contacts/123",
-      "Contact successfully deleted"
+      "Contact successfully deleted",
     );
     expect(result).toEqual(mockResponse);
   });
